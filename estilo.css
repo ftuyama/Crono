@@ -1,0 +1,21 @@
+body {
+    background-color: black;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+}
+
+p {
+    text-align: center;
+    color: white;
+}
+
+.wrapper {
+    text-align: center;
+}
+
+button {
+    background-color: rgb(255,0,255);
+}

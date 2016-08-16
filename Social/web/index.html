@@ -1,0 +1,107 @@
+<!doctype html>
+  <html>
+      <head>
+          <meta charset="utf-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <title>RAMBook</title>
+          <meta name="description" content="">
+          <meta name="viewport" content="width=device-width">
+          <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+          <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css"/>
+          <link rel="stylesheet" href="styles/main.css">
+      </head>
+      <body>
+          <div class="container">
+              <nav class="navbar navbar-inverse" role="navigation">
+                  <div class="navbar-header">
+                      <span class="navbar-brand">RAMBook</span>
+                  </div>
+   
+                  <div class="navbar-form navbar-right hidden" id="frm-join">
+                    <div class="form-group">
+                      <input type="text" id="username" maxlength="10" class="form-control input-sm" placeholder="Digite seu nome">
+                    </div>
+                    <button type="button" id="btn-entrar" class="btn btn-info input-sm">Entrar</button>
+                  </div>
+                  <div></div>
+              </nav>
+   
+              <div class="row">
+                  <div class="col-md-3">
+                      <h3>Quem está online</h3>
+                      <ul class="online-users"></ul>
+                  </div>
+                  <div class="col-md-9">
+   
+                      <div id="not-logged">
+                          <h2>Você precisa se conectar</h2>
+                          <h3>Digite seu nome e clique em "Entrar"</h3>
+                      </div>
+   
+                      <div id="logged" class="hidden">
+                          <div class="post-form">
+                              <div class="action">O que você tem em mente?</div>
+                              <textarea class="txt" id="post-content"></textarea>
+                              <div class="pull-right">
+                                  <button class="btn btn-info glyphicon glyphicon-ok" id="btn-postar"> Enviar</button>
+                              </div>
+                          </div>
+                          <div class="posts"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+   
+          <script type="text/template" id="userlist-template">
+          {{#users}}
+              <li data-user-id="{{id}}"><span class="glyphicon glyphicon-user"></span> {{username}}</li>
+          {{/users}}
+          </script>
+   
+          <script type="text/template" id="post-template">
+          {{#post}}
+              <div class="post" data-post-id="{{id}}">
+                  <div class="poster-info">
+                      <span class="poster">{{author}}</span>
+                      <span class="action">escreveu, as </span>
+                      <span class="time">{{hora}} hs</span>
+                  </div>
+                  <div class="post-body">{{text}}</div>
+                  <div class="post-actions">
+                      <a class="glyphicon glyphicon-thumbs-up lnk-like-post" data-post-id="{{id}}" data-like="true">(0)</a>  
+                      <a class="glyphicon glyphicon-comment lnk-comment" data-post-id="{{id}}"></a>
+                  </div>
+   
+                  <div data-post-to-comment-id="{{id}}" class="comment-form hidden">
+                      <div class="action">Deixe seu comentário</div>
+                      <textarea class="txt"></textarea>
+                      <div class="pull-right">
+                          <button class="btn btn-info btn-sm glyphicon glyphicon-ok btn-commentar"> Enviar</button>
+                          <button class="btn btn-info btn-sm glyphicon glyphicon-remove lnk-cancel-comment" data-post-id="{{id}}"> Cancelar</button>
+                      </div>
+                  </div>
+   
+                  <div class="post-comments"></div>
+              </div>
+          {{/post}}
+          </script>
+   
+          <script type="text/template" id="comment-template">
+          {{#comment}}
+              <div class="comment" data-comment-id="{{id}}">
+                  <div class="poster-info">
+                      <span class="poster">{{author}}</span>
+                      <span class="action">comentou, as</span>
+                      <span class="time">{{hora}} hs</span>
+                  </div>
+                  <div class="post-body">{{text}}</div>
+                  <div class="post-actions">
+                      <a class="glyphicon glyphicon-thumbs-up lnk-like-comment" data-comment-id="{{id}}" data-like="true">(0)</a>  
+                  </div>
+              </div>
+          {{/comment}}
+          </script>
+   
+          <script src="bower_components/requirejs/require.js" data-main="scripts/main"></script>
+      </body>
+  </html>

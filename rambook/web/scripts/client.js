@@ -1,8 +1,10 @@
 define(['socketio'], function(io) {
-   
-      var socket = io.connect('/'),
-          events = {};
-   
+      var events = {};
+
+      console.log("socket-io-client: Connectiong to server...");
+      var socket = io.connect("http://localhost:3000");
+      console.log("socket-io-client: Connected to server.");
+
       socket.emit('likecomment', {});
       socket.emit('unlikecomment', {});
    

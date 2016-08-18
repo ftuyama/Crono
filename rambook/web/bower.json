@@ -1,0 +1,26 @@
+{
+  "name": "devmedia-rambook-web",
+  "authors": [
+    "gustavo.gomes <gustavo.gomesc@gmail.com>"
+  ],
+  "description": "Modulo web do RAMBook",
+  "main": "",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5",
+    "mustache.js": "mustache#~2.2.0",
+    "requirejs": "~2.1.20"
+  }
+}

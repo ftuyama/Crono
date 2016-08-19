@@ -1,0 +1,20 @@
+{
+  "name": "node",
+  "description": "Node",
+  "main": "server.js",
+  "authors": [
+    "ftuyama <ftuyama@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/ftuyama/Node",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

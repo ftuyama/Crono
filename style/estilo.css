@@ -2,7 +2,7 @@ body {
     background-color: black;
 }
 
-h1 {
+h1, h2 {
     text-align: center;
     color: white;
 }
@@ -14,8 +14,4 @@ p {
 
 .wrapper {
     text-align: center;
-}
-
-button {
-    background-color: rgb(255,0,255);
 }

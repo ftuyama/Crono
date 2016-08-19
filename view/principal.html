@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Primeiro exemplo</title>
+        <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap-theme.min.css"/>
+        <link href='/estilo.css' rel='stylesheet' type='text/css'>
+        <script src="/client.js"></script>
+        <script src="/snowstorm-min.js"></script>
+    </head>
+    <body onload="zero()">
+        <h1 id="title">Hello World!</h1>
+        <div class="wrapper">
+            <button type="button" class="btn btn-primary" onclick="funcao()">Clique aqui</button>
+            <p id="counter" hidden>Counter</p>
+            <h2>Formulário</h2>
+            <form action="/addUser" method="GET">
+                <p>name: <input type="text" name="name"></p>
+                <p>pass: <input type="text" name="pass"></p>
+                <p>vocation: <input type="text" name="vocation"></p>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+            <h2>Query</h2>
+            <form action="/findUser" method="GET">
+                <p>name: <input type="text" name="name"></p>
+                <p>pass: <input type="text" name="pass"></p>
+                <p>vocation: <input type="text" name="vocation"></p>
+                <button type="submit" class="btn btn-info">Search</button>
+            </form>
+            <h2>List</h2>
+            <form action="/listUser" method="GET">
+                <button type="submit" class="btn btn-info">Listar</button>
+            </form>
+            <p id="cooki"></p>
+        </div>
+    </body>
+</html>

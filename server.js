@@ -1,7 +1,7 @@
 // Importação dos modulos necessários.
 var express = require('express');
 var app = express();
-var routes = require('./web/index');
+var routes = require('./web/principal');
 var users = require('./web/users');
 var cookieParser = require('cookie-parser');
 

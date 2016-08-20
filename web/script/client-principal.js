@@ -1,3 +1,4 @@
+/* Função para exibir contador de visitas */
 function funcao() {
     document.getElementById("title").innerHTML = "Hello Society!";
 
@@ -6,9 +7,11 @@ function funcao() {
     counter.hidden = false;
     counter.innerHTML = "Visita Nº " + contador;
 }
+/* Função inicializadora */
 function zero() {
     contador = readCookie("number");
 }
+/* Função para leitura dos cookies */
 function readCookie(name) {
     var cookieP = document.getElementById("cooki");
 	var nameEQ = name + "=";

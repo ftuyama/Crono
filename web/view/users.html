@@ -6,10 +6,14 @@
         <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap-theme.min.css"/>
         <link href='/estilo.css' rel='stylesheet' type='text/css'>
+        <script src="/client-users.js"></script>
         <script src="/snowstorm-min.js"></script>
     </head>
-    <body>
-        <h1 id="title">API usuários!</h1>
+    <body onload=loadHTML({{response}})>
+        <form action="/">
+            <input type="submit"  class="btn btn-primary" value="Voltar" />
+        </form>
+        <h1 id="title">API usuários! {{name}}</h1>
         <div class="wrapper">
             <h2>Formulário</h2>
             <form action="/users/addUser" method="GET">
@@ -27,33 +31,16 @@
             <form action="/users/listUser" method="GET">
                 <button type="submit" class="btn btn-info">Listar</button>
             </form>
-            <div id="id01"></div>
-            <script>
-                var xmlhttp = new XMLHttpRequest();
-                var url = "http://localhost:8081/users/listUser";
-
-                xmlhttp.onreadystatechange=function() {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        myFunction(xmlhttp.responseText);
-                    }
-                }
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
-                function myFunction(response) {
-                    var data = JSON.parse(response);
-                    var out = "<table>";
-                    for (var prop in data) {
-                        out += "<tr><td>" +
-                        data[prop].name +
-                        "</td><td>" +
-                        data[prop].pass +
-                        "</td></tr>";
-                    }
-                    out += "</table>";
-                    alert(out);
-                    document.getElementById("id01").innerHTML = out;
-                }
-            </script>
+            {{#op}}
+                <br>
+                <div class="col-xs-8 col-sm-5"></div>
+                <div class="col-xs-4 col-sm-3">
+                    <div class="thumbnail" align="center">
+                        <h2>{{op}} de Usuários</h2>
+                        <div id="resposta"></div>
+                    </div>
+                </div>
+            {{/op}}
         </div>
     </body>
 </html>

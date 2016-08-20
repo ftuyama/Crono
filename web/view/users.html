@@ -8,7 +8,7 @@
         <link href='/estilo.css' rel='stylesheet' type='text/css'>
         <script src="/snowstorm-min.js"></script>
     </head>
-    <body onload="zero()">
+    <body>
         <h1 id="title">API usuários!</h1>
         <div class="wrapper">
             <h2>Formulário</h2>
@@ -27,6 +27,33 @@
             <form action="/users/listUser" method="GET">
                 <button type="submit" class="btn btn-info">Listar</button>
             </form>
+            <div id="id01"></div>
+            <script>
+                var xmlhttp = new XMLHttpRequest();
+                var url = "http://localhost:8081/users/listUser";
+
+                xmlhttp.onreadystatechange=function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        myFunction(xmlhttp.responseText);
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+                function myFunction(response) {
+                    var data = JSON.parse(response);
+                    var out = "<table>";
+                    for (var prop in data) {
+                        out += "<tr><td>" +
+                        data[prop].name +
+                        "</td><td>" +
+                        data[prop].pass +
+                        "</td></tr>";
+                    }
+                    out += "</table>";
+                    alert(out);
+                    document.getElementById("id01").innerHTML = out;
+                }
+            </script>
         </div>
     </body>
 </html>

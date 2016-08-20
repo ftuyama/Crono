@@ -23,6 +23,10 @@ input {
     display: inline-block;
 }
 
+table {
+    color: white;
+}
+
 .wrapper {
     text-align: center;
 }

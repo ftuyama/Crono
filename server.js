@@ -41,6 +41,26 @@ app.get('/listUser', function(req, res) {
   });
 })
 
+app.get('/queryUser', function (req, res) {
+  fs.readFile(__dirname + "/data/" + "users.json", 'utf8', function (err, data) {
+    console.log(data);
+    var dataQuery = {};
+    data = JSON.parse(data);
+    console.log("Listando usuarios.");
+    for (var prop in data) {
+      if (data[prop].name == req.query.name){
+        console.log("Key " + prop);
+        
+        dataQuery[prop] = data[prop];
+        console.log("valor " + JSON.stringify(dataQuery[prop]));
+      }
+    }
+    //name: req.query.name,
+    res.end(JSON.stringify(dataQuery));
+  });
+})
+
+
 app.get('/addUser', function (req, res) {
    fs.readFile( __dirname + "/data/" + "users.json", 'utf8', function (err, data) {
        data = JSON.parse(data);

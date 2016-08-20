@@ -6,31 +6,27 @@
         <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap-theme.min.css"/>
         <link href='/estilo.css' rel='stylesheet' type='text/css'>
-        <script src="/client.js"></script>
         <script src="/snowstorm-min.js"></script>
     </head>
     <body onload="zero()">
-        <h1 id="title">Hello World!</h1>
+        <h1 id="title">API usuários!</h1>
         <div class="wrapper">
-            <button type="button" class="btn btn-primary" onclick="funcao()">Clique aqui</button>
-            <p id="counter" hidden>Counter</p>
             <h2>Formulário</h2>
-            <form action="/addUser" method="GET">
+            <form action="/users/addUser" method="GET">
                 <p><label>name:</label><input type="text" name="name"></p>
                 <p><label>pass:</label><input type="text" name="pass"></p>
                 <p><label>vocation:</label><input type="text" name="vocation"></p>
                 <button type="submit" class="btn btn-success">Submit</button>
             </form>
             <h2>Query</h2>
-            <form action="/queryUser" method="GET">
+            <form action="/users/queryUser" method="GET">
                 <p><label>name:</label><input type="text" name="name"></p>
                 <button type="submit" class="btn btn-info">Search</button>
             </form>
             <h2>List</h2>
-            <form action="/listUser" method="GET">
+            <form action="/users/listUser" method="GET">
                 <button type="submit" class="btn btn-info">Listar</button>
             </form>
-            <p id="cooki"></p>
         </div>
     </body>
 </html>

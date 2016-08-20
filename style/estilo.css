@@ -12,8 +12,15 @@ p {
     color: white;
 }
 
+label{
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
+
 input {
     color: black;
+    display: inline-block;
 }
 
 .wrapper {

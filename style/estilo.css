@@ -12,6 +12,10 @@ p {
     color: white;
 }
 
+input {
+    color: black;
+}
+
 .wrapper {
     text-align: center;
 }

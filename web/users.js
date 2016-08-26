@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require("fs");
 var mustache = require('mustache');
+var calendarAuth = require('../google-calendar/CalendarAuth');
 
 /* Dinamically renders the page */
 function renderPage (dict) {
@@ -11,8 +12,9 @@ function renderPage (dict) {
 
 /* GET home page. */
 router.get('/', function (req, res) {
-  res.send(renderPage({name : "#Ipatinga - codão"}));
+  //res.send(renderPage({name : "#Ipatinga - codão"}));
   console.log("Servindo o mestre users.");
+  calendarAuth.authenticate(res);
 })
 
 /* GET List */

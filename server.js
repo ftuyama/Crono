@@ -18,6 +18,7 @@ app.use(cookieParser())
 
 app.use('/users', users);
 app.use('/', routes);
+console.log('bool')
 
 var server = app.listen(8081, function () {
   var host = server.address().address

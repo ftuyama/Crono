@@ -20,6 +20,7 @@
         "bootstrap": "^3.3.7",
         "googleapis": "^12.4.0",
         "needle": "^0.5.9",
+        "simple-git": "^1.48.0",
         "passport-strategy": "^1.0.0",
         "pause": "^0.0.1"
     },

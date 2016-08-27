@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 /* GET home page */
 router.get('/', function(req, res) {
     res.sendFile(__dirname + "/view/" + '/principal.html');
-    console.log("Servindo o mestre.");
 
     // Processing cookies
     if (req.cookies != undefined) {
@@ -19,7 +18,6 @@ router.get('/', function(req, res) {
             saved_number++;
         }
         res.cookie('number', saved_number);
-        console.log("Cookies sent: ", res.cookies);
     }
 })
 

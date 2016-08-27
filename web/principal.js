@@ -1,7 +1,6 @@
 // Importação dos modulos necessários.
 var express = require('express');
 var router = express.Router();
-var app = express();
 var fs = require("fs");
 var bodyParser = require('body-parser');
 var mustache = require('mustache');

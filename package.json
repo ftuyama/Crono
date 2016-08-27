@@ -8,6 +8,7 @@
         "bower": "^1.7.9",
         "cookie-parser": "^1.4.3",
         "express": "^4.14.0",
+        "express-session": "^1.14.1",
         "mongoose": "^3.6.20",
         "mustache": "^2.2.1",
         "nodemon": "^1.10.2",

@@ -27,10 +27,12 @@
         </form>
         <p id="cooki"></p>
     </div>
+    {{#show}}
     <h3>Tasks</h3>
     <ul>{{#events.items}}
         <li>{{summary}}</li>{{/events.items}}
     </ul>
+    {{/show}} {{^show}} {{/show}}
 </body>
 
 </html>

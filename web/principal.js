@@ -4,11 +4,10 @@ var router = express.Router();
 var app = express();
 var fs = require("fs");
 var bodyParser = require('body-parser');
+var mustache = require('mustache');
 
 /* GET home page */
 router.get('/', function(req, res) {
-    res.sendFile(__dirname + "/view/" + '/principal.html');
-
     // Processing cookies
     if (req.cookies != undefined) {
         saved_number = req.cookies.number;
@@ -24,6 +23,9 @@ router.get('/', function(req, res) {
             req.session.access_token = saved_token;
         }
     }
+
+    var page = fs.readFileSync(__dirname + "/view/principal.html", "utf8");
+    res.send(mustache.to_html(page, { show: false }));
 })
 
 module.exports = router;

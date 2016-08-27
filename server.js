@@ -84,7 +84,7 @@ app.all('/calendar', function(req, res) {
         gcal(accessToken).events.list(user_id, function(err, data) {
             if (err) return res.status(500).send(err);
             var page = fs.readFileSync(__dirname + "/web/view/principal.html", "utf8");
-            res.send(mustache.to_html(page, { events: data }));
+            res.send(mustache.to_html(page, { show: true, events: data }));
         });
     });
 });

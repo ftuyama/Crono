@@ -1,46 +1,49 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Primeiro exemplo</title>
-        <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap-theme.min.css"/>
-        <link href='/estilo.css' rel='stylesheet' type='text/css'>
-        <script src="/client-users.js"></script>
-        <script src="/snowstorm-min.js"></script>
-    </head>
-    <body onload=loadHTML({{response}})>
-        <form action="/">
-            <input type="submit"  class="btn btn-primary" value="Voltar" />
+
+<head>
+    <meta charset="utf-8">
+    <title>Primeiro exemplo</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/bootstrap-theme.min.css" />
+    <link href='/estilo.css' rel='stylesheet' type='text/css'>
+    <script src="/client-users.js"></script>
+    <script src="/snowstorm-min.js"></script>
+</head>
+
+<body onload=loadHTML({{response}})>
+    <form action="/">
+        <input type="submit" class="btn btn-primary" value="Voltar" />
+    </form>
+    <h1 id="title">API usuários! {{name}}</h1>
+    <div class="wrapper">
+        <h2>Formulário</h2>
+        <form action="/users/addUser" method="GET">
+            <p><label>name:</label><input type="text" name="name"></p>
+            <p><label>pass:</label><input type="text" name="pass"></p>
+            <p><label>vocation:</label><input type="text" name="vocation"></p>
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
-        <h1 id="title">API usuários! {{name}}</h1>
-        <div class="wrapper">
-            <h2>Formulário</h2>
-            <form action="/users/addUser" method="GET">
-                <p><label>name:</label><input type="text" name="name"></p>
-                <p><label>pass:</label><input type="text" name="pass"></p>
-                <p><label>vocation:</label><input type="text" name="vocation"></p>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
-            <h2>Query</h2>
-            <form action="/users/queryUser" method="GET">
-                <p><label>name:</label><input type="text" name="name"></p>
-                <button type="submit" class="btn btn-info">Search</button>
-            </form>
-            <h2>List</h2>
-            <form action="/users/listUser" method="GET">
-                <button type="submit" class="btn btn-info">Listar</button>
-            </form>
-            {{#op}}
-                <br>
-                <div class="col-xs-8 col-sm-5"></div>
-                <div class="col-xs-4 col-sm-3">
-                    <div class="thumbnail" align="center">
-                        <h2>{{op}} de Usuários</h2>
-                        <div id="resposta"></div>
-                    </div>
-                </div>
-            {{/op}}
+        <h2>Query</h2>
+        <form action="/users/queryUser" method="GET">
+            <p><label>name:</label><input type="text" name="name"></p>
+            <button type="submit" class="btn btn-info">Search</button>
+        </form>
+        <h2>List</h2>
+        <form action="/users/listUser" method="GET">
+            <button type="submit" class="btn btn-info">Listar</button>
+        </form>
+        {{#op}}
+        <br>
+        <div class="col-xs-8 col-sm-5"></div>
+        <div class="col-xs-4 col-sm-3">
+            <div class="thumbnail" align="center">
+                <h2>{{op}} de Usuários</h2>
+                <div id="resposta"></div>
+            </div>
         </div>
-    </body>
+        {{/op}}
+    </div>
+</body>
+
 </html>

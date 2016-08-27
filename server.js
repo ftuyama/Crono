@@ -82,7 +82,11 @@ app.all('/calendar', function(req, res) {
     });
 });
 
-var server = app.listen(8081, function() {
+// set the port of our application
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 8080;
+
+var server = app.listen(port, function() {
     var host = server.address().address
     var port = server.address().port
 

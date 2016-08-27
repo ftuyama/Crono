@@ -2,7 +2,8 @@ body {
     background-color: black;
 }
 
-h1, h2 {
+h1,
+h2 {
     text-align: center;
     color: white;
 }
@@ -12,7 +13,7 @@ p {
     color: white;
 }
 
-label{
+label {
     display: inline-block;
     width: 100px;
     text-align: right;
@@ -42,4 +43,10 @@ table {
     -webkit-transition: border .2s ease-in-out;
     -o-transition: border .2s ease-in-out;
     transition: border .2s ease-in-out;
+}
+
+h3,
+ul,
+li {
+    color: white;
 }

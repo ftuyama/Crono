@@ -18,6 +18,11 @@ router.get('/', function(req, res) {
             saved_number++;
         }
         res.cookie('number', saved_number);
+
+        saved_token = req.cookies.token;
+        if (saved_token != undefined && saved_token != null) {
+            req.session.access_token = saved_token;
+        }
     }
 })
 

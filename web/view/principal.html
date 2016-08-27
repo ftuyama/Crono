@@ -12,18 +12,21 @@
 </head>
 
 <body onload="zero()">
-    <h1 id="title">my Homework</h1>
+    <h1 id="title">my Homework - {{username}}</h1>
     <div class="wrapper">
         <button type="button" class="btn btn-primary" onclick="funcao()">Clique aqui</button>
         <p id="counter" hidden>Counter</p><br><br>
         <form action="/users">
             <input type="submit" class="btn btn-success" value="Cadastrar usuário" />
         </form> <br>
-        <form action="/auth">
+        <form action="/calendar/auth">
             <input type="submit" class="btn btn-default" value="Login Google" />
         </form> <br>
         <form action="/calendar">
             <input type="submit" class="btn btn-danger" value="Calendário" />
+        </form> <br>
+        <form action="/project">
+            <input type="submit" class="btn btn-danger" value="Projeto" />
         </form>
         <p id="cooki"></p>
     </div>

@@ -1,3 +1,6 @@
 [submodule "google-calendar"]
 	path = google-calendar
 	url = https://github.com/ftuyama/google-calendar.git
+[submodule "passport"]
+	path = passport
+	url = https://github.com/ftuyama/passport.git

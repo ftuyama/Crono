@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Primeiro exemplo</title>
-        <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap-theme.min.css"/>
-        <link href='/estilo.css' rel='stylesheet' type='text/css'>
-        <script src="/client-principal.js"></script>
-        <script src="/snowstorm-min.js"></script>
-    </head>
-    <body onload="zero()">
-        <h1 id="title">Hello World!</h1>
-        <div class="wrapper">
-            <button type="button" class="btn btn-primary" onclick="funcao()">Clique aqui</button>
-            <p id="counter" hidden>Counter</p><br><br>
-            <form action="/users">
-                <input type="submit" class="btn btn-success" value="Cadastrar usuário" />
-            </form>
-            <p id="cooki"></p>
-        </div>
-    </body>
+
+<head>
+    <meta charset="utf-8">
+    <title>Primeiro exemplo</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap-theme.min.css" />
+    <link href='/estilo.css' rel='stylesheet' type='text/css'>
+    <script src="/client-principal.js"></script>
+    <script src="/snowstorm-min.js"></script>
+</head>
+
+<body onload="zero()">
+    <h1 id="title">Hello World!</h1>
+    <div class="wrapper">
+        <button type="button" class="btn btn-primary" onclick="funcao()">Clique aqui</button>
+        <p id="counter" hidden>Counter</p><br><br>
+        <form action="/users">
+            <input type="submit" class="btn btn-success" value="Cadastrar usuário" />
+        </form> <br>
+        <form action="/auth">
+            <input type="submit" class="btn btn-default" value="Login Google" />
+        </form> <br>
+        <form action="/calendar">
+            <input type="submit" class="btn btn-danger" value="Calendário" />
+        </form>
+        <p id="cooki"></p>
+    </div>
+</body>
+
 </html>

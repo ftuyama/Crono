@@ -48,7 +48,7 @@ fs.readFile('./client_secret.json', function processClientSecrets(err, content) 
     passport.use(new GoogleStrategy({
             clientID: credentials.web.client_id,
             clientSecret: credentials.web.client_secret,
-            callbackURL: "http://localhost:8081/auth/callback",
+            callbackURL: "/auth/callback",
             scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
         },
         function(accessToken, refreshToken, profile, done) {

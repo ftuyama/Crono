@@ -24,21 +24,26 @@ router.get('/auth', function(req, res) {
         // Load the credentials
         console.log("User logged in!");
         credentials = JSON.parse(content);
-        req.session.git_access_token = credentials.web.access_token;
-        res.cookie('git_token', credentials.web.access_token);
+        req.session.git_user = credentials.web.user;
+        req.session.git_pass = credentials.web.pass;
+        res.cookie('git_user', credentials.web.user);
+        res.cookie('git_pass', credentials.web.pass);
         res.redirect('/project/');
     });
 });
 
 /* GET Git list */
 router.get('/', function(req, res) {
-    if (!req.session.git_access_token && !req.cookies.git_token) return res.redirect('/project/auth');
-    if (!req.session.git_access_token) req.session.git_access_token = req.cookies.git_token;
-
-    //Create an instance from accessToken
-    var accessToken = req.session.git_access_token;
-    console.log(accessToken);
-    client = github.client(accessToken);
+    if (!req.session.git_user && !req.cookies.git_user) return res.redirect('/project/auth');
+    if (!req.session.git_user) {
+        req.session.git_user = req.cookies.git_user;
+        req.session.git_pass = req.cookies.git_pass;
+    }
+    // Git Login using user and pass
+    client = github.client({
+        username: req.session.git_user,
+        password: req.session.git_pass
+    });
     client.get('/user', {}, function(err, status, body, headers) {
         if (err) return res.status(500).send(err);
         var page = fs.readFileSync(__dirname + "/../web/view/principal.html", "utf8");

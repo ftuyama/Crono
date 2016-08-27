@@ -53,7 +53,7 @@ router.get('/auth/callback',
 
 /* GET events list */
 router.get('/', function(req, res) {
-    if (!req.session.access_token && !req.cookies.token) return res.redirect('/auth');
+    if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendar/auth');
     if (!req.session.access_token) req.session.access_token = req.cookies.token;
 
     //Create an instance from accessToken

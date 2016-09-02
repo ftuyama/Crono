@@ -5,6 +5,7 @@ var app = express();
 var calendar = require('./APICalendar/auth');
 var project = require('./APIGit/auth');
 var principal = require('./web/principal');
+var index = require('./web/index');
 var users = require('./web/users');
 
 var session = require('express-session')
@@ -38,7 +39,8 @@ app.use(passport.initialize());
 app.use('/calendar', calendar);
 app.use('/project', project);
 app.use('/users', users);
-app.use('/', principal);
+app.use('/main', principal);
+app.use('/', index);
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku

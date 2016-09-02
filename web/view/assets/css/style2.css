@@ -207,8 +207,8 @@ body {
 }
 
 #slide-1 {
-    background-image: url('../images/bg1.jpg');
-    color: #aadddd;
+    background-image: url('../../images/bg.jpg');
+    color: #003333;
     -webkit-background-size: 100%;
     -moz-background-size: 100%;
     -o-background-size: 100%;
@@ -226,15 +226,10 @@ body {
     padding-top: 130px;
 }
 
-@media (max-width: 991px) {
+@media only screen and (max-width: 767px) {
     #slide-1 {
-        background-position: -70% 0, 170% 0;
-    }
-}
-
-@media (max-width: 767px) {
-    #slide-1 {
-        background-image: none;
+        color: #ffffff;
+        background-image: url('../../images/mobile.jpg');
     }
 }
 

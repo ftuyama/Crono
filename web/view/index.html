@@ -13,6 +13,11 @@
     <meta name="description" content="My-Homework">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,600,300,200&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
     <!-- Include Bootstrap Css -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <!-- Include Bootstrap Min Css -->
@@ -31,7 +36,6 @@
     <link rel="stylesheet" href="assets/css/responsive.min.css">
     <!-- Include Modernizer Js -->
     <script src="assets/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-
 
 </head>
 
@@ -69,56 +73,32 @@
 
     <!-- Header Section -->
 
-
-
-    <!-- Main Slider -->
-
-    <section id="main-slider" class="main-slider text-center">
-        <div class="head-overlay">
-            <ul class="bxslider">
-                <li>
-                    <div class="head-overlay">
-                        <img src="images/slider/1.jpg" />
-                    </div>
-                    <!-- /.head-overlay -->
-                    <div class="slider-text">
-                        <div class="slide-inner">
-                            <h2 class="slider-title" data-animation="wow animated bounceInDown">Welcome to <span>my-Homework</span></h2>
-                            <p class="slide-description">My-Homework is a Calendar absolute free for your personal or business use.</p>
-                            <div class="slide-btn-container">
-                                <a class="btn" href="http://jeweltheme.com/product/polmo/">Download Polmo</a>
-                            </div>
-                            <!-- /.slide-btn-container -->
-                        </div>
-                        <!-- /.slide-inner -->
-                    </div>
-                    <!-- /.slider-text -->
-                </li>
-                <li>
-                    <div class="head-overlay">
-                        <img src="images/slider/3.jpg" />
-                    </div>
-                    <!-- /.head-overlay -->
-                    <div class="slider-text">
-                        <div class="slide-inner">
-                            <h2 class="slider-title">Premium <span>Project</span> Service</h2>
-                            <p class="slide-description">My-Homework is everything you need to organize your project</p>
-                            <div class="slide-btn-container">
-                                <a class="btn" href="http://jeweltheme.com/product/polmo/">Download Polmo</a>
-                            </div>
-                            <!-- /.slide-btn-container -->
-                        </div>
-                        <!-- /.slide-inner -->
-                    </div>
-                    <!-- /.slider-text -->
-                </li>
-            </ul>
+    <!-- === MAIN Background === -->
+    <div class="slide story" id="slide-1" data-slide="1">
+        <div class="container">
+            <div id="home-row-1" class="row clearfix">
+                <div class="col-12">
+                    <h1 class="font-semibold">My-Homework <span class="font-thin">Service</span></h1>
+                    <h4 class="font-thin">We are <span class="font-semibold">every designer dream</span> free tool.</h4>
+                    <br>
+                    <br>
+                </div>
+                <!-- /col-12 -->
+            </div>
+            <!-- /row -->
+            <div id="home-row-2" class="row clearfix">
+                <div class="col-12 col-sm-4">
+                    <div class="home-hover navigation-slide" data-slide="4"><img src="images/s02.png"></div><span>CALENDAR</span></div>
+                <div class="col-12 col-sm-4">
+                    <div class="home-hover navigation-slide" data-slide="3"><img src="images/s01.png"></div><span>PROFILE</span></div>
+                <div class="col-12 col-sm-4">
+                    <div class="home-hover navigation-slide" data-slide="5"><img src="images/s03.png"></div><span>PROJECT</span></div>
+            </div>
+            <!-- /row -->
         </div>
-        <!-- /.head-overlay -->
-    </section>
-    <!-- /#main-slider -->
-
-    <!-- Main Slider -->
+        <!-- /container -->
+    </div>
+    <!-- /slide1 -->
 
     <!-- Service Section-->
 
@@ -1144,8 +1124,8 @@
             mode: "horizontal",
             captions: !1,
             controls: !0,
-            pause: 4000,
-            speed: 1200,
+            pause: 8000,
+            speed: 600,
             onSliderLoad: function() {
                 $(".bxslider>li .slide-inner").eq(1).addClass("active-slide"), $(".slide-inner.active-slide .slider-title").addClass("wow animated bounceInDown"), $(".slide-inner.active-slide .slide-description").addClass("wow animated bounceInRight"), $(".slide-inner.active-slide .btn").addClass("wow animated zoomInUp")
             },

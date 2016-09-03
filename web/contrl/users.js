@@ -5,7 +5,7 @@ var mustache = require('mustache');
 
 /* Dinamically renders the page */
 function renderPage(dict) {
-    var page = fs.readFileSync(__dirname + "/view/users.html", "utf8");
+    var page = fs.readFileSync("web/view/users.html", "utf8");
     return mustache.to_html(page, dict);
 }
 
@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 
 /* GET List */
 router.get('/listUser', function(req, res) {
-    fs.readFile(__dirname + "/data/users.json", 'utf8', function(err, data) {
+    fs.readFile("web/data/users.json", 'utf8', function(err, data) {
         res.send(renderPage({ response: data, op: "Lista" }));
         console.log("Listando usuarios.");
     });
@@ -25,7 +25,7 @@ router.get('/listUser', function(req, res) {
 
 /* GET Query */
 router.get('/queryUser', function(req, res) {
-    fs.readFile(__dirname + "/data/users.json", 'utf8', function(err, data) {
+    fs.readFile("web/data/users.json", 'utf8', function(err, data) {
         var dataQuery = {};
         data = JSON.parse(data);
         for (var prop in data) {
@@ -41,7 +41,7 @@ router.get('/queryUser', function(req, res) {
 
 /* GET Add */
 router.get('/addUser', function(req, res) {
-    fs.readFile(__dirname + "/data/users.json", 'utf8', function(err, data) {
+    fs.readFile("web/data/users.json", 'utf8', function(err, data) {
         data = JSON.parse(data);
         id = Math.floor(Math.random() * 10000);
         data["user" + id] = {
@@ -52,7 +52,7 @@ router.get('/addUser', function(req, res) {
         };
         res.send(renderPage({ response: JSON.stringify(data), op: "Adição" }));
 
-        fs.writeFile(__dirname + "/data/users.json", JSON.stringify(data), function(err) {
+        fs.writeFile("web/data/users.json", JSON.stringify(data), function(err) {
             console.log("Salvando usuario.");
         });
     });

@@ -207,7 +207,7 @@ body {
 }
 
 #slide-1 {
-    background-image: url('../../images/bg.jpg');
+    background-image: url('../../assets/images/bg.jpg');
     color: #003333;
     -webkit-background-size: 100%;
     -moz-background-size: 100%;
@@ -235,7 +235,7 @@ body {
 @media only screen and (max-width: 767px) {
     #slide-1 {
         color: #e4e6e5;
-        background-image: url('../../images/mobile.jpg');
+        background-image: url('../../assets/images/mobile.jpg');
     }
 }
 

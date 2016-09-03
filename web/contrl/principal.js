@@ -23,7 +23,7 @@ router.get('/', function(req, res) {
         }
     }
 
-    var page = fs.readFileSync(__dirname + "/view/principal.html", "utf8");
+    var page = fs.readFileSync("web/view/principal.html", "utf8");
     res.send(mustache.to_html(page, { show: false }));
 })
 

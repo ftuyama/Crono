@@ -4,9 +4,9 @@ var app = express();
 
 var calendar = require('./APICalendar/auth');
 var project = require('./APIGit/auth');
-var principal = require('./web/principal');
-var index = require('./web/index');
-var users = require('./web/users');
+var principal = require('./web/contrl/principal');
+var index = require('./web/contrl/index');
+var users = require('./web/contrl/users');
 
 var session = require('express-session')
 var cookieParser = require('cookie-parser');
@@ -24,8 +24,8 @@ app.use(express.static(__dirname + '/web/view'));
 app.use(express.static(__dirname + '/web/script'));
 //Store all CSS in style folder.
 app.use(express.static(__dirname + '/web/style'));
-//Bower modules are used too.
-app.use(express.static(__dirname + '/web/bower_components'));
+//Store all Assets in web folder
+app.use(express.static(__dirname + '/web'));
 
 // Configure server
 app.use(cookieParser());

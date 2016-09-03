@@ -2,21 +2,16 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Primeiro exemplo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/bootstrap-theme.min.css" />
+    <link rel="import" href="/depend.html">
     <link href='/estilo.css' rel='stylesheet' type='text/css'>
     <script src="/client-users.js"></script>
     <script src="/snowstorm-min.js"></script>
+    <div id="navbar"></div>
 </head>
 
 <body onload=loadHTML({{response}})>
-    <form action="/">
-        <input type="submit" class="btn btn-primary" value="Voltar" />
-    </form>
+    <br><br><br>
     <h1 id="title">API usuários! {{name}}</h1>
     <div class="wrapper">
         <h2>Formulário</h2>

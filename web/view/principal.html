@@ -2,36 +2,31 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>my Homework</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+    <link rel="import" href="/depend.html">
     <link href='/estilo.css' rel='stylesheet' type='text/css'>
     <script src="/client-principal.js"></script>
     <script src="/snowstorm-min.js"></script>
+    <div id="navbar"></div>
 </head>
 
 <body onload="zero()">
-    <form action="/">
-        <input type="submit" class="btn btn-primary" value="Voltar" />
-    </form>
+    <br><br><br>
     <h1 id="title">my Homework - {{username}}</h1>
     <div class="wrapper">
         <button type="button" class="btn btn-primary" onclick="funcao()">Clique aqui</button>
         <p id="counter" hidden>Counter</p><br><br>
         <form action="/users">
-            <input type="submit" class="btn btn-success" value="Cadastrar usuário" />
+            <button type="submit" class="btn btn-success">Cadastrar usuário</button>
         </form> <br>
         <form action="/calendar/auth">
-            <input type="submit" class="btn btn-default" value="Login Google" />
+            <button type="submit" class="btn btn-default">Login Google</button>
         </form> <br>
         <form action="/project/">
-            <input type="submit" class="btn btn-default" value="Show Git" />
+            <button type="submit" class="btn btn-default">Show Git</button>
         </form> <br>
         <form action="/calendar">
-            <input type="submit" class="btn btn-danger" value="Calendário" />
+            <button type="submit" class="btn btn-danger">Calendário</button>
         </form> <br>
         <p id="cooki"></p>
     </div>

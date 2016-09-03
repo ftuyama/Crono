@@ -48,7 +48,7 @@ router.get('/auth/callback',
     function(req, res) {
         req.session.access_token = req.user.accessToken;
         res.cookie('token', req.user.accessToken);
-        res.redirect('/');
+        res.redirect('/calendar');
     });
 
 /* GET events list */

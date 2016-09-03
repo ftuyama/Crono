@@ -1,140 +1,145 @@
 <!doctype html>
+<html ng-app="calendarApp">
 
 <head>
-    <link rel="import" href="/depend.html">
-    <link href="/bootstrap.min.css" rel="stylesheet" />
-    <script src="/client-calendar.js"></script>
+    <link rel="import" href="/components/depend.html">
+    <link href='/estilo.css' rel='stylesheet' type='text/css'>
+    <script src="/contrl/calendarVC.js"></script>
+    <div id="navbar"></div>
     <style>
         table table-bordered {
             align: center;
-            height: 100%;
-            width: 100%;
             margin: 0;
         }
         
         motherTable {
             align: center;
-            height: 100%;
-            width: 100%;
             margin: 0;
         }
         
-        td {
-            color: blue;
+        tr {
+            color: white;
+            height: 60px;
         }
         
-        tr {
-            color: red;
-            background-color: white;
+        td {
+            text-align: center;
         }
         
         .day {
-            text-align: center;
+            text-align: left;
+            color: white;
         }
         
         .day:hover {
             background: red;
         }
+        
+        form {
+            display: inline;
+        }
     </style>
-    <div id="navbar">
-
-    </div>
 </head>
 
-<body>
+<body ng-controller="calendarVC">
     <br>
     <br>
-    <br> {{#show}}
-    <h3>Tasks</h3>
-    <ul>{{#events.items}}
-        <li>{{summary}}</li>{{/events.items}}
-    </ul>
-    {{/show}} {{^show}} {{/show}}
-    <p id="titlse">
-        d
-    </p>
-    <form action="calendarVC/list">
-        <button type="submit" class="btn btn-success">Listar usuário</button>
-    </form> <br>
-    <div class="mainTable">
-    </div>
-    <div class="motherTable">
-        <TABLE BORDER=12 CELLSPACING=12 CELLPADDING=12 ALIGN=center class="table table-bordered">
-            <TR>
-                <TD COLSPAN="7 " ALIGN=center>
-                    <B>September 2016</B>
-                </TD>
-            </TR>
-            <TR>
-                <TD COLSPAN="7 " ALIGN=center>
-                    <I>Another year comes to an end</I>
-                </TD>
-            </TR>
-            <TR>
-                <TD class="day ">Sun</TD>
-                <TD class="day ">Mon</TD>
-                <TD class="day ">Tue</TD>
-                <TD class="day ">Wed</TD>
-                <TD class="day ">Thu</TD>
-                <TD class="day ">Fri
-                </TD>
-                <TD class="day ">Sat</TD>
-            </TR>
-            <TR>
-                <TD class="day "></TD>
-                <TD class="day "></TD>
-                <TD class="day "></TD>
-                <TD class="day "></TD>
-                <TD class="day "></TD>
-                <TD class="day "></TD>
-                <TD class="day ">1</TD>
-            </TR>
-            <TR>
-                <TD class="day ">2</TD>
-                <TD class="day ">3</TD>
-                <TD class="day ">4</TD>
-                <TD class="day ">5</TD>
-                <TD class="day ">6</TD>
-                <TD class="day ">7</TD>
-                <TD class="day ">8</TD>
-            </TR>
-            <TR>
-                <TD class="day ">9</TD>
-                <TD class="day ">10</TD>
-                <TD class="day ">11</TD>
-                <TD class="day ">12</TD>
-                <TD class="day ">13</TD>
-                <TD class="day ">14</TD>
-                <TD class="day ">15</TD>
-            </TR>
-            <TR>
-                <TD class="day ">16</TD>
-                <TD class="day ">17</TD>
-                <TD class="day ">18</TD>
-                <TD class="day ">19</TD>
-                <TD class="day ">20</TD>
-                <TD class="day ">21</TD>
-                <TD class="day ">22</TD>
-            </TR>
-            <TR>
-                <TD class="day ">23</TD>
-                <TD class="day ">24</TD>
-                <TD class="day ">25</TD>
-                <TD class="day ">26</TD>
-                <TD class="day ">27</TD>
-                <TD class="day ">28</TD>
-                <TD class="day ">29</TD>
-            </TR>
-            <TR>
-                <TD class="day ">30</TD>
-                <TD class="day ">31</TD>
-                <TD class="day "></TD>
-                <TD class="day "></TD>
-                <TD class="day "></TD>
-                <TD class="day "></TD>
-                <TD class="day "></TD>
+    <br>
+    <div class="container" align="center">
+        <p>
+            <form action="calendar/list">
+                <button type="submit" class="btn btn-success">Adicionar evento</button>
+            </form>
+            <form action="calendar/list">
+                <button type="submit" class="btn btn-warning">Editar evento</button>
+            </form>
+            <form action="calendar/list">
+                <button type="submit" class="btn btn-danger">Deletar evento</button>
+            </form>
+        </p>
+    </div><br>
+    <div class="container">
+        <div class="motherTable">
+            <TABLE class="table table-bordered">
+                <TR>
+                    <TD COLSPAN="7 ">
+                        <B>September 2016</B>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD COLSPAN="7 ">
+                        <I>Another year comes to an end</I>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD class="day ">Sun</TD>
+                    <TD class="day ">Mon</TD>
+                    <TD class="day ">Tue</TD>
+                    <TD class="day ">Wed</TD>
+                    <TD class="day ">Thu</TD>
+                    <TD class="day ">Fri
+                    </TD>
+                    <TD class="day ">Sat</TD>
+                </TR>
+                <TR>
+                    <TD class="day "></TD>
+                    <TD class="day "></TD>
+                    <TD class="day "></TD>
+                    <TD class="day "></TD>
+                    <TD class="day "></TD>
+                    <TD class="day "></TD>
+                    <TD class="day ">1</TD>
+                </TR>
+                <TR>
+                    <TD class="day ">2</TD>
+                    <TD class="day ">3</TD>
+                    <TD class="day ">4</TD>
+                    <TD class="day ">5</TD>
+                    <TD class="day ">6</TD>
+                    <TD class="day ">7</TD>
+                    <TD class="day ">8</TD>
+                </TR>
+                <TR>
+                    <TD class="day ">9</TD>
+                    <TD class="day ">10</TD>
+                    <TD class="day ">11</TD>
+                    <TD class="day ">12</TD>
+                    <TD class="day ">13</TD>
+                    <TD class="day ">14</TD>
+                    <TD class="day ">15</TD>
+                </TR>
+                <TR>
+                    <TD class="day ">16</TD>
+                    <TD class="day ">17</TD>
+                    <TD class="day ">18</TD>
+                    <TD class="day ">19</TD>
+                    <TD class="day ">20</TD>
+                    <TD class="day ">21</TD>
+                    <TD class="day ">22</TD>
+                </TR>
+                <TR>
+                    <TD class="day ">23</TD>
+                    <TD class="day ">24</TD>
+                    <TD class="day ">25</TD>
+                    <TD class="day ">26</TD>
+                    <TD class="day ">27</TD>
+                    <TD class="day ">28</TD>
+                    <TD class="day ">29</TD>
+                </TR>
+                <TR>
+                    <TD class="day ">30</TD>
+                    <TD class="day ">31</TD>
+                    <TD class="day "></TD>
+                    <TD class="day "></TD>
+                    <TD class="day "></TD>
+                    <TD class="day "></TD>
+                    <TD class="day "></TD>
 
-            </TR>
-        </TABLE>
+                </TR>
+            </TABLE>
+        </div>
     </div>
+    <p>{{events}}</p>
 </body>
+
+</html>

@@ -1,45 +1,46 @@
 {
-    "name": "homework",
-    "version": "1.0.0",
-    "description": "Node",
-    "main": "server.js",
-    "dependencies": {
-        "body-parser": "^1.15.2",
-        "bower": "1.7.9",
-        "cookie-parser": "^1.4.3",
-        "express": "4.14.0",
-        "express-session": "^1.14.1",
-        "mongoose": "^4.5.10",
-        "mustache": "^2.2.1",
-        "nodemon": "^1.10.2",
-        "google-calendar": "^1.3.2",
-        "passport": "^0.3.2",
-        "passport-google-oauth": "^1.0.0",
-        "path": "^0.12.7",
-        "google-auth-library": "^0.9.8",
-        "bootstrap": "^3.3.7",
-        "googleapis": "^12.4.0",
-        "needle": "^1.1.0",
-        "octonode": "^0.7.6",
-        "passport-strategy": "^1.0.0",
-        "pause": "^0.1.0"
-    },
-    "devDependencies": {},
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node server.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ftuyama/Node.git"
-    },
-    "author": "ftuyama, ipatinga",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/ftuyama/Node/issues"
-    },
-    "engines": {
-        "node": "4.4.7"
-    },
-    "homepage": "https://github.com/ftuyama/Node#readme"
+  "name": "homework",
+  "version": "1.0.0",
+  "description": "Node",
+  "main": "server.js",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "body-parser": "^1.15.2",
+    "bootstrap": "^3.3.7",
+    "bower": "1.7.9",
+    "cookie-parser": "^1.4.3",
+    "express": "4.14.0",
+    "express-session": "^1.14.1",
+    "google-auth-library": "^0.9.8",
+    "google-calendar": "^1.3.2",
+    "googleapis": "^12.4.0",
+    "mongoose": "^4.5.10",
+    "mustache": "^2.2.1",
+    "needle": "^1.1.0",
+    "nodemon": "^1.10.2",
+    "octonode": "^0.7.6",
+    "passport": "^0.3.2",
+    "passport-google-oauth": "^1.0.0",
+    "passport-strategy": "^1.0.0",
+    "path": "^0.12.7",
+    "pause": "^0.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ftuyama/Node.git"
+  },
+  "author": "ftuyama, ipatinga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ftuyama/Node/issues"
+  },
+  "engines": {
+    "node": "4.4.7"
+  },
+  "homepage": "https://github.com/ftuyama/Node#readme"
 }

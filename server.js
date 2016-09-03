@@ -2,12 +2,12 @@
 var express = require('express');
 var app = express();
 
-var calendar = require('./APICalendar/auth');
-var project = require('./APIGit/auth');
-var principal = require('./web/contrl/principal');
-var index = require('./web/contrl/index');
-var users = require('./web/contrl/users');
-var calendarVC = require('./web/contrl/calendarVC');
+var calendarAuth = require('./APICalendar/auth');
+var projectAuth = require('./APIGit/auth');
+var principal = require('./web/server/principalSV');
+var index = require('./web/server/indexSV');
+var users = require('./web/server/usersSV');
+var calendar = require('./web/server/calendarSV');
 
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
@@ -22,7 +22,8 @@ var passport = require('passport');
 //Store all HTML files in view folder.
 app.use(express.static(__dirname + '/web/view'));
 //Store all JS in Scripts folder.
-app.use(express.static(__dirname + '/web/script'));
+app.use(express.static(__dirname + '/web/server'));
+app.use(express.static(__dirname + '/web/contrl'));
 //Store all CSS in style folder.
 app.use(express.static(__dirname + '/web/style'));
 //Store all Assets in web folder
@@ -37,9 +38,9 @@ app.use(session({
 }))
 app.use(passport.initialize());
 
-app.use('/calendarVC', calendarVC);
+app.use('/calendarAuth', calendarAuth);
+app.use('/projectAuth', projectAuth);
 app.use('/calendar', calendar);
-app.use('/project', project);
 app.use('/users', users);
 app.use('/main', principal);
 app.use('/', index);

@@ -12,36 +12,32 @@ function renderPage(dict) {
 /* GET home page. */
 router.get('/', function(req, res) {
     res.send(renderPage({ name: "#Ipatinga - codão" }));
-    console.log("Servindo o mestre users.");
 })
 
 /* GET List */
 router.get('/listUser', function(req, res) {
-    fs.readFile("web/data/users.json", 'utf8', function(err, data) {
+    fs.readFile("web/assets/data/users.json", 'utf8', function(err, data) {
         res.send(renderPage({ response: data, op: "Lista" }));
-        console.log("Listando usuarios.");
     });
 })
 
 /* GET Query */
 router.get('/queryUser', function(req, res) {
-    fs.readFile("web/data/users.json", 'utf8', function(err, data) {
+    fs.readFile("web/assets/data/users.json", 'utf8', function(err, data) {
         var dataQuery = {};
         data = JSON.parse(data);
         for (var prop in data) {
             if (data[prop].name == req.query.name) {
                 dataQuery[prop] = data[prop];
-                console.log("valor " + JSON.stringify(dataQuery[prop]));
             }
         }
         res.send(renderPage({ response: JSON.stringify(dataQuery), op: "Busca" }));
-        console.log("Busca de usuarios.");
     });
 })
 
 /* GET Add */
 router.get('/addUser', function(req, res) {
-    fs.readFile("web/data/users.json", 'utf8', function(err, data) {
+    fs.readFile("web/assets/data/users.json", 'utf8', function(err, data) {
         data = JSON.parse(data);
         id = Math.floor(Math.random() * 10000);
         data["user" + id] = {
@@ -52,7 +48,7 @@ router.get('/addUser', function(req, res) {
         };
         res.send(renderPage({ response: JSON.stringify(data), op: "Adição" }));
 
-        fs.writeFile("web/data/users.json", JSON.stringify(data), function(err) {
+        fs.writeFile("web/assets/data/users.json", JSON.stringify(data), function(err) {
             console.log("Salvando usuario.");
         });
     });

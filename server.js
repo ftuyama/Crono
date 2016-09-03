@@ -20,7 +20,6 @@ app.use(express.static(__dirname + '/bower_components'));
 
 app.get('/', function(req, res) {
     res.sendFile(__dirname + "/view/main.html");
-    console.log("Servindo o mestre.");
 })
 
 app.get('/demo_bg', function(req, res) {
@@ -33,6 +32,10 @@ app.get('/semana1', function(req, res) {
 
 app.get('/semana2', function(req, res) {
     res.sendFile(__dirname + "/view/semana2.html");
+})
+
+app.get('/semana3', function(req, res) {
+    res.sendFile(__dirname + "/view/semana3.html");
 
     // Processing cookies
     console.log("Cookies got: ", req.cookies);

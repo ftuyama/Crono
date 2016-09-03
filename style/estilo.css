@@ -1,3 +1,7 @@
+* {
+    font-family: "verdana";
+}
+
 h1,
 h2,
 h3,
@@ -12,4 +16,16 @@ p {
 
 body {
     background: transparent;
+}
+
+.wrapper {
+    text-align: center;
+}
+
+footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    font-style: italic;
 }

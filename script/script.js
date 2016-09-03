@@ -9,5 +9,6 @@ $(document).ready(function() {
         fullscreen: true,
     });
 
-    $('#navigation').load('navbar.html');
+    $('#navigation').load('/components/navbar.html');
+    $('#footer').load('/components/footer.html');
 })

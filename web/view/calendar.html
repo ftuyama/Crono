@@ -1,11 +1,9 @@
 <!doctype html>
 
 <head>
+    <link rel="import" href="/depend.html">
     <link href="/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <script src="/client-calendar.js"></script>
     <style>
         table table-bordered {
             align: center;
@@ -38,13 +36,28 @@
             background: red;
         }
     </style>
+    <div id="navbar">
 
+    </div>
 </head>
 
 <body>
-    <button class="btn btn-primary">
-        Home
-    </button>
+    <br>
+    <br>
+    <br> {{#show}}
+    <h3>Tasks</h3>
+    <ul>{{#events.items}}
+        <li>{{summary}}</li>{{/events.items}}
+    </ul>
+    {{/show}} {{^show}} {{/show}}
+    <p id="titlse">
+        d
+    </p>
+    <form action="calendarVC/list">
+        <button type="submit" class="btn btn-success">Listar usuário</button>
+    </form> <br>
+    <div class="mainTable">
+    </div>
     <div class="motherTable">
         <TABLE BORDER=12 CELLSPACING=12 CELLPADDING=12 ALIGN=center class="table table-bordered">
             <TR>

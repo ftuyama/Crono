@@ -7,8 +7,9 @@ var project = require('./APIGit/auth');
 var principal = require('./web/contrl/principal');
 var index = require('./web/contrl/index');
 var users = require('./web/contrl/users');
+var calendarVC = require('./web/contrl/calendarVC');
 
-var session = require('express-session')
+var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
 
@@ -36,6 +37,7 @@ app.use(session({
 }))
 app.use(passport.initialize());
 
+app.use('/calendarVC', calendarVC);
 app.use('/calendar', calendar);
 app.use('/project', project);
 app.use('/users', users);

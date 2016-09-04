@@ -28,13 +28,13 @@ router.get('/auth', function(req, res) {
         req.session.git_pass = credentials.web.pass;
         res.cookie('git_user', credentials.web.user);
         res.cookie('git_pass', credentials.web.pass);
-        res.redirect('/project/');
+        res.redirect('/');
     });
 });
 
 /* GET Git list */
 router.get('/', function(req, res) {
-    if (!req.session.git_user && !req.cookies.git_user) return res.redirect('/project/auth');
+    if (!req.session.git_user && !req.cookies.git_user) return res.redirect('/projectAuth/auth');
     if (!req.session.git_user) {
         req.session.git_user = req.cookies.git_user;
         req.session.git_pass = req.cookies.git_pass;

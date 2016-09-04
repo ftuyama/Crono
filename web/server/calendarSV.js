@@ -22,17 +22,31 @@ router.get('/', function(req, res) {
   ===========================================================================
 */
 
-/* GET Events List */
-router.get('/list', function(req, res) {
+/* GET Groups List */
+router.get('/groups', function(req, res) {
     if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendarAuth');
     if (!req.session.access_token) req.session.access_token = req.cookies.token;
 
     //Create an instance from accessToken
     var accessToken = req.session.access_token;
     gcal(accessToken).calendarList.list(function(err, data) {
-        if (err) return res.status(500).send(err);
-        gcal(accessToken).events.list(data.items[0].id, function(err, data) {
-            if (err) return res.status(500).send(err);
+        if (err) return res.redirect('/calendarAuth');
+        res.json(data);
+    });
+});
+
+/* GET Events List */
+router.get('/list:id', function(req, res) {
+    if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendarAuth');
+    if (!req.session.access_token) req.session.access_token = req.cookies.token;
+
+    //Create an instance from accessToken
+    var accessToken = req.session.access_token;
+    var group = req.params.id;
+    gcal(accessToken).calendarList.list(function(err, data) {
+        if (err) return res.redirect('/calendarAuth');
+        gcal(accessToken).events.list(data.items[group].id, function(err, data) {
+            if (err) return res.redirect('/calendarAuth');
             res.json(data);
         });
     });

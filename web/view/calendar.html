@@ -12,11 +12,6 @@
             margin: 0;
         }
         
-        motherTable {
-            align: center;
-            margin: 0;
-        }
-        
         tr {
             color: white;
             height: 60px;
@@ -28,15 +23,23 @@
         
         .day {
             text-align: left;
-            color: white;
         }
         
         .day:hover {
             background: red;
         }
         
+        .day-out {
+            opacity: 0.6;
+            color: #cccccc;
+        }
+        
         form {
             display: inline;
+        }
+        
+        input {
+            width: 50px;
         }
     </style>
 </head>
@@ -56,90 +59,85 @@
             <form action="calendar/list">
                 <button type="submit" class="btn btn-danger">Deletar evento</button>
             </form>
+            <p style="display: inline;">Group Number:
+                <input type="text" ng-model="group" placeholder="0" ng-change="research()">
+            </p>
         </p>
     </div><br>
     <div class="container">
-        <div class="motherTable">
-            <TABLE class="table table-bordered">
-                <TR>
-                    <TD COLSPAN="7 ">
-                        <B>September 2016</B>
-                    </TD>
-                </TR>
-                <TR>
-                    <TD COLSPAN="7 ">
-                        <I>Another year comes to an end</I>
-                    </TD>
-                </TR>
-                <TR>
-                    <TD class="day ">Sun</TD>
-                    <TD class="day ">Mon</TD>
-                    <TD class="day ">Tue</TD>
-                    <TD class="day ">Wed</TD>
-                    <TD class="day ">Thu</TD>
-                    <TD class="day ">Fri
-                    </TD>
-                    <TD class="day ">Sat</TD>
-                </TR>
-                <TR>
-                    <TD class="day "></TD>
-                    <TD class="day "></TD>
-                    <TD class="day "></TD>
-                    <TD class="day "></TD>
-                    <TD class="day "></TD>
-                    <TD class="day "></TD>
-                    <TD class="day ">1</TD>
-                </TR>
-                <TR>
-                    <TD class="day ">2</TD>
-                    <TD class="day ">3</TD>
-                    <TD class="day ">4</TD>
-                    <TD class="day ">5</TD>
-                    <TD class="day ">6</TD>
-                    <TD class="day ">7</TD>
-                    <TD class="day ">8</TD>
-                </TR>
-                <TR>
-                    <TD class="day ">9</TD>
-                    <TD class="day ">10</TD>
-                    <TD class="day ">11</TD>
-                    <TD class="day ">12</TD>
-                    <TD class="day ">13</TD>
-                    <TD class="day ">14</TD>
-                    <TD class="day ">15</TD>
-                </TR>
-                <TR>
-                    <TD class="day ">16</TD>
-                    <TD class="day ">17</TD>
-                    <TD class="day ">18</TD>
-                    <TD class="day ">19</TD>
-                    <TD class="day ">20</TD>
-                    <TD class="day ">21</TD>
-                    <TD class="day ">22</TD>
-                </TR>
-                <TR>
-                    <TD class="day ">23</TD>
-                    <TD class="day ">24</TD>
-                    <TD class="day ">25</TD>
-                    <TD class="day ">26</TD>
-                    <TD class="day ">27</TD>
-                    <TD class="day ">28</TD>
-                    <TD class="day ">29</TD>
-                </TR>
-                <TR>
-                    <TD class="day ">30</TD>
-                    <TD class="day ">31</TD>
-                    <TD class="day "></TD>
-                    <TD class="day "></TD>
-                    <TD class="day "></TD>
-                    <TD class="day "></TD>
-                    <TD class="day "></TD>
+        <TABLE id="motherTable" class="table table-bordered">
+            <TR>
+                <TD COLSPAN="7 ">
+                    <B>September 2016</B>
+                </TD>
+            </TR>
+            <TR>
+                <TD class="day">Sun</TD>
+                <TD class="day">Mon</TD>
+                <TD class="day">Tue</TD>
+                <TD class="day">Wed</TD>
+                <TD class="day">Thu</TD>
+                <TD class="day">Fri</TD>
+                <TD class="day">Sat</TD>
+            </TR>
+            <TR>
+                <TD class="day"></TD>
+                <TD class="day"></TD>
+                <TD class="day"></TD>
+                <TD class="day"></TD>
+                <TD class="day"></TD>
+                <TD class="day"></TD>
+                <TD class="day">1</TD>
+            </TR>
+            <TR>
+                <TD class="day">2</TD>
+                <TD class="day">3</TD>
+                <TD class="day">4</TD>
+                <TD class="day">5</TD>
+                <TD class="day">6</TD>
+                <TD class="day">7</TD>
+                <TD class="day">8</TD>
+            </TR>
+            <TR>
+                <TD class="day">9</TD>
+                <TD class="day">10</TD>
+                <TD class="day">11</TD>
+                <TD class="day">12</TD>
+                <TD class="day">13</TD>
+                <TD class="day">14</TD>
+                <TD class="day">15</TD>
+            </TR>
+            <TR>
+                <TD class="day">16</TD>
+                <TD class="day">17</TD>
+                <TD class="day">18</TD>
+                <TD class="day">19</TD>
+                <TD class="day">20</TD>
+                <TD class="day">21</TD>
+                <TD class="day">22</TD>
+            </TR>
+            <TR>
+                <TD class="day">23</TD>
+                <TD class="day">24</TD>
+                <TD class="day">25</TD>
+                <TD class="day">26</TD>
+                <TD class="day">27</TD>
+                <TD class="day">28</TD>
+                <TD class="day">29</TD>
+            </TR>
+            <TR>
+                <TD class="day">30</TD>
+                <TD class="day">31</TD>
+                <TD class="day"></TD>
+                <TD class="day"></TD>
+                <TD class="day"></TD>
+                <TD class="day"></TD>
+                <TD class="day"></TD>
 
-                </TR>
-            </TABLE>
-        </div>
+            </TR>
+        </TABLE>
     </div>
-    <p>{{events}}</p>
+    <p>Grupo de Eventos: {{user}}</p>
 </body>
 
 </html>

@@ -12,23 +12,33 @@ var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
 
 calendarApp.controller("calendarVC", function($scope, $http) {
     $scope.events = {};
-    $scope.group = 0;
+    $scope.groups = {};
 
     $scope.research = function() {
-        $http.get('/calendar/list' + $scope.group)
-            .then(function success(response) {
-                create_calendar();
-                var calendario = response.data;
-                $scope.user = calendario.summary;
-                var events = calendario.items;
-                // Debug: $scope.events = calendario;
-                for (i = 0; i < events.length; i++) {
-                    var date = events[i].start.date.split('T')[0];
-                    $("#" + date).html($("#" + date).html() + "<br>" + events[i].summary);
-                    $("#" + date).css('color', 'red');
-                }
-            });
+        create_calendar();
+        $scope.user = "";
+        for (i = 0; i < $scope.groups.length; i++) {
+            if ($scope.groups[i].checked == true) {
+                $http.get('/calendar/list' + i)
+                    .then(function success(response) {
+                        var calendario = response.data;
+                        $scope.user += calendario.summary + "; ";
+                        var events = calendario.items;
+                        // Debug: $scope.user = calendario;
+                        for (i = 0; i < events.length; i++) {
+                            var date = events[i].start.date.split('T')[0];
+                            $("#" + date).html($("#" + date).html() + "<br>" + events[i].summary);
+                            $("#" + date).css('color', $scope.groups[i].backgroundColor);
+                        }
+                    });
+            }
+        }
     };
+
+    $http.get('/calendar/groups')
+        .then(function success(response) {
+            $scope.groups = response.data.items;
+        });
 });
 
 /*

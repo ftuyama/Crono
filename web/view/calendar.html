@@ -4,6 +4,7 @@
 <head>
     <link rel="import" href="/components/depend.html">
     <link href='/estilo.css' rel='stylesheet' type='text/css'>
+    <link href='/switch.css' rel='stylesheet' type='text/css'>
     <script src="/contrl/calendarVC.js"></script>
     <div id="navbar"></div>
     <style>
@@ -41,6 +42,11 @@
         input {
             width: 50px;
         }
+        
+        .thumbnail {
+            border: 1px solid #aaaaff;
+            color: #ffffff;
+        }
     </style>
 </head>
 
@@ -59,83 +65,95 @@
             <form action="calendarAuth/">
                 <button type="submit" class="btn btn-danger">Login Google</button>
             </form>
-            <p style="display: inline;">Group Number:
-                <input type="text" ng-model="group" placeholder="0" ng-change="research()">
-            </p>
         </p>
     </div><br>
-    <div class="container">
-        <TABLE id="motherTable" class="table table-bordered">
-            <TR>
-                <TD COLSPAN="7 ">
-                    <B>September 2016</B>
-                </TD>
-            </TR>
-            <TR>
-                <TD class="day">Sun</TD>
-                <TD class="day">Mon</TD>
-                <TD class="day">Tue</TD>
-                <TD class="day">Wed</TD>
-                <TD class="day">Thu</TD>
-                <TD class="day">Fri</TD>
-                <TD class="day">Sat</TD>
-            </TR>
-            <TR>
-                <TD class="day"></TD>
-                <TD class="day"></TD>
-                <TD class="day"></TD>
-                <TD class="day"></TD>
-                <TD class="day"></TD>
-                <TD class="day"></TD>
-                <TD class="day">1</TD>
-            </TR>
-            <TR>
-                <TD class="day">2</TD>
-                <TD class="day">3</TD>
-                <TD class="day">4</TD>
-                <TD class="day">5</TD>
-                <TD class="day">6</TD>
-                <TD class="day">7</TD>
-                <TD class="day">8</TD>
-            </TR>
-            <TR>
-                <TD class="day">9</TD>
-                <TD class="day">10</TD>
-                <TD class="day">11</TD>
-                <TD class="day">12</TD>
-                <TD class="day">13</TD>
-                <TD class="day">14</TD>
-                <TD class="day">15</TD>
-            </TR>
-            <TR>
-                <TD class="day">16</TD>
-                <TD class="day">17</TD>
-                <TD class="day">18</TD>
-                <TD class="day">19</TD>
-                <TD class="day">20</TD>
-                <TD class="day">21</TD>
-                <TD class="day">22</TD>
-            </TR>
-            <TR>
-                <TD class="day">23</TD>
-                <TD class="day">24</TD>
-                <TD class="day">25</TD>
-                <TD class="day">26</TD>
-                <TD class="day">27</TD>
-                <TD class="day">28</TD>
-                <TD class="day">29</TD>
-            </TR>
-            <TR>
-                <TD class="day">30</TD>
-                <TD class="day">31</TD>
-                <TD class="day"></TD>
-                <TD class="day"></TD>
-                <TD class="day"></TD>
-                <TD class="day"></TD>
-                <TD class="day"></TD>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="thumbnail">
+                <p style="display: inline;">Group List:</p>
+                <hr>
+                <div ng-repeat="group in groups">
+                    {{group.summary}}
+                    <label class="switch" style="float:right;">
+                        <input ng-model="group.checked" ng-change="research()" type="checkbox"/>
+                        <div class="slider round"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <TABLE id="motherTable" class="table table-bordered">
+                <TR>
+                    <TD COLSPAN="7 ">
+                        <B>Calendar</B>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD class="day">Sun</TD>
+                    <TD class="day">Mon</TD>
+                    <TD class="day">Tue</TD>
+                    <TD class="day">Wed</TD>
+                    <TD class="day">Thu</TD>
+                    <TD class="day">Fri</TD>
+                    <TD class="day">Sat</TD>
+                </TR>
+                <TR>
+                    <TD class="day"></TD>
+                    <TD class="day"></TD>
+                    <TD class="day"></TD>
+                    <TD class="day"></TD>
+                    <TD class="day"></TD>
+                    <TD class="day"></TD>
+                    <TD class="day">1</TD>
+                </TR>
+                <TR>
+                    <TD class="day">2</TD>
+                    <TD class="day">3</TD>
+                    <TD class="day">4</TD>
+                    <TD class="day">5</TD>
+                    <TD class="day">6</TD>
+                    <TD class="day">7</TD>
+                    <TD class="day">8</TD>
+                </TR>
+                <TR>
+                    <TD class="day">9</TD>
+                    <TD class="day">10</TD>
+                    <TD class="day">11</TD>
+                    <TD class="day">12</TD>
+                    <TD class="day">13</TD>
+                    <TD class="day">14</TD>
+                    <TD class="day">15</TD>
+                </TR>
+                <TR>
+                    <TD class="day">16</TD>
+                    <TD class="day">17</TD>
+                    <TD class="day">18</TD>
+                    <TD class="day">19</TD>
+                    <TD class="day">20</TD>
+                    <TD class="day">21</TD>
+                    <TD class="day">22</TD>
+                </TR>
+                <TR>
+                    <TD class="day">23</TD>
+                    <TD class="day">24</TD>
+                    <TD class="day">25</TD>
+                    <TD class="day">26</TD>
+                    <TD class="day">27</TD>
+                    <TD class="day">28</TD>
+                    <TD class="day">29</TD>
+                </TR>
+                <TR>
+                    <TD class="day">30</TD>
+                    <TD class="day">31</TD>
+                    <TD class="day"></TD>
+                    <TD class="day"></TD>
+                    <TD class="day"></TD>
+                    <TD class="day"></TD>
+                    <TD class="day"></TD>
 
-            </TR>
-        </TABLE>
+                </TR>
+            </TABLE>
+        </div>
     </div>
     <p>Grupo de Eventos: {{user}}</p>
 </body>

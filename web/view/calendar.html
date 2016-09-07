@@ -9,6 +9,7 @@
     <div id="navbar"></div>
     <style>
         table table-bordered {
+            table-layout: fixed;
             align: center;
             margin: 0;
         }
@@ -20,6 +21,14 @@
         
         td {
             text-align: center;
+            overflow: hidden;
+        }
+        
+        .events {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 150px;
         }
         
         .day {
@@ -27,20 +36,33 @@
         }
         
         .day:hover {
-            background: red;
+            background: #553333;
         }
         
-        .day-out {
+        .day-gone {
             opacity: 0.6;
             color: #cccccc;
+            background: #444444;
         }
         
-        form {
-            display: inline;
+        .today {
+            color: #cccccc;
+            background: #333355;
         }
         
         input {
             width: 50px;
+        }
+        
+        .row.no-gutter {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        
+        .row.no-gutter [class*='col-']:not(:first-child),
+        .row.no-gutter [class*='col-']:not(:last-child) {
+            padding-right: 5px;
+            padding-left: 5px;
         }
         
         .spec {
@@ -61,22 +83,8 @@
 <body ng-controller="calendarVC">
     <br>
     <br>
-    <br>
-
-    <div class="container" align="center">
-        <p>
-            <form action="calendar/list0">
-                <button type="submit" class="btn btn-success">Ver eventos</button>
-            </form>
-            <form action="calendar/groups">
-                <button type="submit" class="btn btn-warning">Ver grupos</button>
-            </form>
-            <form action="calendarAuth/">
-                <button type="submit" class="btn btn-danger">Login Google</button>
-            </form>
-        </p>
-    </div><br>
-    <div class="row">
+    <hr>
+    <div class="row no-gutter">
         <div class="col-sm-2">
             <div class="thumbnail">
                 <p style="display: inline;">Group List:</p>
@@ -92,6 +100,17 @@
                         </label>
                     </div>
                 </div>
+            </div>
+            <div align="center">
+                <form action="calendar/list0">
+                    <button type="submit" class="btn btn-success btn-block">Ver eventos</button>
+                </form><br>
+                <form action="calendar/groups">
+                    <button type="submit" class="btn btn-warning btn-block">Ver grupos</button>
+                </form><br>
+                <form action="calendarAuth/">
+                    <button type="submit" class="btn btn-danger btn-block">Login Google</button>
+                </form><br>
             </div>
         </div>
         <div class="col-sm-10">

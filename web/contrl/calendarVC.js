@@ -29,8 +29,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookieStore) {
                         // Debug: $scope.user = calendario;
                         for (i = 0; i < events.length; i++) {
                             var date = events[i].start.date.split('T')[0];
-                            $("#" + date).html($("#" + date).html() + "<br>" + events[i].summary);
-                            $("#" + date).css('color', $scope.groups[i].backgroundColor);
+                            var event_div = "<div id=\"task" + i + "\" class=\"events\">" +
+                                events[i].summary + "</div>";
+                            $("#" + date).html($("#" + date).html() + event_div);
+                            $("#task" + i).css('color', getRandomColor());
                         }
                     });
             }
@@ -99,12 +101,13 @@ function create_calendar() {
             }
             var dayString = dayNumber.toString();
             row += "<td id=" + dayDate.toISOString().split('T')[0] +
-                " class=\"day"
-            if (dayOut == true) {
-                row += " day-out"
+                " class=\"day";
+            if (dayDate.sameDay(date)) {
+                row += " today";
+            } else if (dayDate < date || dayOut == true) {
+                row += " day-gone";
             }
             row += "\">" + dayString + "</td>";
-
         }
         table += (row + "</tr>");
     }

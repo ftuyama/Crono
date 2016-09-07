@@ -1,4 +1,4 @@
-var calendarApp = angular.module("calendarApp", []);
+var calendarApp = angular.module("calendarApp", ['ngCookies']);
 var calendar;
 var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
@@ -10,7 +10,7 @@ var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
   ===========================================================================
 */
 
-calendarApp.controller("calendarVC", function($scope, $http) {
+calendarApp.controller("calendarVC", function($scope, $http, $cookieStore) {
     $scope.events = {};
     $scope.groups = {};
 
@@ -18,7 +18,9 @@ calendarApp.controller("calendarVC", function($scope, $http) {
         create_calendar();
         $scope.user = "";
         for (i = 0; i < $scope.groups.length; i++) {
-            if ($scope.groups[i].checked == true) {
+            var group_checked = $scope.groups[i].checked;
+            $cookieStore.put($scope.groups[i].id, group_checked);
+            if (group_checked == true) {
                 $http.get('/calendar/list' + i)
                     .then(function success(response) {
                         var calendario = response.data;
@@ -38,7 +40,13 @@ calendarApp.controller("calendarVC", function($scope, $http) {
     $http.get('/calendar/groups')
         .then(function success(response) {
             $scope.groups = response.data.items;
-            create_calendar();
+            for (i = 0; i < $scope.groups.length; i++) {
+                var cookie = $cookieStore.get($scope.groups[i].id);
+                if (cookie != undefined) {
+                    $scope.groups[i].checked = cookie;
+                }
+            }
+            $scope.research();
         });
 });
 

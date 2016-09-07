@@ -10,9 +10,13 @@ var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
   ===========================================================================
 */
 
-calendarApp.controller("calendarVC", function($scope, $http, $cookieStore) {
+calendarApp.controller("calendarVC", function($scope, $http, $cookieStore, $compile) {
     $scope.events = {};
     $scope.groups = {};
+
+    $scope.doSome = function() {
+        alert("Vamos editar esse bagulho ai");
+    };
 
     $scope.research = function() {
         create_calendar();
@@ -29,9 +33,9 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookieStore) {
                         // Debug: $scope.user = calendario;
                         for (i = 0; i < events.length; i++) {
                             var date = events[i].start.date.split('T')[0];
-                            var event_div = "<div id=\"task" + i + "\" class=\"events\">" +
-                                events[i].summary + "</div>";
-                            $("#" + date).html($("#" + date).html() + event_div);
+                            var event_div = '<div id="task' + i + '" class="events" ng-click="doSome()">' +
+                                events[i].summary + '</div>';
+                            $("#" + date).html($compile($("#" + date).html() + event_div)($scope));
                             $("#task" + i).css('color', getRandomColor());
                         }
                     });
@@ -107,7 +111,7 @@ function create_calendar() {
             } else if (dayDate < date || dayOut == true) {
                 row += " day-gone";
             }
-            row += "\">" + dayString + "</td>";
+            row += "\"><span>" + dayString + "</span></td>";
         }
         table += (row + "</tr>");
     }

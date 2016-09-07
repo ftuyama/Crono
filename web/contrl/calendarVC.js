@@ -105,13 +105,13 @@ function create_calendar() {
             }
             var dayString = dayNumber.toString();
             row += "<td id=" + dayDate.toISOString().split('T')[0] +
-                " class=\"day";
+                ' class="day';
             if (dayDate.sameDay(date)) {
                 row += " today";
             } else if (dayDate < date || dayOut == true) {
                 row += " day-gone";
             }
-            row += "\"><span>" + dayString + "</span></td>";
+            row += '"><span>' + dayString + '</span></td>';
         }
         table += (row + "</tr>");
     }

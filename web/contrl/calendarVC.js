@@ -38,6 +38,7 @@ calendarApp.controller("calendarVC", function($scope, $http) {
     $http.get('/calendar/groups')
         .then(function success(response) {
             $scope.groups = response.data.items;
+            create_calendar();
         });
 });
 

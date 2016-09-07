@@ -43,10 +43,15 @@
             width: 50px;
         }
         
+        .spec {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
         .thumbnail {
             border: 1px solid #aaaaff;
             color: #ffffff;
-            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -76,11 +81,15 @@
                 <p style="display: inline;">Group List:</p>
                 <hr>
                 <div ng-repeat="group in groups">
-                    {{group.summary}}
-                    <label class="switch" style="float:right;">
+                    <div class="col-sm-9 spec">
+                        {{group.summary}}
+                    </div>
+                    <div>
+                        <label class="switch" style="float:right;">
                         <input ng-model="group.checked" ng-change="research()" type="checkbox"/>
                         <div class="slider round"></div>
-                    </label>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -92,13 +101,13 @@
                     </TD>
                 </TR>
                 <TR>
-                    <TD class="day">Sun</TD>
-                    <TD class="day">Mon</TD>
-                    <TD class="day">Tue</TD>
-                    <TD class="day">Wed</TD>
-                    <TD class="day">Thu</TD>
-                    <TD class="day">Fri</TD>
-                    <TD class="day">Sat</TD>
+                    <TD>Sun</TD>
+                    <TD>Mon</TD>
+                    <TD>Tue</TD>
+                    <TD>Wed</TD>
+                    <TD>Thu</TD>
+                    <TD>Fri</TD>
+                    <TD>Sat</TD>
                 </TR>
                 <TR>
                     <TD class="day"></TD>

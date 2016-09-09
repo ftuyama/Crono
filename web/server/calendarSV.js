@@ -63,7 +63,6 @@ router.post('/create', function(req, res) {
     var new_event = JSON.stringify(req.body.new_event);
     gcal(accessToken).events.insert(group_id, new_event, function(err, data) {
         if (err) return res.redirect('/calendarAuth');
-        console.log(data);
         res.json(data);
     });
 });

@@ -37,6 +37,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile)
         showSnackBar("Vamos editar esse bagulho ai:" + content);
     };
 
+    $scope.deleteAllEvents = function(selected_date) {
+        showSnackBar("Vamos deletar tudo desse bagulho ai:" + selected_date);
+    };
+
     $scope.fetch = function() {
         $scope.create_calendar();
         $scope.user = "";
@@ -56,8 +60,14 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile)
                                 date = events[i].start.date.split('T')[0];
                             else if (events[i].start.dateTime != undefined)
                                 date = events[i].start.dateTime.split('T')[0];
-                            var event_item = '<a href="#" class="list-group-item" id="task' + i +
-                                '" ng-click="editEvent(' + i + ')">' + events[i].summary + '</a>';
+                            var tiny_class = "";
+                            if (events[i].summary.length > 18)
+                                tiny_class = "-tiny";
+                            if (events[i].summary.length > 40)
+                                tiny_class = "-micro";
+                            var event_item = '<a href="#" class="list-group-item' + tiny_class +
+                                '" id="task' + i + '" ng-click="editEvent(' + i + ')">' +
+                                events[i].summary + '</a>';
                             $("#" + date).append($compile(event_item)($scope));
                             $("#task" + i).css('color', getRandomColor());
                         }
@@ -133,9 +143,19 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile)
                     row += " day-gone";
                 }
                 row += '"><div id="' + dateString + '" class="list-group">' +
-                    '<a href="#" class="list-group-item" ng-click="createEvent(\'' +
-                    dateString + '\')">' + dayString +
-                    '</a></div></td>';
+                    '<a href="#" class="list-group-item-esp">' + dayString + '</a>';
+
+                row += '<button class="btn btn-success spc-btn" ng-click="createEvent(\'' +
+                    dateString + '\')">Add  ' +
+                    '<span class="glyphicon glyphicon-plus-sign"></span>' +
+                    '</button>';
+
+                row += '<button class="btn btn-danger spc-btn" ng-click="deleteAllEvents(\'' +
+                    dateString + '\')">Del  ' +
+                    '<span class="glyphicon glyphicon-minus-sign"></span>' +
+                    '</button>';
+
+                row += '</div></td>';
             }
             table += row + "</tr>";
         }

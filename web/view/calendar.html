@@ -116,7 +116,7 @@
                     </div>
                     <div>
                         <label class="switch" style="float:right;">
-                        <input ng-model="group.checked" ng-change="research()" type="checkbox"/>
+                        <input ng-model="group.checked" ng-change="fetch()" type="checkbox"/>
                         <div class="slider round"></div>
                         </label>
                     </div>
@@ -209,7 +209,9 @@
             </div>
         </div>
     </div>
+    <div id="snackbar"></div>
     <p>Grupo de Eventos: {{user}}</p>
+    {{LOL}}
 </body>
 
 </html>

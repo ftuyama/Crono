@@ -10,35 +10,39 @@ var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
   ===========================================================================
 */
 
-calendarApp.controller("calendarVC", function($scope, $http, $cookieStore, $compile) {
+calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile) {
     $scope.events = {};
     $scope.groups = {};
 
-    $scope.clickDay = function(date) {
-        alert("Vamos adicionar evento nesse bagulho ai: " + date);
+    $scope.createEvent = function(selected_date) {
+        var post = {
+            group_id: $scope.groups[1].id,
+            new_event: {
+                summary: "Evento de teste",
+                start: { date: selected_date },
+                end: { date: selected_date }
+            }
+        };
+        showSnackBar("Criando novo evento...");
+        $http.post('/calendar/create', JSON.stringify(post))
+            .then(function success(response) {
+                showSnackBar("Evento criado com sucesso!");
+                $scope.LOL = response.data;
+                $scope.fetch();
+            });
     };
 
-    $scope.clickEvent = function(id) {
+    $scope.editEvent = function(id) {
         var content = $("#task" + id).html();
-        alert("Vamos editar esse bagulho ai: " + content);
-        return;
-        var post;
-        post.group_id = $scope.groups[0].id;
-        post.new_event.summary = "teste";
-        $http.post('/calendar/create', post)
-        .then(function success(response) {
-            $scope.user = response;
-            $scope.user = $scope.groups;
-            $scope.research();
-        });
+        showSnackBar("Vamos editar esse bagulho ai:" + content);
     };
 
-    $scope.research = function() {
+    $scope.fetch = function() {
         $scope.create_calendar();
         $scope.user = "";
         for (i = 0; i < $scope.groups.length; i++) {
             var group_checked = $scope.groups[i].checked;
-            $cookieStore.put($scope.groups[i].id, group_checked);
+            $cookies[$scope.groups[i].id] = group_checked;
             if (group_checked == true) {
                 $http.get('/calendar/list' + i)
                     .then(function success(response) {
@@ -48,12 +52,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookieStore, $comp
                         // Debug: $scope.user = calendario;
                         for (i = 0; i < events.length; i++) {
                             var date = new Date();
-                            if (events[i].start.date != undefined)  
+                            if (events[i].start.date != undefined)
                                 date = events[i].start.date.split('T')[0];
                             else if (events[i].start.dateTime != undefined)
                                 date = events[i].start.dateTime.split('T')[0];
                             var event_item = '<a href="#" class="list-group-item" id="task' + i +
-                                '" ng-click="clickEvent(' + i + ')">' + events[i].summary + '</a>';
+                                '" ng-click="editEvent(' + i + ')">' + events[i].summary + '</a>';
                             $("#" + date).append($compile(event_item)($scope));
                             $("#task" + i).css('color', getRandomColor());
                         }
@@ -66,12 +70,11 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookieStore, $comp
         .then(function success(response) {
             $scope.groups = response.data.items;
             for (i = 0; i < $scope.groups.length; i++) {
-                var cookie = $cookieStore.get($scope.groups[i].id);
-                if (cookie != undefined) {
-                    $scope.groups[i].checked = cookie;
-                }
+                var cookie = $cookies[$scope.groups[i].id];
+                $scope.groups[i].checked =
+                    (cookie != undefined && cookie == "true");
             }
-            $scope.research();
+            $scope.fetch();
         });
 
 
@@ -130,7 +133,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookieStore, $comp
                     row += " day-gone";
                 }
                 row += '"><div id="' + dateString + '" class="list-group">' +
-                    '<a href="#" class="list-group-item" ng-click="clickDay(\'' +
+                    '<a href="#" class="list-group-item" ng-click="createEvent(\'' +
                     dateString + '\')">' + dayString +
                     '</a></div></td>';
             }

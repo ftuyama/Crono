@@ -44,3 +44,10 @@ Date.prototype.sameDay = function(d) {
         this.getDate() === d.getDate() &&
         this.getMonth() === d.getMonth();
 }
+
+function showSnackBar(message) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = message;
+    x.className = "show";
+    setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
+}

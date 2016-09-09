@@ -11,6 +11,7 @@ var calendar = require('./web/server/calendarSV');
 
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser')
 var passport = require('passport');
 
 /*
@@ -31,6 +32,7 @@ app.use(express.static(__dirname + '/web'));
 
 // Configure server
 app.use(cookieParser());
+app.use(bodyParser.json())
 app.use(session({
     secret: 'my easter egg',
     resave: false,

@@ -21,6 +21,16 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookieStore, $comp
     $scope.clickEvent = function(id) {
         var content = $("#task" + id).html();
         alert("Vamos editar esse bagulho ai: " + content);
+        return;
+        var post;
+        post.group_id = $scope.groups[0].id;
+        post.new_event.summary = "teste";
+        $http.post('/calendar/create', post)
+        .then(function success(response) {
+            $scope.user = response;
+            $scope.user = $scope.groups;
+            $scope.research();
+        });
     };
 
     $scope.research = function() {
@@ -37,7 +47,11 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookieStore, $comp
                         var events = calendario.items;
                         // Debug: $scope.user = calendario;
                         for (i = 0; i < events.length; i++) {
-                            var date = events[i].start.date.split('T')[0];
+                            var date = new Date();
+                            if (events[i].start.date != undefined)  
+                                date = events[i].start.date.split('T')[0];
+                            else if (events[i].start.dateTime != undefined)
+                                date = events[i].start.dateTime.split('T')[0];
                             var event_item = '<a href="#" class="list-group-item" id="task' + i +
                                 '" ng-click="clickEvent(' + i + ')">' + events[i].summary + '</a>';
                             $("#" + date).append($compile(event_item)($scope));

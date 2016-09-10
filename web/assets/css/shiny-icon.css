@@ -1,0 +1,65 @@
+/**
+ * shiny-icon
+ */
+
+.shiny-icon {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin: 10px 0 0px 10px;
+    border-radius: 50%;
+    color: transparent;
+    text-decoration: none;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+
+.shiny-icon:nth-child(1) {
+    background: transparent;
+}
+
+.shiny-icon:nth-child(2) {
+    background: transparent;
+}
+
+.shiny-icon:nth-child(3) {
+    background: transparent;
+}
+
+
+/**
+ * The "shine" element
+ */
+
+.shiny-icon:after {
+    content: "";
+    position: absolute;
+    top: -110%;
+    left: -210%;
+    width: 200%;
+    height: 200%;
+    opacity: 0;
+    transform: rotate(30deg);
+    background: rgba(255, 255, 255, 0.13);
+    background: linear-gradient( to right, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.13) 77%, rgba(255, 255, 255, 0.5) 92%, rgba(255, 255, 255, 0.0) 100%);
+}
+
+
+/* Hover state - trigger effect */
+
+.shiny-icon:hover:after {
+    opacity: 1;
+    top: -30%;
+    left: -30%;
+    transition-property: left, top, opacity;
+    transition-duration: 0.7s, 0.7s, 0.15s;
+    transition-timing-function: ease;
+}
+
+
+/* Active state */
+
+.shiny-icon:active:after {
+    opacity: 0;
+}

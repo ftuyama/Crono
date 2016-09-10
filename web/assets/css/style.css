@@ -227,7 +227,7 @@ button:focus {
 }
 
 .navbar-brand {
-    padding-top: 0px;
+    padding-top: 5px;
 }
 
 .navbar-default .navbar-nav>.active>a,

@@ -23,7 +23,7 @@
                 <script>
                     $(document).ready(function() {
                         var imageUrl = decodeURIComponent(readCookie("imageUrl"));
-                        if (imageUrl != undefined && imageUrl != "null")
+                        if (imageUrl != undefined && imageUrl != "undefined" && imageUrl != "null")
                             $('#profile').append('<img id="userImg" src="' + imageUrl + '">');
                     })
                 </script>

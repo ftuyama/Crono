@@ -142,7 +142,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile)
                 } else if (dayDate < date || dayOut == true) {
                     row += " day-gone";
                 }
-                row += '"><div id="' + dateString + '" class="list-group">' +
+                row += '" ng-click="createEvent(\'' + dateString + 
+                    '\')"><div id="' + dateString + '" class="list-group">' +
                     '<a href="#" class="list-group-item-esp">' + dayString + '</a>';
 
                 row += '<button class="btn btn-success spc-btn" ng-click="createEvent(\'' +

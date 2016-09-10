@@ -22,13 +22,16 @@ router.get('/', function(req, res) {
   ===========================================================================
 */
 
+function retrieveToken(req, res) {
+    if (!req.session.access_token && !req.cookies.token) return null;
+    if (!req.session.access_token) req.session.access_token = req.cookies.token;
+    return req.session.access_token;
+}
+
 /* GET Groups List */
 router.get('/groups', function(req, res) {
-    if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendarAuth');
-    if (!req.session.access_token) req.session.access_token = req.cookies.token;
-
-    //Create an instance from accessToken
-    var accessToken = req.session.access_token;
+    var accessToken = retrieveToken(req);
+    if (accessToken == null) return res.redirect('/calendarAuth');
     gcal(accessToken).calendarList.list(function(err, data) {
         if (err) return res.redirect('/calendarAuth');
         res.json(data);
@@ -37,11 +40,8 @@ router.get('/groups', function(req, res) {
 
 /* GET Events List */
 router.get('/list:id', function(req, res) {
-    if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendarAuth');
-    if (!req.session.access_token) req.session.access_token = req.cookies.token;
-
-    //Create an instance from accessToken
-    var accessToken = req.session.access_token;
+    var accessToken = retrieveToken(req);
+    if (accessToken == null) return res.redirect('/calendarAuth');
     var groupId = req.params.id;
     gcal(accessToken).calendarList.list(function(err, data) {
         if (err) return res.redirect('/calendarAuth');
@@ -54,11 +54,9 @@ router.get('/list:id', function(req, res) {
 
 /* POST Create Event */
 router.post('/create', function(req, res) {
-    if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendarAuth');
-    if (!req.session.access_token) req.session.access_token = req.cookies.token;
-
-    //Create an instance from accessToken
-    var accessToken = req.session.access_token;
+    var accessToken = retrieveToken(req);
+    if (accessToken == null) return res.redirect('/calendarAuth');
+    var accessToken = retrieveToken(req);
     var group_id = req.body.group_id;
     var new_event = JSON.stringify(req.body.new_event);
     gcal(accessToken).events.insert(group_id, new_event, function(err, data) {

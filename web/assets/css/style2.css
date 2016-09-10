@@ -92,6 +92,7 @@ body {
 
 .navbar-brand {
     padding: 0px;
+    opacity: 0.6;
 }
 
 .active-menu {

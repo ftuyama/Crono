@@ -66,7 +66,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile)
                             if (events[i].summary.length > 40)
                                 tiny_class = "-micro";
                             var event_item = '<a href="#" class="list-group-item' + tiny_class +
-                                '" id="task' + i + '" ng-click="editEvent(' + i + ')">' +
+                                '" id="task' + i + '" ng-click="editEvent(' + i + '); $event.stopPropagation();">' +
                                 events[i].summary + '</a>';
                             $("#" + date).append($compile(event_item)($scope));
                             $("#task" + i).css('color', getRandomColor());

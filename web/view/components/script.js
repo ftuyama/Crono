@@ -1,7 +1,5 @@
 $(document).ready(function() {
     $('#navbar').load('/components/navbar.html');
-    var imageUrl = readCookie("imageUrl");
-    $('#imageUrl').html('<img src="' + imageUrl + '">');
 })
 
 /* Função para leitura dos cookies */

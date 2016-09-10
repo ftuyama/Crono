@@ -19,7 +19,26 @@
                 <li><a href="https://github.com/ftuyama">About Us</a></li>
                 <li><a href="https://sites.google.com/site/joaovitorces65/">Contact us</a></li>
                 <li><a href="/main">Extra</a></li>
-                <div id="userImg" href="./"></div>
+                <a id="profile" href="/"></a>
+                <script>
+                    $(document).ready(function() {
+                        var imageUrl = decodeURIComponent(readCookie("imageUrl"));
+                        if (imageUrl != "null")
+                            $('#profile').append('<img id="userImg" src="' + imageUrl + '">');
+                    })
+                </script>
+                <style>
+                    #userImg {
+                        height: 50px;
+                        width: 50px;
+                        border-radius: 50%;
+                        margin-top: 10px;
+                    }
+                    
+                    a:hover {
+                        box-shadow: 0 0 2px 1px rgba (0, 140, 186, 0.5);
+                    }
+                </style>
             </ul>
         </nav>
         <!-- /.navbar-collapse -->

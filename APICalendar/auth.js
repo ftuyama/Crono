@@ -33,7 +33,7 @@ fs.readFile('./APICalendar/client_secret.json', function processClientSecrets(er
         },
         function(accessToken, refreshToken, profile, done) {
             imageUrl = profile._json['picture'];
-            console.log("User logged in!" + imageUrl);
+            console.log("User logged in!" + profile);
             profile.accessToken = accessToken;
             return done(null, profile);
         }

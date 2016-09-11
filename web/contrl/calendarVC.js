@@ -1,16 +1,15 @@
-var calendarApp = angular.module("calendarApp", ['ngCookies']);
-var calendar;
 var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
 ];
 
 /*
-  ===========================================================================
-                    Calendar View Controller using Angular
-  ===========================================================================
+===========================================================================
+            Calendar View Controller using Angular
+===========================================================================
 */
 
-calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile) {
+angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($scope, $http, $cookies, $compile) {
+    $scope.event_form = { summary: 'Nome do evento', description: 'Descrição do evento', start: '', end: '' };
     $scope.events = {};
     $scope.groups = {};
 
@@ -27,7 +26,6 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile)
         $http.post('/calendar/create', JSON.stringify(post))
             .then(function success(response) {
                 showSnackBar("Evento criado com sucesso!");
-                $scope.LOL = response.data;
                 $scope.fetch();
             });
     };
@@ -36,6 +34,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile)
         var content = $("#task" + id).html();
         showSnackBar("Vamos editar esse bagulho ai:" + content);
     };
+
+    $scope.postEditEvent = function() {
+        showSnackBar("Bem editado!:");
+    }
 
     $scope.deleteAllEvents = function(selected_date) {
         showSnackBar("Vamos deletar tudo desse bagulho ai:" + selected_date);
@@ -89,9 +91,9 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile)
 
 
     /*
-      ===========================================================================
+        ===========================================================================
                         Generating basic calendar structure
-      ===========================================================================
+        ===========================================================================
     */
     $scope.create_calendar = function() {
         // Hoje
@@ -142,8 +144,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile)
                 } else if (dayDate < date || dayOut == true) {
                     row += " day-gone";
                 }
-                row += '" ng-click="createEvent(\'' + dateString + 
-                    '\')"><div id="' + dateString + '" class="list-group">' +
+                row += '" ng-click="editEvent(\'' + dateString +
+                    '\')" data-placement="auto" popover><div id="' + dateString + '" class="list-group">' +
                     '<a href="#" class="list-group-item-esp">' + dayString + '</a>';
 
                 row += '<button class="btn btn-success spc-btn" ng-click="createEvent(\'' +
@@ -163,5 +165,21 @@ calendarApp.controller("calendarVC", function($scope, $http, $cookies, $compile)
         table += "</table>";
         $("#motherTable").html($compile(table)($scope));
     }
+}).directive('popover', function($compile) {
+    return {
+        restrict: 'A',
+        link: function(scope, elem) {
 
+            var content = $("#popover-content").html();
+            var compileContent = $compile(content)(scope);
+            var title = $("#popover-head").html();
+            var options = {
+                content: compileContent,
+                html: true,
+                title: title
+            };
+
+            $(elem).popover(options);
+        }
+    }
 });

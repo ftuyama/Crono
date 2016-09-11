@@ -35,8 +35,7 @@ fs.readFile('./APICalendar/client_secret.json', function processClientSecrets(er
             if (typeof profile._json['picture'] != "undefined")
                 imageUrl = profile._json['picture'];
             else imageUrl = profile._json.image['url'];
-            console.log(profile);
-            console.log("User logged in!" + imageUrl);
+            console.log("User logged in!");
             profile.accessToken = accessToken;
             return done(null, profile);
         }

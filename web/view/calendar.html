@@ -126,6 +126,32 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        
+        .thumbnail-content {
+            border: 1px solid #aaaaff;
+            background-color: #111144;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .popover-title {
+            background: #111144;
+        }
+        
+        .popover {
+            background-color: #111144;
+            max-width: 100%;
+            width: 500px;
+        }
+        
+        .form-control {
+            height: 80%;
+            width: 80%;
+        }
+        
+        .close {
+            color: white;
+        }
     </style>
 </head>
 
@@ -237,9 +263,62 @@
             </div>
         </div>
     </div>
-    <div id="snackbar"></div>
     <p>Grupo de Eventos: {{user}}</p>
-    {{LOL}}
+    <div id="snackbar"></div>
+    <div class="popover">
+        <div id="popover-head" class="hide">
+            <strong>Evento</strong>
+            <button class="close">&times;</button>
+            <script>
+                $(document).on("click", ".popover .close", function() {
+                    $(this).parents(".popover").popover('hide');
+                });
+            </script>
+        </div>
+        <div id="popover-content" class="hide">
+            <div class="thumbnail-content">
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="text">Nome:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" ng-model="event_form.summary" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="text">Descrição:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" ng-model="event_form.description" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="text">Início:</label>
+                    <div class="col-sm-9">
+                        <input type='text' class="form-control datepickera" data-language='pt' ng-model="event_form.start" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="text">Fim:</label>
+                    <div class="col-sm-9">
+                        <input type='text' class="form-control datepickera" data-language='pt' ng-model="event_form.end" />
+                    </div>
+                </div>
+                <script>
+                    $('.datepickera').datepicker({
+                        autoClose: true,
+                        position: 'top left',
+                        offset: 120,
+                        language: 'pt',
+                        todayButton: true
+                    });
+                </script>
+            </div>
+            <div>
+                <hr>
+                <button class="btn btn-success" ng-click="postEditEvent()">Salvar</button>
+                <button class="btn btn-warning">Cancelar</button>
+                <button class="btn btn-danger">Deletar</button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

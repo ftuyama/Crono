@@ -8,7 +8,7 @@ var gcal = require('google-calendar');
 var passport = require('passport');
 var mustache = require('mustache');
 var fs = require('fs');
-var imageUrl = "";
+var imageUrl;
 
 /*
   ===========================================================================
@@ -32,8 +32,11 @@ fs.readFile('./APICalendar/client_secret.json', function processClientSecrets(er
             scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
         },
         function(accessToken, refreshToken, profile, done) {
-            imageUrl = profile._json['picture'];
-            console.log("User logged in!" + JSON.stringify(profile));
+            if (typeof profile.photos != "undefined")
+                imageUrl = profile.photos['value'];
+            if (typeof profile._json != "undefined")
+                imageUrl = profile._json['picture'];
+            console.log("User logged in!");
             profile.accessToken = accessToken;
             return done(null, profile);
         }

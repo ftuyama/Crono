@@ -32,11 +32,12 @@ fs.readFile('./APICalendar/client_secret.json', function processClientSecrets(er
             scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
         },
         function(accessToken, refreshToken, profile, done) {
-            if (typeof profile.photos != "undefined")
-                imageUrl = profile.photos['value'];
             if (typeof profile._json != "undefined")
                 imageUrl = profile._json['picture'];
-            console.log("User logged in!");
+            if (typeof profile.photos != "undefined")
+                imageUrl = profile.photos['value'];
+            console.log(profile);
+            console.log("User logged in!" + imageUrl);
             profile.accessToken = accessToken;
             return done(null, profile);
         }

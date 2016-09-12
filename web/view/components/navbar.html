@@ -7,7 +7,9 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu">
           <i class="fa fa-bars"></i>
         </button>
-            <a class="navbar-brand" href="./"><img src="assets/images/logo.png" alt="Site Logo"></a>
+            <a class="navbar-brand" href="./">
+                <object id="logoImg" data="assets/images/logo.svg" type="image/svg+xml"></object>
+            </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -28,6 +30,11 @@
                     })
                 </script>
                 <style>
+                    #logoImg {
+                        height: 100px;
+                        width: 100px;
+                    }
+                    
                     #userImg {
                         height: 50px;
                         width: 50px;

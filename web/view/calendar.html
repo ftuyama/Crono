@@ -152,6 +152,15 @@
         .close {
             color: white;
         }
+        
+        .mig-btn {
+            border-radius: 50%;
+        }
+        
+        .mic-img {
+            width: 30px;
+            height: 30px;
+        }
     </style>
 </head>
 
@@ -277,28 +286,32 @@
         </div>
         <div id="popover-content" class="hide">
             <div class="thumbnail-content">
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="text">Nome:</label>
-                    <div class="col-sm-9">
-                        <input id="summary_form" type="text" class="form-control" ng-model="event_form.summary" />
+                <div>
+                    <label class="control-label col-sm-2" for="text">Nome:</label>
+                    <div class="col-sm-8">
+                        <input id="summary_form" type="text" class="form-control  input-sm" ng-model="event_form.summary" />
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="start_button" class="mig-btn" onclick="startButton(event)">
+                        <img id="start_img" class="mic-img" src="mic/mic.gif" alt="Start"></button>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="text">Descrição:</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="event_form.description" />
+                <div>
+                    <label class="control-label col-sm-2" for="text">Descrição:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control input-sm" ng-model="event_form.description" />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="text">Início:</label>
-                    <div class="col-sm-9">
-                        <input type='text' class="form-control datepickera" data-language='pt' ng-model="event_form.start" />
+                <div>
+                    <label class="control-label col-sm-2" for="text">Início:</label>
+                    <div class="col-sm-10">
+                        <input type='text' class="form-control datepickera input-sm" data-language='pt' ng-model="event_form.start" />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="text">Fim:</label>
-                    <div class="col-sm-9">
-                        <input type='text' class="form-control datepickera" data-language='pt' ng-model="event_form.end" />
+                <div>
+                    <label class="control-label col-sm-2" for="text">Fim:</label>
+                    <div class="col-sm-10">
+                        <input type='text' class="form-control datepickera input-sm" data-language='pt' ng-model="event_form.end" />
                     </div>
                 </div>
                 <script>
@@ -310,14 +323,6 @@
                         todayButton: true
                     });
                 </script>
-                <div class="right">
-                    <button id="start_button" onclick="startButton(event)">
-                    <img id="start_img" src="mic/mic.gif" alt="Start"></button>
-                </div>
-                <div id="div_language">
-                    <select id="select_language" onchange="updateCountry()"></select> &nbsp;&nbsp;
-                    <select id="select_dialect"></select>
-                </div>
             </div>
             <div>
                 <hr>
@@ -328,119 +333,26 @@
         </div>
     </div>
     <script>
-        var langs = [
-            ['Afrikaans', ['af-ZA']],
-            ['Bahasa Indonesia', ['id-ID']],
-            ['Bahasa Melayu', ['ms-MY']],
-            ['Català', ['ca-ES']],
-            ['Čeština', ['cs-CZ']],
-            ['Deutsch', ['de-DE']],
-            ['English', ['en-AU', 'Australia'],
-                ['en-CA', 'Canada'],
-                ['en-IN', 'India'],
-                ['en-NZ', 'New Zealand'],
-                ['en-ZA', 'South Africa'],
-                ['en-GB', 'United Kingdom'],
-                ['en-US', 'United States']
-            ],
-            ['Español', ['es-AR', 'Argentina'],
-                ['es-BO', 'Bolivia'],
-                ['es-CL', 'Chile'],
-                ['es-CO', 'Colombia'],
-                ['es-CR', 'Costa Rica'],
-                ['es-EC', 'Ecuador'],
-                ['es-SV', 'El Salvador'],
-                ['es-ES', 'España'],
-                ['es-US', 'Estados Unidos'],
-                ['es-GT', 'Guatemala'],
-                ['es-HN', 'Honduras'],
-                ['es-MX', 'México'],
-                ['es-NI', 'Nicaragua'],
-                ['es-PA', 'Panamá'],
-                ['es-PY', 'Paraguay'],
-                ['es-PE', 'Perú'],
-                ['es-PR', 'Puerto Rico'],
-                ['es-DO', 'República Dominicana'],
-                ['es-UY', 'Uruguay'],
-                ['es-VE', 'Venezuela']
-            ],
-            ['Euskara', ['eu-ES']],
-            ['Français', ['fr-FR']],
-            ['Galego', ['gl-ES']],
-            ['Hrvatski', ['hr_HR']],
-            ['IsiZulu', ['zu-ZA']],
-            ['Íslenska', ['is-IS']],
-            ['Italiano', ['it-IT', 'Italia'],
-                ['it-CH', 'Svizzera']
-            ],
-            ['Magyar', ['hu-HU']],
-            ['Nederlands', ['nl-NL']],
-            ['Norsk bokmål', ['nb-NO']],
-            ['Polski', ['pl-PL']],
-            ['Português', ['pt-BR', 'Brasil'],
-                ['pt-PT', 'Portugal']
-            ],
-            ['Română', ['ro-RO']],
-            ['Slovenčina', ['sk-SK']],
-            ['Suomi', ['fi-FI']],
-            ['Svenska', ['sv-SE']],
-            ['Türkçe', ['tr-TR']],
-            ['български', ['bg-BG']],
-            ['Pусский', ['ru-RU']],
-            ['Српски', ['sr-RS']],
-            ['한국어', ['ko-KR']],
-            ['中文', ['cmn-Hans-CN', '普通话 (中国大陆)'],
-                ['cmn-Hans-HK', '普通话 (香港)'],
-                ['cmn-Hant-TW', '中文 (台灣)'],
-                ['yue-Hant-HK', '粵語 (香港)']
-            ],
-            ['日本語', ['ja-JP']],
-            ['Lingua latīna', ['la']]
-        ];
-        var select_language = document.getElementById("select_language");
-        var select_dialect = document.getElementById("select_dialect");
+        var userLang = navigator.language || navigator.userLanguage;
 
-        for (var i = 0; i < langs.length; i++) {
-            select_language.options[i] = new Option(langs[i][0], i);
-        }
-        select_language.selectedIndex = 19;
-        updateCountry();
-        select_dialect.selectedIndex = 0;
-
-
-        function updateCountry() {
-            for (var i = select_dialect.options.length - 1; i >= 0; i--) {
-                select_dialect.remove(i);
-            }
-            var list = langs[select_language.selectedIndex];
-            for (var i = 1; i < list.length; i++) {
-                select_dialect.options.add(new Option(list[i][1], list[i][0]));
-            }
-            select_dialect.style.visibility = list[1].length == 1 ? 'hidden' : 'visible';
-        }
-
-        var create_email = false;
         var final_transcript = '';
         var recognizing = false;
         var ignore_onend;
-        var start_timestamp;
 
         if (!('webkitSpeechRecognition' in window)) {
-            upgrade();
+            start_button.style.visibility = 'hidden';
         } else {
-            start_button.style.display = 'inline-block';
             var recognition = new webkitSpeechRecognition();
             recognition.continuous = true;
             recognition.interimResults = true;
 
             recognition.onstart = function() {
                 recognizing = true;
-                start_img.src = 'mic/mic-animate.gif';
+                document.getElementById("start_img").src = 'mic/mic-animate.gif';
             };
 
             recognition.onerror = function(event) {
-                alert(event.error);
-                start_img.src = 'mic/mic.gif';
+                document.getElementById("start_img").src = 'mic/mic.gif';
                 ignore_onend = true;
             };
 
@@ -449,7 +361,7 @@
                 if (ignore_onend) {
                     return;
                 }
-                start_img.src = 'mic/mic.gif';
+                document.getElementById("start_img").src = 'mic/mic.gif';
                 if (!final_transcript) {
                     return;
                 }
@@ -464,20 +376,9 @@
                         interim_transcript += event.results[i][0].transcript;
                     }
                 }
-                final_transcript = linebreak(capitalize(final_transcript));
+                final_transcript = capitalize(final_transcript);
                 document.getElementById("summary_form").value = final_transcript;
             };
-        }
-
-        function upgrade() {
-            start_button.style.visibility = 'hidden';
-        }
-
-        var two_line = /\n\n/g;
-        var one_line = /\n/g;
-
-        function linebreak(s) {
-            return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
         }
 
         var first_char = /\S/;
@@ -494,14 +395,11 @@
                 return;
             }
             final_transcript = '';
-            recognition.lang = select_dialect.value;
+            recognition.lang = userLang;
             recognition.start();
             ignore_onend = false;
-            start_img.src = 'mic/mic-slash.gif';
-            start_timestamp = event.timeStamp;
+            document.getElementById("start_img").src = 'mic/mic-slash.gif';
         }
-
-        var current_style;
     </script>
 </body>
 

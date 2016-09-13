@@ -130,6 +130,8 @@ a.list-group-item {
 }
 
 .popover {
+    position: relative;
+    z-index: auto;
     background-color: #111144;
     max-width: 100%;
     width: 500px;

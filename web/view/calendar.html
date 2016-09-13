@@ -2,6 +2,7 @@
 <html ng-app="calendarApp">
 
 <head>
+    <!-- Imports e barra de navegação -->
     <link rel="import" href="/components/depend.html">
     <link href='/estilo.css' rel='stylesheet' type='text/css'>
     <link href='/calendar.css' rel='stylesheet' type='text/css'>
@@ -14,6 +15,7 @@
     <br>
     <br>
     <hr>
+    <!-- Lista de grupos de calendário -->
     <div class="row no-gutter">
         <div class="col-sm-2">
             <div class="thumbnail">
@@ -31,6 +33,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Botões diversos do site  -->
             <div align="center">
                 <form action="calendar/list0">
                     <button type="submit" class="btn btn-success btn-block">Ver eventos</button>
@@ -43,6 +47,8 @@
                 </form><br>
             </div>
         </div>
+
+        <!-- Calendário estático inicial  -->
         <div class="col-sm-10">
             <div id="motherTable">
                 <TABLE class="table table-bordered">
@@ -118,6 +124,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Template para o popover aberto  -->
     <p>Grupo de Eventos: {{user}}</p>
     <div id="snackbar"></div>
     <div class="popover">
@@ -130,6 +138,8 @@
                 });
             </script>
         </div>
+
+        <!-- Popover com o form dos Eventos  -->
         <div id="popover-content" class="hide">
             <div class="thumbnail-content">
                 <div class="form-item">
@@ -184,9 +194,10 @@
             </div>
             <div>
                 <hr>
-                <button class="btn btn-success" ng-click="postEditEvent()">Salvar</button>
+                <button class="btn btn-success" ng-click="postCreateEvent()" ng-show="create">Criar Evento</button>
+                <button class="btn btn-success" ng-click="postEditEvent()" ng-show="edit">Salvar Evento</button>
+                <button class="btn btn-danger" ng-click="postDeleteEvent()" ng-show="edit">Deletar</button>
                 <button class="btn btn-warning">Cancelar</button>
-                <button class="btn btn-danger">Deletar</button>
             </div>
         </div>
     </div>

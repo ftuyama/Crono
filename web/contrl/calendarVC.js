@@ -12,8 +12,24 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.event_form = { summary: 'Nome do evento', description: 'Descrição do evento', start: '', end: '' };
     $scope.events = {};
     $scope.groups = {};
+    $scope.create = false;
+    $scope.edit = false;
 
-    $scope.createEvent = function(selected_date) {
+    $scope.newEvent = function(id, selected_date) {
+        /*  
+         *   Id == 0 -> Event Creation
+         *   Id != 0 -> Event Edition
+         */
+        if (id == 0) {
+            $scope.create = true;
+        } else {
+            $scope.edit = true;
+            // Preencher dados do evento
+        }
+    };
+
+    $scope.postCreateEvent = function(selected_date) {
+        // Deixar group_id como opção
         var post = {
             group_id: $scope.groups[1].id,
             new_event: {
@@ -28,19 +44,20 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                 showSnackBar("Evento criado com sucesso!");
                 $scope.fetch();
             });
-    };
-
-    $scope.editEvent = function(id) {
-        var content = $("#task" + id).html();
-        showSnackBar("Vamos editar esse bagulho ai:" + content);
-    };
-
-    $scope.postEditEvent = function() {
-        showSnackBar("Bem editado!:");
+        showSnackBar("Evento criado com sucesso!");
+        $scope.create = false;
     }
 
-    $scope.deleteAllEvents = function(selected_date) {
-        showSnackBar("Vamos deletar tudo desse bagulho ai:" + selected_date);
+    $scope.postEditEvent = function(id) {
+        // Ver como faz para editar
+        showSnackBar("Evento editado com sucesso!");
+        $scope.edit = false;
+    }
+
+    $scope.postDeleteEvent = function(selected_date) {
+        // Ver como faz para deletar
+        showSnackBar("Evento deletado com sucesso!");
+        $scope.create = $scope.edit = true;
     };
 
     $scope.fetch = function() {
@@ -68,7 +85,8 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                             if (events[i].summary.length > 40)
                                 tiny_class = "-micro";
                             var event_item = '<a href="#" class="list-group-item' + tiny_class +
-                                '" id="task' + i + '" ng-click="editEvent(' + i + '); $event.stopPropagation();">' +
+                                '" id="task' + i + '" ng-click="newEvent(\'' + events[i].id + '\', \'' +
+                                date + '\'); $event.stopPropagation();" data-placement="auto" popover>' +
                                 events[i].summary + '</a>';
                             $("#" + date).append($compile(event_item)($scope));
                             $("#task" + i).css('color', getRandomColor());
@@ -144,18 +162,16 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                 } else if (dayDate < date || dayOut == true) {
                     row += " day-gone";
                 }
-                row += '" ng-click="editEvent(\'' + dateString +
+                row += '" ng-click="newEvent(0, \'' + dateString +
                     '\')" data-placement="auto" popover><div id="' + dateString + '" class="list-group">' +
                     '<a href="#" class="list-group-item-esp">' + dayString + '</a>';
 
                 row += '<button class="btn btn-success spc-btn" ng-click="createEvent(\'' +
-                    dateString + '\')">Add  ' +
-                    '<span class="glyphicon glyphicon-plus-sign"></span>' +
+                    dateString + '\')">Add  <span class="glyphicon glyphicon-plus-sign"></span>' +
                     '</button>';
 
                 row += '<button class="btn btn-danger spc-btn" ng-click="deleteAllEvents(\'' +
-                    dateString + '\')">Del  ' +
-                    '<span class="glyphicon glyphicon-minus-sign"></span>' +
+                    dateString + '\')">Del  <span class="glyphicon glyphicon-minus-sign"></span>' +
                     '</button>';
 
                 row += '</div></td>';

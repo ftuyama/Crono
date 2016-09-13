@@ -84,8 +84,8 @@ body {
     white-space: nowrap;
 }
 
-.nav > li > a:hover,
-.nav > li > a:focus {
+.nav>li>a:hover,
+.nav>li>a:focus {
     background-color: inherit;
     outline: none;
 }

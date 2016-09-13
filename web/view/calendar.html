@@ -139,16 +139,20 @@
                             <input id="summary_form" type="text" class="form-control  input-sm" ng-model="event_form.summary" />
                         </div>
                         <div class="col-sm-2">
-                            <button id="start_button" class="mic-btn" onclick="startButton(event)">
-                        <img id="start_img" class="mic-img" src="speech/mic.gif" alt="Start"></button>
+                            <button id="start_button" class="mic-btn" onclick='startButton(event, "summary_form" ,"start_img1")'>
+                        <img id="start_img1" class="mic-img" src="speech/mic.gif" alt="Start"></button>
                         </div>
                     </div>
                 </div>
                 <div class="form-item">
                     <div class="form-item-content">
                         <label class="control-label col-sm-2" for="text">Descrição:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control input-sm" ng-model="event_form.description" />
+                        <div class="col-sm-8">
+                            <input id="description_form" type="text" class="form-control input-sm" ng-model="event_form.description" />
+                        </div>
+                        <div class="col-sm-2">
+                            <button id="start_button" class="mic-btn" onclick='startButton(event, "description_form" ,"start_img2")'>
+                        <img id="start_img2" class="mic-img" src="speech/mic.gif" alt="Start"></button>
                         </div>
                     </div>
                 </div>
@@ -172,7 +176,7 @@
                     $('.datepickera').datepicker({
                         autoClose: true,
                         position: 'top left',
-                        offset: 120,
+                        offset: 200,
                         language: 'pt',
                         todayButton: true
                     });

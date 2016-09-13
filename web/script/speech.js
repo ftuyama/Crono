@@ -2,22 +2,24 @@ var userLang = navigator.language || navigator.userLanguage;
 
 var final_transcript = '';
 var recognizing = false;
+var mic_img_id;
+var dest_form_id;
 var ignore_onend;
 
 if (!('webkitSpeechRecognition' in window)) {
     start_button.style.visibility = 'hidden';
 } else {
     var recognition = new webkitSpeechRecognition();
-    recognition.continuous = true;
+    recognition.continuous = false;
     recognition.interimResults = true;
 
     recognition.onstart = function() {
         recognizing = true;
-        document.getElementById("start_img").src = 'speech/mic-animate.gif';
+        document.getElementById(mic_img_id).src = 'speech/mic-animate.gif';
     };
 
     recognition.onerror = function(event) {
-        document.getElementById("start_img").src = 'speech/mic.gif';
+        document.getElementById(mic_img_id).src = 'speech/mic.gif';
         ignore_onend = true;
     };
 
@@ -26,10 +28,11 @@ if (!('webkitSpeechRecognition' in window)) {
         if (ignore_onend) {
             return;
         }
-        document.getElementById("start_img").src = 'speech/mic.gif';
+        document.getElementById(mic_img_id).src = 'speech/mic.gif';
         if (!final_transcript) {
             return;
         }
+        document.getElementById(dest_form_id).value = capitalize(final_transcript);
     };
 
     recognition.onresult = function(event) {
@@ -41,8 +44,7 @@ if (!('webkitSpeechRecognition' in window)) {
                 interim_transcript += event.results[i][0].transcript;
             }
         }
-        final_transcript = capitalize(final_transcript);
-        document.getElementById("summary_form").value = final_transcript;
+        document.getElementById(dest_form_id).value = interim_transcript;
     };
 }
 
@@ -54,8 +56,9 @@ function capitalize(s) {
     });
 }
 
-function startButton(event) {
+function startButton(event, form_id, img_id) {
     if (recognizing) {
+        document.getElementById(mic_img_id).src = 'speech/mic.gif';
         recognition.stop();
         return;
     }
@@ -63,5 +66,7 @@ function startButton(event) {
     recognition.lang = userLang;
     recognition.start();
     ignore_onend = false;
-    document.getElementById("start_img").src = 'speech/mic-slash.gif';
+    mic_img_id = img_id;
+    dest_form_id = form_id;
+    document.getElementById(mic_img_id).src = 'speech/mic-slash.gif';
 }

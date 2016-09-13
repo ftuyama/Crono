@@ -4,165 +4,10 @@
 <head>
     <link rel="import" href="/components/depend.html">
     <link href='/estilo.css' rel='stylesheet' type='text/css'>
+    <link href='/calendar.css' rel='stylesheet' type='text/css'>
     <script src="/contrl/calendarVC.js"></script>
-    <script src="/script/mic.js"></script>
+    <script src="/script/speech.js"></script>
     <div id="navbar"></div>
-    <style>
-        table table-bordered {
-            table-layout: fixed;
-            align: center;
-            margin: 0;
-        }
-        
-        tr {
-            color: white;
-            height: 60px;
-        }
-        
-        td {
-            text-align: center;
-            overflow: hidden;
-        }
-        
-        .events {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 150px;
-        }
-        
-        .day {
-            text-align: left;
-        }
-        
-        .day:hover {
-            background: #553333;
-        }
-        
-        .day-gone {
-            opacity: 0.6;
-            color: #cccccc;
-            background: #444444;
-        }
-        
-        .today {
-            color: #cccccc;
-            background: #444488;
-        }
-        
-        input {
-            width: 50px;
-        }
-        
-        .row.no-gutter {
-            margin-left: 5px;
-            margin-right: 5px;
-        }
-        
-        .row.no-gutter [class*='col-']:not(:first-child),
-        .row.no-gutter [class*='col-']:not(:last-child) {
-            padding-right: 5px;
-            padding-left: 5px;
-        }
-        
-        a.list-group-item:hover,
-        button.list-group-item:hover,
-        a.list-group-item:focus,
-        button.list-group-item:focus {
-            text-decoration: none;
-            color: white;
-            background-color: #441111;
-        }
-        
-        a.list-group-item {
-            color: #aaaaaa;
-        }
-        
-        .list-group-item-esp,
-        .list-group-item-tiny,
-        .list-group-item-micro,
-        .list-group-item {
-            background-color: transparent;
-            position: relative;
-            display: block;
-            padding: 1px 1px;
-            border: 0px;
-            max-width: 140px;
-        }
-        
-        .list-group-item-micro {
-            font-size: 10px;
-        }
-        
-        .list-group-item-tiny {
-            font-size: 12px;
-        }
-        
-        .list-group-item-esp {
-            display: inline;
-        }
-        
-        .spc-btn {
-            visibility: hidden;
-            display: inline-block;
-            margin-left: 5px;
-            padding-top: 0px;
-            padding-bottom: 20px;
-            padding-left: 10px;
-            padding-right: 40px;
-            font-size: 12px;
-            width: 10px;
-            height: 10px;
-        }
-        
-        .spec {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .thumbnail {
-            border: 1px solid #aaaaff;
-            color: #ffffff;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .thumbnail-content {
-            border: 1px solid #aaaaff;
-            background-color: #111144;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .popover-title {
-            background: #111144;
-        }
-        
-        .popover {
-            background-color: #111144;
-            max-width: 100%;
-            width: 500px;
-        }
-        
-        .form-control {
-            height: 80%;
-            width: 80%;
-        }
-        
-        .close {
-            color: white;
-        }
-        
-        .mig-btn {
-            border-radius: 50%;
-        }
-        
-        .mic-img {
-            width: 30px;
-            height: 30px;
-        }
-    </style>
 </head>
 
 <body ng-controller="calendarVC">
@@ -287,32 +132,40 @@
         </div>
         <div id="popover-content" class="hide">
             <div class="thumbnail-content">
-                <div>
-                    <label class="control-label col-sm-2" for="text">Nome:</label>
-                    <div class="col-sm-8">
-                        <input id="summary_form" type="text" class="form-control  input-sm" ng-model="event_form.summary" />
-                    </div>
-                    <div class="col-sm-2">
-                        <button id="start_button" class="mig-btn" onclick="startButton(event)">
-                        <img id="start_img" class="mic-img" src="mic/mic.gif" alt="Start"></button>
-                    </div>
-                </div>
-                <div>
-                    <label class="control-label col-sm-2" for="text">Descrição:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control input-sm" ng-model="event_form.description" />
+                <div class="form-item">
+                    <div class="form-item-content">
+                        <label class="control-label col-sm-2" for="text">Nome:</label>
+                        <div class="col-sm-8">
+                            <input id="summary_form" type="text" class="form-control  input-sm" ng-model="event_form.summary" />
+                        </div>
+                        <div class="col-sm-2">
+                            <button id="start_button" class="mic-btn" onclick="startButton(event)">
+                        <img id="start_img" class="mic-img" src="speech/mic.gif" alt="Start"></button>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <label class="control-label col-sm-2" for="text">Início:</label>
-                    <div class="col-sm-10">
-                        <input type='text' class="form-control datepickera input-sm" data-language='pt' ng-model="event_form.start" />
+                <div class="form-item">
+                    <div class="form-item-content">
+                        <label class="control-label col-sm-2" for="text">Descrição:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control input-sm" ng-model="event_form.description" />
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <label class="control-label col-sm-2" for="text">Fim:</label>
-                    <div class="col-sm-10">
-                        <input type='text' class="form-control datepickera input-sm" data-language='pt' ng-model="event_form.end" />
+                <div class="form-item">
+                    <div class="form-item-content">
+                        <label class="control-label col-sm-2" for="text">Início:</label>
+                        <div class="col-sm-10">
+                            <input type='text' class="form-control datepickera input-sm" data-language='pt' ng-model="event_form.start" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <div class="form-item-content">
+                        <label class="control-label col-sm-2" for="text">Fim:</label>
+                        <div class="col-sm-10">
+                            <input type='text' class="form-control datepickera input-sm" data-language='pt' ng-model="event_form.end" />
+                        </div>
                     </div>
                 </div>
                 <script>

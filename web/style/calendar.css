@@ -1,0 +1,169 @@
+table table-bordered {
+    table-layout: fixed;
+    align: center;
+    margin: 0;
+}
+
+tr {
+    color: white;
+    height: 60px;
+}
+
+td {
+    text-align: center;
+    overflow: hidden;
+}
+
+.events {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+}
+
+.day {
+    text-align: left;
+}
+
+.day:hover {
+    background: #553333;
+}
+
+.day-gone {
+    opacity: 0.6;
+    color: #cccccc;
+    background: #444444;
+}
+
+.today {
+    color: #cccccc;
+    background: #444488;
+}
+
+input {
+    width: 50px;
+}
+
+.row.no-gutter {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.row.no-gutter [class*='col-']:not(:first-child),
+.row.no-gutter [class*='col-']:not(:last-child) {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+a.list-group-item:hover,
+button.list-group-item:hover,
+a.list-group-item:focus,
+button.list-group-item:focus {
+    text-decoration: none;
+    color: white;
+    background-color: #441111;
+}
+
+a.list-group-item {
+    color: #aaaaaa;
+}
+
+.list-group-item-esp,
+.list-group-item-tiny,
+.list-group-item-micro,
+.list-group-item {
+    background-color: transparent;
+    position: relative;
+    display: block;
+    padding: 1px 1px;
+    border: 0px;
+    max-width: 140px;
+}
+
+.list-group-item-micro {
+    font-size: 10px;
+}
+
+.list-group-item-tiny {
+    font-size: 12px;
+}
+
+.list-group-item-esp {
+    display: inline;
+}
+
+.spc-btn {
+    visibility: hidden;
+    display: inline-block;
+    margin-left: 5px;
+    padding-top: 0px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 40px;
+    font-size: 12px;
+    width: 10px;
+    height: 10px;
+}
+
+.spec {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.thumbnail {
+    border: 1px solid #aaaaff;
+    color: #ffffff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.thumbnail-content {
+    border: 1px solid #aaaaff;
+    background-color: #111144;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.popover-title {
+    background: #111144;
+}
+
+.popover {
+    background-color: #111144;
+    max-width: 100%;
+    width: 500px;
+}
+
+.form-control {
+    height: 80%;
+    width: 80%;
+}
+
+.close {
+    color: white;
+}
+
+.mic-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    border-color: #c12e2a;
+}
+
+.mic-img {
+    transform: scale(2.0, 2.0);
+    -ms-transform: scale(2.0, 2.0);
+    -webkit-transform: scale(2.0, 2.0);
+}
+
+.form-item {
+    height: 50px;
+    display: block;
+}
+
+.form-item-content {
+    top: 25%;
+    position: relative;
+}

@@ -128,76 +128,76 @@
     <!-- Template para o popover aberto  -->
     <p>Grupo de Eventos: {{user}}</p>
     <div id="snackbar"></div>
-    <div class="popover">
-        <div id="popover-head" class="hide">
-            <strong>Evento</strong>
-            <button class="close">&times;</button>
-            <script>
-                $(document).on("click", ".popover .close", function() {
-                    $(this).parents(".popover").popover('hide');
-                });
-            </script>
-        </div>
 
-        <!-- Popover com o form dos Eventos  -->
-        <div id="popover-content" class="hide">
-            <div class="thumbnail-content">
-                <div class="form-item">
-                    <div class="form-item-content">
-                        <label class="control-label col-sm-2" for="text">Nome:</label>
-                        <div class="col-sm-8">
-                            <input id="summary_form" type="text" class="form-control  input-sm" ng-model="event_form.summary" />
-                        </div>
-                        <div class="col-sm-2">
-                            <button id="start_button" class="mic-btn" onclick='startButton(event, "summary_form" ,"start_img1")'>
-                        <img id="start_img1" class="mic-img" src="speech/mic.gif" alt="Start"></button>
+    <!-- Modal com o form dos Eventos  -->
+    <div id="formModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" ng-show="create">Criar Evento</h4>
+                    <h4 class="modal-title" ng-show="edit">Editar Evento</h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="form-item">
+                        <div class="form-item-content">
+                            <label class="control-label col-sm-2" for="text">Nome:</label>
+                            <div class="col-sm-8">
+                                <input id="summary_form" type="text" class="form-control  input-sm" ng-model="event_form.summary" />
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="start_button" class="mic-btn" onclick='startButton(event, "summary_form" ,"start_img1")'>
+                                <img id="start_img1" class="mic-img" src="speech/mic.gif" alt="Start"></button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-item">
-                    <div class="form-item-content">
-                        <label class="control-label col-sm-2" for="text">Descrição:</label>
-                        <div class="col-sm-8">
-                            <input id="description_form" type="text" class="form-control input-sm" ng-model="event_form.description" />
-                        </div>
-                        <div class="col-sm-2">
-                            <button id="start_button" class="mic-btn" onclick='startButton(event, "description_form" ,"start_img2")'>
-                        <img id="start_img2" class="mic-img" src="speech/mic.gif" alt="Start"></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-item">
-                    <div class="form-item-content">
-                        <label class="control-label col-sm-2" for="text">Início:</label>
-                        <div class="col-sm-10">
-                            <input type='text' class="form-control datepickera input-sm" data-language='pt' ng-model="event_form.start" />
+                    <div class="form-item">
+                        <div class="form-item-content">
+                            <label class="control-label col-sm-2" for="text">Descrição:</label>
+                            <div class="col-sm-8">
+                                <input id="description_form" type="text" class="form-control input-sm" ng-model="event_form.description" />
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="start_button" class="mic-btn" onclick='startButton(event, "description_form" ,"start_img2")'>
+                                <img id="start_img2" class="mic-img" src="speech/mic.gif" alt="Start"></button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-item">
-                    <div class="form-item-content">
-                        <label class="control-label col-sm-2" for="text">Fim:</label>
-                        <div class="col-sm-10">
-                            <input type='text' class="form-control datepickera input-sm" data-language='pt' ng-model="event_form.end" />
+                    <div class="form-item">
+                        <div class="form-item-content">
+                            <label class="control-label col-sm-2" for="text">Início:</label>
+                            <div class="col-sm-10">
+                                <input type='text' class="form-control input-sm datepickera" data-language='pt' ng-model="event_form.start" />
+                            </div>
                         </div>
                     </div>
+                    <div class="form-item">
+                        <div class="form-item-content">
+                            <label class="control-label col-sm-2" for="text">Fim:</label>
+                            <div class="col-sm-10">
+                                <input type='text' class="form-control input-sm datepickera" data-language='pt' ng-model="event_form.end" />
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        $('.datepickera').datepicker({
+                            autoClose: true,
+                            language: 'pt',
+                            todayButton: true
+                        });
+                    </script>
                 </div>
-                <script>
-                    $('.datepickera').datepicker({
-                        autoClose: true,
-                        position: 'top left',
-                        offset: 200,
-                        language: 'pt',
-                        todayButton: true
-                    });
-                </script>
-            </div>
-            <div>
-                <hr>
-                <button class="btn btn-success" ng-click="postCreateEvent()" ng-show="create">Criar Evento</button>
-                <button class="btn btn-success" ng-click="postEditEvent()" ng-show="edit">Salvar Evento</button>
-                <button class="btn btn-danger" ng-click="postDeleteEvent()" ng-show="edit">Deletar</button>
-                <button class="btn btn-warning">Cancelar</button>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-success" ng-click="postCreateEvent()" ng-show="create">Criar Evento</button>
+                    <button class="btn btn-success" ng-click="postEditEvent()" ng-show="edit">Salvar Evento</button>
+                    <button class="btn btn-danger" ng-click="postDeleteEvent()" ng-show="edit">Deletar</button>
+                    <button class="btn btn-warning" ng-click="closeModal()">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>

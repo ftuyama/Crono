@@ -9,9 +9,14 @@ var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
 */
 
 angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($scope, $http, $cookies, $compile) {
+    // Variável do form
     $scope.event_form = { summary: 'Nome do evento', description: 'Descrição do evento', start: '', end: '' };
+
+    // Variáveis de negócio
     $scope.events = {};
     $scope.groups = {};
+
+    // Varíaveis para definir Modal Form
     $scope.create = false;
     $scope.edit = false;
 
@@ -20,12 +25,18 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
          *   Id == 0 -> Event Creation
          *   Id != 0 -> Event Edition
          */
+        $scope.create = $scope.edit = false;
         if (id == 0) {
             $scope.create = true;
         } else {
             $scope.edit = true;
             // Preencher dados do evento
         }
+        $("#formModal").modal('show');
+    };
+
+    $scope.closeModal = function() {
+        $("#formModal").modal('hide');
     };
 
     $scope.postCreateEvent = function(selected_date) {
@@ -84,12 +95,12 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                                 tiny_class = "-tiny";
                             if (events[i].summary.length > 40)
                                 tiny_class = "-micro";
-                            var event_item = '<a href="#" class="list-group-item' + tiny_class +
-                                '" id="task' + i + '" ng-click="newEvent(\'' + events[i].id + '\', \'' +
-                                date + '\'); $event.stopPropagation();" data-placement="auto" popover>' +
+                            var event_item = '<a href="#" class="list-group-item' + tiny_class + '" id="task' +
+                                events[i].id + '" ng-click="newEvent(\'' +
+                                events[i].id + '\', \'' + date + '\'); $event.stopPropagation();">' +
                                 events[i].summary + '</a>';
                             $("#" + date).append($compile(event_item)($scope));
-                            $("#task" + i).css('color', getRandomColor());
+                            $("#task" + events[i].id).css('color', getRandomColor());
                         }
                     });
             }
@@ -163,7 +174,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                     row += " day-gone";
                 }
                 row += '" ng-click="newEvent(0, \'' + dateString +
-                    '\')" data-placement="auto" popover><div id="' + dateString + '" class="list-group">' +
+                    '\')"><div id="' + dateString + '" class="list-group">' +
                     '<a href="#" class="list-group-item-esp">' + dayString + '</a>';
 
                 row += '<button class="btn btn-success spc-btn" ng-click="createEvent(\'' +
@@ -180,22 +191,5 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         }
         table += "</table>";
         $("#motherTable").html($compile(table)($scope));
-    }
-}).directive('popover', function($compile) {
-    return {
-        restrict: 'A',
-        link: function(scope, elem) {
-
-            var content = $("#popover-content").html();
-            var compileContent = $compile(content)(scope);
-            var title = $("#popover-head").html();
-            var options = {
-                content: compileContent,
-                html: true,
-                title: title
-            };
-
-            $(elem).popover(options);
-        }
     }
 });

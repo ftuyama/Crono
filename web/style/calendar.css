@@ -125,24 +125,13 @@ a.list-group-item {
     text-overflow: ellipsis;
 }
 
-.popover-title {
-    background: #111144;
-}
-
-.popover {
-    position: relative;
-    z-index: auto;
-    background-color: #111144;
-    max-width: 100%;
-    width: 500px;
-}
-
 .form-control {
     height: 80%;
     width: 80%;
 }
 
-.close {
+.modal-header .close {
+    font-size: 40px;
     color: white;
 }
 
@@ -168,4 +157,23 @@ a.list-group-item {
 .form-item-content {
     top: 25%;
     position: relative;
+}
+
+.modal-content {
+    background-color: #224;
+    color: white;
+    border: 2px solid #ebedef;
+}
+
+.modal-dialog {
+    position: absolute;
+    left: 50%;
+    margin-left: -312px;
+    height: 500px;
+    top: 50%;
+    margin-top: -250px;
+}
+
+.datepicker {
+    z-index: 1000000;
 }

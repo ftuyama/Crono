@@ -1,7 +1,3 @@
-var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
-    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-];
-
 /*
 ===========================================================================
             Calendar View Controller using Angular
@@ -11,6 +7,7 @@ var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
 angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($scope, $http, $cookies, $compile) {
     // Variável do form
     $scope.event_form = { summary: '', description: '', group_id: '', startDate: '', startHour: '', endDate: '', endHour: '' };
+    $scope.event_id = "";
 
     // Variáveis de negócio
     $scope.events = {};
@@ -20,7 +17,11 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.create = false;
     $scope.edit = false;
 
-    /*  Gerencia tomada de decisões usando Modal */
+    /*
+        ===========================================================================
+                        Manage user's decisions using Modal
+        ===========================================================================
+    */
 
     $scope.newEvent = function(id, selected_date) {
         /*  
@@ -28,7 +29,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
          *   Id != 0 -> Event Edition
          */
         $scope.create = $scope.edit = false;
-        id = Number(id);
+        $scope.event_id = id = Number(id);
         if (id == -1) {
             $scope.create = true;
             $scope.event_form = {
@@ -61,13 +62,17 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         $("#formModal").modal('hide');
     };
 
-    /*  Eventos de POST para o servidor */
+    /*
+        ===========================================================================
+                        Communicating with Nodejs API
+        ===========================================================================
+    */
 
     $scope.postCreateEvent = function(selected_date) {
-        // Deixar group_id como opção
+        $scope.closeModal();
         var post = {
             group_id: $scope.groups[1].id,
-            new_event: {
+            event: {
                 summary: "Evento de teste",
                 start: { date: selected_date },
                 end: { date: selected_date }
@@ -79,23 +84,45 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                 showSnackBar("Evento criado com sucesso!");
                 $scope.fetch();
             });
-        showSnackBar("Evento criado com sucesso!");
-        $scope.create = false;
     }
 
     $scope.postEditEvent = function(id) {
-        // Ver como faz para editar
-        showSnackBar("Evento editado com sucesso!");
-        $scope.edit = false;
+        $scope.closeModal();
+        var post = {
+            group_id: $scope.groups[1].id,
+            event: {
+                summary: "Evento de teste",
+                start: { date: selected_date },
+                end: { date: selected_date }
+            }
+        };
+        showSnackBar("Editando o evento...");
+        $http.post('/calendar/edit', JSON.stringify(post))
+            .then(function success(response) {
+                showSnackBar("Evento editado com sucesso!");
+                $scope.fetch();
+            });
     }
 
-    $scope.postDeleteEvent = function(selected_date) {
-        // Ver como faz para deletar
-        showSnackBar("Evento deletado com sucesso!");
-        $scope.create = $scope.edit = true;
+    $scope.postDeleteEvent = function() {
+        $scope.closeModal();
+        var param = {
+            group_id: $scope.groups[$scope.event_form.group_id].id,
+            event_id: $scope.events[$scope.event_id].id
+        };
+        showSnackBar("Deletando o evento...");
+        $http.get('/calendar/delete', { "params": param })
+            .then(function success(response) {
+                showSnackBar("Evento deletado com sucesso!");
+                $scope.fetch();
+            });
     };
 
-    /*  Fetching data do servidor   */
+    /*
+        ===========================================================================
+                        Fetching Data from the Server
+        ===========================================================================
+    */
 
     $scope.fetch = function() {
         $scope.create_calendar();
@@ -137,7 +164,11 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             $scope.fetch();
         });
 
-    /*  Funções auxiliares  */
+    /*
+        ===========================================================================
+                        Auxialiary functions in javascript
+        ===========================================================================
+    */
 
     function toDateBR(date) {
         var d = new Date(date);
@@ -238,4 +269,9 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         table += "</table>";
         $("#motherTable").html($compile(table)($scope));
     }
+
+    var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
 });

@@ -248,7 +248,7 @@ button:focus {
 .navbar-nav>li>a {
     box-shadow: none;
     color: #ffffff !important;
-    font-size: .93em;
+    font-size: 1.2em;
     font-weight: 400;
     padding: 25px 20px;
 }

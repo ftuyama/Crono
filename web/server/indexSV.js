@@ -1,8 +1,12 @@
-// Importação dos modulos necessários.
+/*
+  ===========================================================================
+            Index Application written with Nodejs Server
+  ===========================================================================
+*/
+// Importing packages
 var express = require('express');
 var router = express.Router();
 var fs = require("fs");
-var bodyParser = require('body-parser');
 var mustache = require('mustache');
 
 /* GET home page */

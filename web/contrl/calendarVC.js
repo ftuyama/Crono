@@ -53,7 +53,6 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                 endHour: getHourProperty(evento.end),
                 group_id: 0
             };
-            // Preencher dados do evento
         }
         $("#formModal").modal('show');
     };
@@ -68,14 +67,25 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         ===========================================================================
     */
 
-    $scope.postCreateEvent = function(selected_date) {
+    $scope.postCreateEvent = function() {
         $scope.closeModal();
         var post = {
-            group_id: $scope.groups[1].id,
+            group_id: $scope.event_form.group_id,
             event: {
-                summary: "Evento de teste",
-                start: { date: selected_date },
-                end: { date: selected_date }
+                summary: $scope.event_form.summary,
+                description: $scope.event_form.description,
+                start: {
+                    date: toDateISO(
+                        $scope.event_form.startDate,
+                        $scope.event_form.startHour
+                    )
+                },
+                end: {
+                    date: toDateISO(
+                        $scope.event_form.endDate,
+                        $scope.event_form.endHour
+                    )
+                }
             }
         };
         showSnackBar("Criando novo evento...");
@@ -86,14 +96,25 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             });
     }
 
-    $scope.postEditEvent = function(id) {
+    $scope.postEditEvent = function() {
         $scope.closeModal();
         var post = {
-            group_id: $scope.groups[1].id,
+            group_id: $scope.event_form.group_id,
             event: {
-                summary: "Evento de teste",
-                start: { date: selected_date },
-                end: { date: selected_date }
+                summary: $scope.event_form.summary,
+                description: $scope.event_form.description,
+                start: {
+                    date: toDateISO(
+                        $scope.event_form.startDate,
+                        $scope.event_form.startHour
+                    )
+                },
+                end: {
+                    date: toDateISO(
+                        $scope.event_form.endDate + 'T' +
+                        $scope.event_form.endHour
+                    )
+                }
             }
         };
         showSnackBar("Editando o evento...");
@@ -169,6 +190,13 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                         Auxialiary functions in javascript
         ===========================================================================
     */
+
+    function toDateISO(date, hour) {
+        var dateISO = date.slice(6, 10) + '-' + date.slice(3, 5) + '-' + date.slice(0, 2);
+        if (hour.length > 5)
+            dateISO += hour.slice(0, 5);
+        return dateISO;
+    }
 
     function toDateBR(date) {
         var d = new Date(date);

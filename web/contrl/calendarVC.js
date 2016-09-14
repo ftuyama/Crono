@@ -10,7 +10,7 @@ var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
 
 angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($scope, $http, $cookies, $compile) {
     // Variável do form
-    $scope.event_form = { summary: 'Nome do evento', description: 'Descrição do evento', start: '', end: '' };
+    $scope.event_form = { summary: '', description: '', group_id: '', startDate: '', startHour: '', endDate: '', endHour: '' };
 
     // Variáveis de negócio
     $scope.events = {};
@@ -20,16 +20,38 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.create = false;
     $scope.edit = false;
 
+    /*  Gerencia tomada de decisões usando Modal */
+
     $scope.newEvent = function(id, selected_date) {
         /*  
          *   Id == 0 -> Event Creation
          *   Id != 0 -> Event Edition
          */
         $scope.create = $scope.edit = false;
-        if (id == 0) {
+        id = Number(id);
+        if (id == -1) {
             $scope.create = true;
+            $scope.event_form = {
+                summary: "",
+                description: "",
+                startDate: toDateBR(selected_date),
+                startHour: "",
+                endDate: toDateBR(selected_date),
+                endHour: "",
+                group_id: 0
+            };
         } else {
             $scope.edit = true;
+            evento = $scope.events[id];
+            $scope.event_form = {
+                summary: evento.summary,
+                description: evento.description,
+                startDate: toDateBR(getDateProperty(evento.start)),
+                startHour: getHourProperty(evento.start),
+                endDate: toDateBR(getDateProperty(evento.end)),
+                endHour: getHourProperty(evento.end),
+                group_id: 0
+            };
             // Preencher dados do evento
         }
         $("#formModal").modal('show');
@@ -38,6 +60,8 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.closeModal = function() {
         $("#formModal").modal('hide');
     };
+
+    /*  Eventos de POST para o servidor */
 
     $scope.postCreateEvent = function(selected_date) {
         // Deixar group_id como opção
@@ -71,6 +95,8 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         $scope.create = $scope.edit = true;
     };
 
+    /*  Fetching data do servidor   */
+
     $scope.fetch = function() {
         $scope.create_calendar();
         $scope.user = "";
@@ -81,26 +107,19 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                 $http.get('/calendar/list' + i)
                     .then(function success(response) {
                         var calendario = response.data;
-                        $scope.user += calendario.summary + "; ";
                         var events = calendario.items;
+                        $scope.user += calendario.summary + "; ";
+                        $scope.events = events;
                         // Debug: $scope.user = calendario;
                         for (i = 0; i < events.length; i++) {
-                            var date = new Date();
-                            if (events[i].start.date != undefined)
-                                date = events[i].start.date.split('T')[0];
-                            else if (events[i].start.dateTime != undefined)
-                                date = events[i].start.dateTime.split('T')[0];
-                            var tiny_class = "";
-                            if (events[i].summary.length > 18)
-                                tiny_class = "-tiny";
-                            if (events[i].summary.length > 40)
-                                tiny_class = "-micro";
-                            var event_item = '<a href="#" class="list-group-item' + tiny_class + '" id="task' +
-                                events[i].id + '" ng-click="newEvent(\'' +
-                                events[i].id + '\', \'' + date + '\'); $event.stopPropagation();">' +
+                            var date = getDateProperty(events[i].start);
+                            var tiny_class = getTextSize(events[i].summary.length);
+                            var event_item = '<a href="#" class="list-group-item' + tiny_class +
+                                '" id="task' + i + '" ng-click="newEvent(\'' + i +
+                                '\', \'' + date + '\'); $event.stopPropagation();">' +
                                 events[i].summary + '</a>';
                             $("#" + date).append($compile(event_item)($scope));
-                            $("#task" + events[i].id).css('color', getRandomColor());
+                            $("#task" + i).css('color', getRandomColor());
                         }
                     });
             }
@@ -118,6 +137,34 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             $scope.fetch();
         });
 
+    /*  Funções auxiliares  */
+
+    function toDateBR(date) {
+        var d = new Date(date);
+        return ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
+    }
+
+    function getTextSize(length) {
+        if (length > 40)
+            return "-micro";
+        else if (length > 18)
+            return "-tiny";
+        else return "";
+    }
+
+    function getDateProperty(eventDate) {
+        if (eventDate.date != undefined)
+            return eventDate.date.split('T')[0];
+        else if (eventDate.dateTime != undefined)
+            return eventDate.dateTime.split('T')[0];
+        return (new Date()).toISOString().split('T')[0];
+    }
+
+    function getHourProperty(eventDate) {
+        if (eventDate.dateTime != undefined)
+            return eventDate.dateTime.slice(11, 16);
+        return "00:00";
+    }
 
     /*
         ===========================================================================
@@ -140,9 +187,8 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
 
         var table = '<table class="table table-bordered">';
         table += "<tr><td COLSPAN=7>" +
-            monthNames[date.getMonth()] +
-            date.getFullYear() +
-            "</td></tr>";
+            monthNames[date.getMonth()] + " " +
+            date.getFullYear() + "</td></tr>";
         table += "<tr>" +
             "<td>Dom</td>" + "<td>Seg</td>" +
             "<td>Ter</td>" + "<td>Qua</td>" +
@@ -173,7 +219,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                 } else if (dayDate < date || dayOut == true) {
                     row += " day-gone";
                 }
-                row += '" ng-click="newEvent(0, \'' + dateString +
+                row += '" ng-click="newEvent(-1, \'' + dateString +
                     '\')"><div id="' + dateString + '" class="list-group">' +
                     '<a href="#" class="list-group-item-esp">' + dayString + '</a>';
 

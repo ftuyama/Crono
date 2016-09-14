@@ -177,3 +177,9 @@ a.list-group-item {
 .datepicker {
     z-index: 1000000;
 }
+
+.ui-autocomplete {
+    position: relative;
+    z-index: 100000000;
+    width: 30px;
+}

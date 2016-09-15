@@ -49,6 +49,7 @@ router.get('/list:id', function(req, res) {
         if (err) return res.redirect('/calendarAuth');
         gcal(accessToken).events.list(data.items[groupId].id, function(err, data) {
             if (err) return res.redirect('/calendarAuth');
+            data["group_id"] = groupId;
             res.json(data);
         });
     });
@@ -73,9 +74,6 @@ router.post('/edit', function(req, res) {
     var group_id = req.body.group_id;
     var event_id = req.body.event_id;
     var event = JSON.stringify(req.body.event);
-    console.log(group_id);
-    console.log(event_id);
-    console.log(event);
     gcal(accessToken).events.update(group_id, event_id, event, function(err, data) {
         if (err) return res.redirect('/calendarAuth');
         res.json(data);
@@ -88,8 +86,6 @@ router.get('/delete', function(req, res) {
     if (accessToken == null) return res.redirect('/calendarAuth');
     var group_id = req.query.group_id;
     var event_id = req.query.event_id;
-    console.log(group_id);
-    console.log(event_id);
     gcal(accessToken).events.delete(group_id, event_id, function(err, data) {
         if (err) return res.redirect('/calendarAuth');
         res.json(data);

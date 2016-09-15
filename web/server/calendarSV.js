@@ -73,7 +73,10 @@ router.post('/edit', function(req, res) {
     var group_id = req.body.group_id;
     var event_id = req.body.event_id;
     var event = JSON.stringify(req.body.event);
-    gcal(accessToken).events.insert(group_id, event_id, event, function(err, data) {
+    console.log(group_id);
+    console.log(event_id);
+    console.log(event);
+    gcal(accessToken).events.update(group_id, event_id, event, function(err, data) {
         if (err) return res.redirect('/calendarAuth');
         res.json(data);
     });

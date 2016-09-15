@@ -14,6 +14,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.groups = {};
 
     // Varíaveis para definir Modal Form
+    $scope.dateTime = false;
     $scope.create = false;
     $scope.edit = false;
 
@@ -58,7 +59,51 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     };
 
     $scope.closeModal = function() {
+        // Procura bug de data
+        if ($scope.checkDate() == false)
+            return false;
+        // Fecha modal com dados validados
         $("#formModal").modal('hide');
+        return true;
+    };
+
+    /*
+        ===========================================================================
+                      Generate the POST body for API communication
+        ===========================================================================
+    */
+
+    $scope.generatePost = function() {
+        var post = {
+            group_id: $scope.groups[$scope.event_form.group_id].id,
+            event: {
+                summary: $scope.event_form.summary,
+                description: $scope.event_form.description
+            }
+        };
+        return $scope.appendDatePost(post);
+    };
+
+    $scope.appendDatePost = function(post) {
+        if ($scope.dateTime) {
+            post.event["start"] = {
+                dateTime: toDateISO(
+                    $scope.event_form.startDate,
+                    $scope.event_form.startHour
+                )
+            };
+            post.event["end"] = {
+                dateTime: toDateISO(
+                    $scope.event_form.endDate,
+                    $scope.event_form.endHour
+                )
+            };
+        } else {
+            post.event["start"] = { date: toDateISO($scope.event_form.startDate, "") };
+            post.event["end"] = { date: toDateISO($scope.event_form.endDate, "") };
+
+        }
+        return post;
     };
 
     /*
@@ -68,26 +113,8 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     */
 
     $scope.postCreateEvent = function() {
-        $scope.closeModal();
-        var post = {
-            group_id: $scope.groups[$scope.event_form.group_id].id,
-            event: {
-                summary: $scope.event_form.summary,
-                description: $scope.event_form.description,
-                start: {
-                    date: toDateISO(
-                        $scope.event_form.startDate,
-                        $scope.event_form.startHour
-                    )
-                },
-                end: {
-                    date: toDateISO(
-                        $scope.event_form.endDate,
-                        $scope.event_form.endHour
-                    )
-                }
-            }
-        };
+        if (!$scope.closeModal()) return;
+        var post = $scope.generatePost();
         showSnackBar("Criando novo evento...");
         $http.post('/calendar/create', JSON.stringify(post))
             .then(function success(response) {
@@ -97,26 +124,9 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     }
 
     $scope.postEditEvent = function() {
-        $scope.closeModal();
-        var post = {
-            group_id: $scope.groups[$scope.event_form.group_id].id,
-            event: {
-                summary: $scope.event_form.summary,
-                description: $scope.event_form.description,
-                start: {
-                    date: toDateISO(
-                        $scope.event_form.startDate,
-                        $scope.event_form.startHour
-                    )
-                },
-                end: {
-                    date: toDateISO(
-                        $scope.event_form.endDate,
-                        $scope.event_form.endHour
-                    )
-                }
-            }
-        };
+        if (!$scope.closeModal()) return;
+        var post = $scope.generatePost();
+        post["event_id"] = $scope.events[$scope.event_id].id;
         showSnackBar("Editando o evento...");
         $http.post('/calendar/edit', JSON.stringify(post))
             .then(function success(response) {
@@ -126,7 +136,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     }
 
     $scope.postDeleteEvent = function() {
-        $scope.closeModal();
+        if (!$scope.closeModal()) return;
         var param = {
             group_id: $scope.groups[$scope.event_form.group_id].id,
             event_id: $scope.events[$scope.event_id].id
@@ -191,11 +201,37 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         ===========================================================================
     */
 
+    /* Resolve bug irritante do AngularJS. Valida também as datas e seu formato */
+    $scope.checkDate = function() {
+        $scope.event_form.startDate = $("#startDate").val();
+        $scope.event_form.endDate = $("#endDate").val();
+        if ($("#startHour").val() != "") {
+            digits = $("#startHour").val().split(":");
+            $scope.event_form.startHour = ("0" + digits[0]).slice(-2) + ":" + digits[1].slice(0, 2);
+        }
+        if ($("#endHour").val() != "") {
+            digits = $("#endHour").val().split(":");
+            $scope.event_form.endHour = ("0" + digits[0]).slice(-2) + ":" + digits[1].slice(0, 2);
+        }
+        date1 = new Date(toDateISO($scope.event_form.startDate, $scope.event_form.startHour));
+        date2 = new Date(toDateISO($scope.event_form.endDate, $scope.event_form.endHour));
+        if (date1 > date2) {
+            $scope.event_form.startDate = $scope.event_form.startHour = "";
+            $scope.event_form.endDate = $scope.event_form.endHour = "";
+            $scope.dateTime = false;
+            return false;
+        }
+        if ($scope.event_form.startHour != "" || $scope.event_form.endHour != "")
+            $scope.dateTime = true;
+        else $scope.dateTime = false;
+        return true;
+    };
+
     function toDateISO(date, hour) {
         var dateISO = date.slice(6, 10) + '-' + date.slice(3, 5) + '-' + date.slice(0, 2);
-        if (hour.length >= 5)
-            dateISO += hour.slice(0, 5);
-        return dateISO;
+        if (hour.length < 5)
+            return dateISO;
+        return dateISO + 'T' + hour.slice(0, 5) + ":00-03:00";
     }
 
     function toDateBR(date) {

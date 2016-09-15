@@ -183,3 +183,8 @@ a.list-group-item {
     z-index: 100000000;
     width: 30px;
 }
+
+.monthPicker {
+    font-size: 0px;
+    padding: 0px;
+}

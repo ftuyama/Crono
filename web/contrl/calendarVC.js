@@ -10,6 +10,9 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.event_id = "";
     $scope.event_group = "";
 
+    // Variável de calendário
+    $scope.monthYear = new Date();
+
     // Variáveis de negócio
     $scope.events = {};
     $scope.groups = {};
@@ -240,6 +243,12 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         ===========================================================================
     */
 
+    $scope.monthPicker = function() {
+        showSnackBar("Criando novo evento...");
+        $("#monthPicker").focus();
+
+    };
+
     /* Resolve bug irritante do AngularJS. Valida também as datas e seu formato */
     $scope.checkDate = function() {
         $scope.event_form.startDate = $("#startDate").val();
@@ -301,29 +310,44 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         return "00:00";
     }
 
+    function returnMonth(month) {
+        month = month.trim();
+        return monthNames.indexOf(month);
+    }
+
     /*
         ===========================================================================
                         Generating basic calendar structure
         ===========================================================================
     */
+
+    $scope.select_month = function() {
+        [month, year] = $("#monthPicker").val().split(' ');
+        $scope.monthYear = new Date(year, returnMonth(month), 1);
+        $scope.create_calendar();
+    };
+
     $scope.create_calendar = function() {
         // Hoje
-        var date = new Date();
+        var date = $scope.monthYear;
         // Data do dia do calendário
         var dayDate;
         // Primeiro dia do mês
         var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDate();
         // Último dia do mês
-        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+        var lastDay = new Date(date.getFullYear(), (date.getMonth() + 1) % 12, 0).getDate();
         // Dia da semana do primeiro dia
         var firstWeekDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
         // Quantos dias teve último mês
         var lastDayOfLastMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
 
         var table = '<table class="table table-bordered">';
-        table += "<tr><td COLSPAN=7>" +
-            monthNames[date.getMonth()] + " " +
-            date.getFullYear() + "</td></tr>";
+        table += '<tr><td COLSPAN=7 ng-click="monthPicker()">' +
+            '<button class="btn btn-success" style="float:left;" ng-click="newEvent(\'0-666\', \'' +
+            date.toISOString().slice(0, 10) + '\')">Add event</button>' +
+            monthNames[date.getMonth()] + " " + date.getFullYear() +
+            '<button class="btn btn-danger" style="float:right;">Change month</button>' +
+            "</td></tr>";
         table += "<tr>" +
             "<td>Dom</td>" + "<td>Seg</td>" +
             "<td>Ter</td>" + "<td>Qua</td>" +

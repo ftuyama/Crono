@@ -5,4 +5,5 @@ Projeto de um calendário virtual e gerenciador de projetos desenvolvido em Node
 ## Developers:
 
 Felipe Tuyama
+
 João Vitor

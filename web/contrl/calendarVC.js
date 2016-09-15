@@ -70,7 +70,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.postCreateEvent = function() {
         $scope.closeModal();
         var post = {
-            group_id: $scope.event_form.group_id,
+            group_id: $scope.groups[$scope.event_form.group_id].id,
             event: {
                 summary: $scope.event_form.summary,
                 description: $scope.event_form.description,
@@ -99,7 +99,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.postEditEvent = function() {
         $scope.closeModal();
         var post = {
-            group_id: $scope.event_form.group_id,
+            group_id: $scope.groups[$scope.event_form.group_id].id,
             event: {
                 summary: $scope.event_form.summary,
                 description: $scope.event_form.description,
@@ -111,7 +111,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                 },
                 end: {
                     date: toDateISO(
-                        $scope.event_form.endDate + 'T' +
+                        $scope.event_form.endDate,
                         $scope.event_form.endHour
                     )
                 }
@@ -193,14 +193,13 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
 
     function toDateISO(date, hour) {
         var dateISO = date.slice(6, 10) + '-' + date.slice(3, 5) + '-' + date.slice(0, 2);
-        if (hour.length > 5)
+        if (hour.length >= 5)
             dateISO += hour.slice(0, 5);
         return dateISO;
     }
 
     function toDateBR(date) {
-        var d = new Date(date);
-        return ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
+        return date.slice(8, 10) + '/' + date.slice(5, 7) + '/' + date.slice(0, 4);
     }
 
     function getTextSize(length) {

@@ -244,9 +244,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     */
 
     $scope.monthPicker = function() {
-        showSnackBar("Criando novo evento...");
         $("#monthPicker").focus();
-
     };
 
     /* Resolve bug irritante do AngularJS. Valida também as datas e seu formato */

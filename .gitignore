@@ -3,7 +3,6 @@ logs
 *.log
 *.DB
 .vscode/*
-!.vscode/launch.json
 
 # Runtime data
 pids

@@ -100,7 +100,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
 
     $scope.generatePost = function() {
         var post = {
-            group_id: $scope.groups[$scope.event_group].id,
+            group_id: $scope.groups[$scope.event_form.group_id].id,
             event: {
                 summary: $scope.event_form.summary,
                 description: $scope.event_form.description
@@ -151,6 +151,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.postEditEvent = function() {
         if (!$scope.closeModal()) return;
         var post = $scope.generatePost();
+        post["group_id"] = $scope.groups[$scope.event_group].id;
         post["event_id"] = $scope.events[$scope.event_group][$scope.event_id].id;
         showSnackBar("Editando o evento...");
         $http.post('/calendar/edit', JSON.stringify(post))
@@ -163,7 +164,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.postDeleteEvent = function() {
         if (!$scope.closeModal()) return;
         var param = {
-            group_id: $scope.groups[$scope.event_form.group_id].id,
+            group_id: $scope.groups[$scope.event_group].id,
             event_id: $scope.events[$scope.event_group][$scope.event_id].id
         };
         showSnackBar("Deletando o evento...");
@@ -176,6 +177,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
 
     $scope.postMoveEvent = function() {
         var post = $scope.generatePost();
+        post["group_id"] = $scope.groups[$scope.event_group].id;
         post["event_id"] = $scope.events[$scope.event_group][$scope.event_id].id;
         showSnackBar("Movendo o evento...");
         $http.post('/calendar/edit', JSON.stringify(post))

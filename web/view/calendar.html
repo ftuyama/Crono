@@ -1,8 +1,9 @@
 <!doctype html>
-<html ng-app="calendarApp">
+<html lang="en" ng-app="calendarApp">
 
 <head>
     <!-- Imports e barra de navegação -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="import" href="/components/depend-calendar.html">
     <link href='/estilo.css' rel='stylesheet' type='text/css'>
     <link href='/calendar.css' rel='stylesheet' type='text/css'>
@@ -49,7 +50,7 @@
         </div>
 
         <!-- Calendário estático inicial  -->
-        <div class="col-sm-10" style="text-align: center;">
+        <div class="col-sm-10 calendar-content" style="text-align: center;">
             <input type="text" id="monthPicker" class="datepicker-here monthPicker" data-language="pt" data-min-view="months" data-view="months" data-date-format="MM yyyy">
             <div id="motherTable">
                 <TABLE class="table table-bordered">

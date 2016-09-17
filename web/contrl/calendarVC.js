@@ -246,9 +246,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     */
 
     $scope.monthPicker = function() {
-        showSnackBar("Criando novo evento...");
         $("#monthPicker").focus();
-
     };
 
     /* Resolve bug irritante do AngularJS. Valida também as datas e seu formato */
@@ -346,7 +344,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         var table = '<table class="table table-bordered">';
         table += '<tr><td COLSPAN=7 ng-click="monthPicker()">' +
             '<button class="btn btn-success" style="float:left;" ng-click="newEvent(\'0-666\', \'' +
-            date.toISOString().slice(0, 10) + '\')">Add event</button>' +
+            date.toISOString().slice(0, 10) + '\'); $event.stopPropagation()">Add event</button>' +
             monthNames[date.getMonth()] + " " + date.getFullYear() +
             '<button class="btn btn-danger" style="float:right;">Change month</button>' +
             "</td></tr>";

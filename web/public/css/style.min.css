@@ -376,7 +376,7 @@ textarea:focus {
 }
 
 .subscribe-section {
-    background: url(../../assets/images/background/1.jpg) center center no-repeat fixed;
+    background: url(../../public/img/background/1.jpg) center center no-repeat fixed;
     background-size: cover;
     color: #fff
 }
@@ -541,7 +541,7 @@ textarea:focus {
 .project-items .image-popup-vertical-fit:before {
     content: '';
     background: rgba(231, 76, 60, .7);
-    cursor: url(../../assets/images/cursor.png) 30 30, crosshair;
+    cursor: url(../../public/img/cursor.png) 30 30, crosshair;
     width: 0;
     height: 100%;
     top: 50%;
@@ -605,7 +605,7 @@ textarea:focus {
 }
 
 .sponsors {
-    background: url(../../assets/images/background/2.jpg) center center no-repeat fixed;
+    background: url(../../public/img/background/2.jpg) center center no-repeat fixed;
     background-size: cover
 }
 
@@ -663,7 +663,7 @@ textarea:focus {
 }
 
 .testimonial {
-    background: url(../../assets/images/background/3.jpg) center center no-repeat fixed;
+    background: url(../../public/img/background/3.jpg) center center no-repeat fixed;
     background-size: cover;
     color: #fff
 }
@@ -753,13 +753,13 @@ textarea:focus {
 }
 
 .page-head {
-    background: url(../../assets/images/background/blog.jpg) center top no-repeat fixed;
+    background: url(../../public/img/background/blog.jpg) center top no-repeat fixed;
     background-size: cover;
     color: #fff
 }
 
 .head-overlay {
-    background: url(../../assets/images/head-overlay.png)
+    background: url(../../public/img/head-overlay.png)
 }
 
 .page-head .page-title {

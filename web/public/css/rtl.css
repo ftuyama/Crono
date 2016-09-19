@@ -97,6 +97,7 @@ a:hover {
 
 p {
     color: #a7a7a8;
+    direction: rtl;
     font-weight: 400;
     line-height: 23px;
 }
@@ -183,12 +184,18 @@ button:focus {
 }
 
 .section-description {
+    direction: rtl;
     font-size: 1em;
     font-weight: 300;
     padding: 0px 15%;
 }
 
+.item-description {
+    direction: rtl;
+}
+
 .section-details {
+    direction: rtl;
     display: inline-block;
     padding-top: 30px;
 }
@@ -227,7 +234,7 @@ button:focus {
 }
 
 .navbar-brand {
-    padding-top: 0px;
+    padding-top: 20px;
 }
 
 .navbar-default .navbar-nav>.active>a,
@@ -248,7 +255,7 @@ button:focus {
 .navbar-nav>li>a {
     box-shadow: none;
     color: #ffffff !important;
-    font-size: 1.2em;
+    font-size: .93em;
     font-weight: 400;
     padding: 25px 20px;
 }
@@ -342,6 +349,10 @@ button:focus {
     font-size: 5em;
 }
 
+.services .item-details {
+    text-align: right;
+}
+
 .service-details .item-description {
     font-size: .8125em;
     padding-top: 12px;
@@ -400,6 +411,10 @@ button:focus {
     clear: both;
 }
 
+.know-about-us {
+    text-align: right;
+}
+
 .know-about-us .description {
     font-size: .8125em;
 }
@@ -411,6 +426,10 @@ button:focus {
 .about-top .btn:hover {
     background: #e74c3c;
     color: #ffffff;
+}
+
+.our-skills {
+    text-align: right;
 }
 
 .progress {
@@ -442,9 +461,14 @@ button:focus {
     margin-left: -15px;
 }
 
+.about-work {
+    text-align: right;
+    direction: rtl;
+    padding-right: 15%;
+}
+
 .about-work .description {
     font-size: .8125em;
-    padding-right: 15%;
     padding-bottom: 8px;
 }
 
@@ -452,7 +476,7 @@ button:focus {
 /* 6 ------- Subscribe Section Styles ---------*/
 
 .subscribe-section {
-    background: url(../../assets/images/background/1.jpg) no-repeat center center fixed;
+    background: url(../../public/img/background/1.jpg) no-repeat center center fixed;
     background-size: cover;
     color: #ffffff;
 }
@@ -512,7 +536,7 @@ button:focus {
 }
 
 .subscribe-message {
-    text-align: center;
+    text-align: right;
     font-size: 1.125em;
 }
 
@@ -598,7 +622,8 @@ button:focus {
     width: 100%;
     bottom: 0px;
     opacity: 0;
-    text-align: center;
+    padding-right: 5%;
+    text-align: right;
     position: absolute;
     -webkit-transition: all 0.4s ease-in-out;
     -moz-transition: all 0.4s ease-in-out;
@@ -620,13 +645,13 @@ button:focus {
 .project-items .image-popup-vertical-fit:before {
     content: '';
     background: rgba(231, 76, 60, 0.7);
-    cursor: url(../../assets/images/cursor.png) 30 30, crosshair;
+    cursor: url(../../public/img/cursor.png) 30 30, crosshair;
     width: 0%;
     height: 100%;
     top: 50%;
     left: 50%;
     position: absolute;
-    text-align: center;
+    text-align: right;
     opacity: 0;
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
@@ -653,9 +678,12 @@ button:focus {
 }
 
 .project-title {
-    color: #ffffff;
     font-size: 1.15em;
     font-weight: 300;
+}
+
+.project-title a {
+    color: #ffffff;
 }
 
 .project-items .category {
@@ -684,7 +712,7 @@ button:focus {
 /* 8 ------- Sponsors Section Styles -------*/
 
 .sponsors {
-    background: url(../../assets/images/background/2.jpg) no-repeat center center fixed;
+    background: url(../../public/img/background/2.jpg) no-repeat center center fixed;
     background-size: cover;
 }
 
@@ -693,7 +721,7 @@ button:focus {
 }
 
 .sponsors .section-padding {
-    padding: 150px 0px;
+    padding: 200px 0px;
 }
 
 .sponsors .section-title {
@@ -701,7 +729,7 @@ button:focus {
 }
 
 .sponsors .section-details {
-    padding-top: 30px;
+    padding-top: 0px;
 }
 
 .sponsors-logo img {
@@ -723,6 +751,7 @@ button:focus {
 /* 9 ------- Blog Section Styles --------*/
 
 .blog .post-content {
+    text-align: right;
     padding: 22px 15px;
 }
 
@@ -736,7 +765,7 @@ button:focus {
 }
 
 .blog .entry-title a:hover {
-    color: #e74c3c !important;
+    color: #e74c3c;
 }
 
 .blog .entry-content {
@@ -748,7 +777,7 @@ button:focus {
 /* 10 ------- Testimonial Section Styles --------*/
 
 .testimonial {
-    background: url(../../assets/images/background/3.jpg) no-repeat center center fixed;
+    background: url(../../public/img/background/3.jpg) no-repeat center center fixed;
     background-size: cover;
     color: #ffffff;
 }
@@ -844,13 +873,13 @@ button:focus {
 /* 12 -------- Blog Posts Page Styles ---------*/
 
 .page-head {
-    background: url(../../assets/images/background/blog.jpg) no-repeat center top fixed;
+    background: url(../../public/img/background/blog.jpg) no-repeat center top fixed;
     background-size: cover;
     color: #ffffff;
 }
 
 .head-overlay {
-    background: url(../../assets/images/head-overlay.png);
+    background: url(../../public/img/head-overlay.png);
 }
 
 .page-head .page-title {
@@ -876,6 +905,7 @@ button:focus {
 
 .breadcrumb {
     background: #fafafa;
+    direction: rtl;
     margin: 0px;
     padding: 0px;
 }
@@ -950,37 +980,12 @@ button:focus {
 }
 
 .entry-title {
-    display: inline-block;
     font-size: 1.875em;
     margin: 0px;
 }
 
 .entry-title a {
     color: #333333;
-}
-
-.entry-title a:hover {
-    color: #e74c3c !important;
-}
-
-.share-post {
-    display: inline-block;
-}
-
-.share-post a {
-    background: #f2f2f2;
-    border-radius: 50%;
-    color: #ffffff;
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-}
-
-.share-post a:hover {
-    background: #e74c3c;
-    color: #ffffff;
 }
 
 .post-meta {
@@ -1005,10 +1010,12 @@ button:focus {
 .post-tag {
     font-size: .8125em;
     padding-top: 10px;
+    text-align: right;
 }
 
 .tag-list {
-    padding-left: 15px;
+    direction: rtl;
+    padding-right: 15px;
     position: relative;
 }
 
@@ -1017,7 +1024,7 @@ button:focus {
     font-family: 'FontAwesome';
     position: absolute;
     top: 0px;
-    left: 0px;
+    right: 0px;
     color: #e74c3c;
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
@@ -1042,7 +1049,7 @@ button:focus {
     position: absolute;
 }
 
-.tag-list li:last-child a:before {
+.tag-list li:first-child a:before {
     content: '';
     display: none;
 }
@@ -1206,7 +1213,7 @@ button:focus {
 
 .window-location li {
     vertical-align: text-top;
-    text-align: center;
+    text-align: right;
 }
 
 .window-location a {
@@ -1234,6 +1241,7 @@ button:focus {
 }
 
 .sidebar .widget {
+    direction: rtl;
     padding-bottom: 85px;
 }
 
@@ -1312,21 +1320,13 @@ button:focus {
     outline: 0;
 }
 
-.sidebar .social-list a {
-    background: #fafafa;
-    border-radius: 50%;
-    color: #e74c3c;
-    display: inline-block;
-    font-size: 1.5em;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
+.sidebar .social-list li {
+    padding: 0px 15px;
 }
 
-.sidebar .social-list a:hover {
-    background: #e74c3c;
-    color: #ffffff !important;
+.sidebar .social-list a {
+    color: #e74c3c;
+    font-size: 1.5em;
 }
 
 .categories-list .form-control {
@@ -1401,6 +1401,8 @@ footer {
     background-color: #1e1e1e;
     color: #ffffff;
     clear: both;
+    direction: rtl;
+    text-align: right;
 }
 
 footer .widget-title {
@@ -1536,7 +1538,7 @@ footer .widget-title {
 }
 
 .widget .subscribe-message {
-    text-align: center;
+    text-align: right;
     font-size: 1.125em;
 }
 
@@ -1575,11 +1577,11 @@ footer .widget-title {
 }
 
 .footer-bottom a {
-    color: #e74c3c;
+    color: #686c77;
 }
 
 .footer-bottom a:hover {
-    color: #686c77;
+    color: #e74c3c;
 }
 
 .footer-menu a {
@@ -1612,8 +1614,4 @@ footer .widget-title {
 
 .scroll-to-top:hover {
     opacity: 1;
-}
-
-.read-more {
-    color: #e74c3c;
 }

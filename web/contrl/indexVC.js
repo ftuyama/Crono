@@ -40,7 +40,7 @@ $(".bxslider").bxSlider({
                 marker: {
                     latLng: [-23.2108, -45.8751],
                     options: {
-                        icon: "assets/images/mapicon.png"
+                        icon: "public/img/mapicon.png"
                     }
                 }
             })

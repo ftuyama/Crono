@@ -342,6 +342,9 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                         Generating basic calendar structure
         ===========================================================================
     */
+    $scope.stopPropagation = function() {
+        $event.stopPropagation();
+    };
 
     $scope.select_month = function() {
         [month, year] = $("#monthPicker").val().split(' ');

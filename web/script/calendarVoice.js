@@ -15,10 +15,18 @@ if (annyang) {
     // Add our commands to annyang
     annyang.addCommands({
         'criar (evento)': function() {
-            alert('Criar world!');
+            showSnackBar("Criando evento...");
+            angular.element(document.getElementById('calendarVC'))
+                .scope().newEvent("0-666", (new Date()).toISOString().split('T')[0]);
         },
-        'editar (evento)': function() {
-            alert('Editar world!');
+        'atualizar': function() {
+            showSnackBar("Atualizando...");
+            angular.element(document.getElementById('calendarVC'))
+                .scope().fetch();
+        },
+        'login': function() {
+            showSnackBar("Fazendo login...");
+            $(location).attr('href', 'calendarAuth/');
         }
     });
     annyang.setLanguage(userLang);
@@ -30,7 +38,7 @@ if (annyang) {
 
     // Add instructional texts
     SpeechKITT.setInstructionsText('Alguns comandos úteis…');
-    SpeechKITT.setSampleCommands(['Criar evento', 'Editar evento']);
+    SpeechKITT.setSampleCommands(['Criar evento', 'Atualizar', 'Login']);
 
     // If user clicks start button, remember his choice for 1 minute
     SpeechKITT.rememberStatus(1);

@@ -249,6 +249,24 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         $("#monthPicker").focus();
     };
 
+    /* Gera a lista de nomes dos meses e dias de semana conforme língua do usuário */
+    var userLang = navigator.language || navigator.userLanguage;
+
+    var monthNames = [];
+    for (i = 1; i <= 12; i++) {
+        var month = ("0" + i).slice(-2);
+        var date = new Date(month + "/1/2009");
+        var monthName = date.toLocaleString(userLang, { month: "long" });
+        monthNames.push(capitalizeFirstLetter(monthName));
+    }
+
+    var daysNames = [];
+    for (i = 1; i <= 7; i++) {
+        var date = new Date("05/0" + i + "/2016");
+        var dayName = date.toLocaleString(userLang, { weekday: "long" });
+        daysNames.push(capitalizeFirstLetter(dayName));
+    }
+
     /* Resolve bug irritante do AngularJS. Valida também as datas e seu formato */
     $scope.checkDate = function() {
         $scope.event_form.startDate = $("#startDate").val();
@@ -315,6 +333,10 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         return monthNames.indexOf(month);
     }
 
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     /*
         ===========================================================================
                         Generating basic calendar structure
@@ -348,11 +370,11 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             monthNames[date.getMonth()] + " " + date.getFullYear() +
             '<button class="btn btn-danger" style="float:right;">Change month</button>' +
             "</td></tr>";
-        table += "<tr>" +
-            "<td>Dom</td>" + "<td>Seg</td>" +
-            "<td>Ter</td>" + "<td>Qua</td>" +
-            "<td>Qui</td>" + "<td>Sex</td>" +
-            "<td>Sab</td>" + "</tr>"
+        table += "<tr>";
+        daysNames.forEach(function(dayName) {
+            table += "<td>" + dayName + "</td>";
+        });
+        table += "</tr>";
         for (i = 0; i <= 5; i++) {
             var row = "<tr>";
             for (j = 0; j <= 6; j++) {
@@ -398,11 +420,6 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         table += "</table>";
         $("#motherTable").html($compile(table)($scope));
     }
-
-    var monthNames = ["Janeiro", "Fevereito", "Março", "Abril", "Maio", "Junho",
-        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-    ];
-
 });
 
 /*

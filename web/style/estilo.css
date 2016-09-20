@@ -121,3 +121,11 @@ li {
         opacity: 0;
     }
 }
+
+footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    font-style: italic;
+}

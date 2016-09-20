@@ -8,6 +8,7 @@ var principal = require('./web/server/principalSV');
 var index = require('./web/server/indexSV');
 var users = require('./web/server/usersSV');
 var calendar = require('./web/server/calendarSV');
+var about = require('./web/server/aboutSV');
 
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
@@ -46,6 +47,7 @@ app.use('/projectAuth', projectAuth);
 app.use('/calendar', calendar);
 app.use('/users', users);
 app.use('/main', principal);
+app.use('/about', about);
 app.use('/', index);
 
 // set the port of our application

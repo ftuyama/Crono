@@ -2,6 +2,7 @@
 <html lang="en" ng-app="calendarApp">
 
 <head>
+    <div id="navbar"></div>
     <!-- Imports e barra de navegação -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="import" href="/components/depend-calendar.html">
@@ -9,8 +10,6 @@
     <link href='/estilo.css' rel='stylesheet' type='text/css'>
     <link href='/calendar.css' rel='stylesheet' type='text/css'>
     <script src="/contrl/calendarVC.js"></script>
-    <script src="/script/speech.js"></script>
-    <div id="navbar"></div>
 </head>
 
 <body id="calendarVC" ng-controller="calendarVC">
@@ -210,7 +209,7 @@
                             autoClose: true,
                             language: 'pt',
                             onSelect: function() {
-                                angular.element(document.getElementById('calendarVC')).scope().select_month();
+                                angular.element($('#calendarVC')).scope().select_month();
                             }
                         });
 

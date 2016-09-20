@@ -1,7 +1,3 @@
-$(document).ready(function() {
-    $('#navbar').load('/components/navbar.html');
-})
-
 /* Função para leitura dos cookies */
 function readCookie(name) {
     var nameEQ = name + "=";

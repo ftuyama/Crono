@@ -1,3 +1,12 @@
+/*
+    Wev Speech API
+
+    The new JavaScript Web Speech API makes it easy to add speech recognition to your web pages. 
+    This API allows fine control and flexibility over the speech recognition capabilities.
+    
+    https://developers.google.com/web/updates/2013/01/Voice-Driven-Web-Apps-Introduction-to-the-Web-Speech-API
+*/
+
 var userLang = navigator.language || navigator.userLanguage;
 
 var final_transcript = '';

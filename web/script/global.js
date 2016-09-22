@@ -19,7 +19,6 @@ function getRandomColor() {
     return LightenDarkenColor(color, 40);
 }
 
-
 function LightenDarkenColor(col, amt) {
     var usePound = false;
     if (col[0] == "#") {
@@ -58,4 +57,9 @@ function showSnackBar(message) {
     x.innerHTML = message;
     x.className = "show";
     setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
+}
+
+// Exporta funções para realizar testes
+module.exports = {
+    _colorInRange: colorInRange
 }

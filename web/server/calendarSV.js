@@ -16,6 +16,13 @@ router.get('/', function(req, res) {
     res.send(fs.readFileSync("web/view/calendar.html", "utf8"));
 });
 
+/* GET event list page */
+router.get('/', function(req, res) {
+    if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendarAuth');
+    if (!req.session.access_token) req.session.access_token = req.cookies.token;
+    res.send(fs.readFileSync("web/view/calendar_events.html", "utf8"));
+});
+
 /* Authentication function */
 
 function retrieveToken(req, res) {

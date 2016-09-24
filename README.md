@@ -1,6 +1,14 @@
 # Crono
 
-Projeto de um calendário virtual e gerenciador de projetos desenvolvido em NodeJS e AngularJS
+Projeto de um calendário virtual e gerenciador de projetos desenvolvido em linguagem javascript e plataformas NodeJS e AngularJS
+
+## Preview - Tela Inicial
+
+![Tela inicial](https://github.com/ftuyama/Crono/blob/master/web/public/img/background/1.jpg)
+
+## Preview - Tela Calendário
+
+![Tela Calendário](https://github.com/ftuyama/Crono/blob/master/web/public/img/tab.jpg)
 
 ## Developers:
 

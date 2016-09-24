@@ -38,6 +38,7 @@ app.use(cookieParser());
 app.use(bodyParser.json())
 app.use(session({
     secret: 'my easter egg',
+    maxAge: 3600000, // 1 hour
     resave: false,
     saveUninitialized: true,
 }))

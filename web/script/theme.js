@@ -1,5 +1,5 @@
 /* Carrega o tema salvo em cookie */
-loadTheme(decodeURIComponent(readCookie("theme")));
+loadTheme(readCookie("theme"));
 
 /* Carrega o tema para as páginas */
 function loadTheme(theme) {

@@ -8,6 +8,7 @@ var principal = require('./web/server/principalSV');
 var index = require('./web/server/indexSV');
 var users = require('./web/server/usersSV');
 var calendar = require('./web/server/calendarSV');
+var about = require('./web/server/aboutSV');
 
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
@@ -28,7 +29,8 @@ app.use(express.static(__dirname + '/web/contrl'));
 app.use(express.static(__dirname + '/web/script'));
 //Store all CSS in style folder.
 app.use(express.static(__dirname + '/web/style'));
-//Store all Assets in web folder
+//Store all public in web folder
+app.use(express.static(__dirname + '/web/public'));
 app.use(express.static(__dirname + '/web'));
 
 // Configure server
@@ -46,6 +48,7 @@ app.use('/projectAuth', projectAuth);
 app.use('/calendar', calendar);
 app.use('/users', users);
 app.use('/main', principal);
+app.use('/about', about);
 app.use('/', index);
 
 // set the port of our application
@@ -56,7 +59,7 @@ var server = app.listen(port, function() {
     var host = server.address().address
     var port = server.address().port
 
-    console.log("Example app listening at http://%s:%s", host, port)
+    console.log("Crono app listening at port %s", port)
 })
 
 module.exports = app;

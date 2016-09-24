@@ -16,14 +16,14 @@ router.get('/', function(req, res) {
 
 /* GET List */
 router.get('/listUser', function(req, res) {
-    fs.readFile("web/assets/data/users.json", 'utf8', function(err, data) {
+    fs.readFile("web/public/data/users.json", 'utf8', function(err, data) {
         res.send(renderPage({ response: data, op: "Lista" }));
     });
 })
 
 /* GET Query */
 router.get('/queryUser', function(req, res) {
-    fs.readFile("web/assets/data/users.json", 'utf8', function(err, data) {
+    fs.readFile("web/public/data/users.json", 'utf8', function(err, data) {
         var dataQuery = {};
         data = JSON.parse(data);
         for (var prop in data) {
@@ -37,7 +37,7 @@ router.get('/queryUser', function(req, res) {
 
 /* GET Add */
 router.get('/addUser', function(req, res) {
-    fs.readFile("web/assets/data/users.json", 'utf8', function(err, data) {
+    fs.readFile("web/public/data/users.json", 'utf8', function(err, data) {
         data = JSON.parse(data);
         id = Math.floor(Math.random() * 10000);
         data["user" + id] = {
@@ -48,7 +48,7 @@ router.get('/addUser', function(req, res) {
         };
         res.send(renderPage({ response: JSON.stringify(data), op: "Adição" }));
 
-        fs.writeFile("web/assets/data/users.json", JSON.stringify(data), function(err) {
+        fs.writeFile("web/public/data/users.json", JSON.stringify(data), function(err) {
             console.log("Salvando usuario.");
         });
     });

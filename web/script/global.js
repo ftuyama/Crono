@@ -10,6 +10,19 @@ function readCookie(name) {
     return null;
 }
 
+/* Função para escrita dos cookies */
+var createCookie = function(name, value, days) {
+    var expires;
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toGMTString();
+    } else {
+        expires = "";
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';

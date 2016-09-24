@@ -195,7 +195,6 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
 
     $scope.fetch = function() {
         $scope.create_calendar();
-        $scope.user = "";
         $scope.events = [];
         for (j = 0; j < $scope.groups.length; j++) {
             $scope.events.push([]);
@@ -209,9 +208,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                         var calendario = response.data;
                         var events = calendario.items;
                         var group = Number(response.data.group_id);
-                        $scope.user += calendario.summary + "; ";
                         $scope.events[group] = events;
-                        // Debug: $scope.user = calendario;
                         for (i = 0; i < events.length; i++) {
                             var date = getDateProperty(events[i].start);
                             var tiny_class = getTextSize(events[i].summary.length);
@@ -234,7 +231,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             for (i = 0; i < $scope.groups.length; i++) {
                 var cookie = $cookies[$scope.groups[i].id];
                 $scope.groups[i].checked =
-                    (cookie != undefined && cookie == "true");
+                    (cookie == undefined || cookie == "true");
             }
             $scope.fetch();
         });

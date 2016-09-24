@@ -59,7 +59,12 @@ function showSnackBar(message) {
     setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
 }
 
-// Exporta funções para realizar testes
-module.exports = {
-    _colorInRange: colorInRange
-}
+/*
+        ===========================================================================
+                        Exporta funções para testes unitários
+        ===========================================================================
+    */
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
+    module.exports = {
+        _colorInRange: colorInRange
+    };

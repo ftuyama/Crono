@@ -1,138 +1,87 @@
 <!doctype html>
-<html lang="en" ng-app="calendarApp">
+<html lang="en" ng-app="calendarEventsApp">
 
 <head>
-    <!-- Imports e barra de navegação -->
+    <title>Calendar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="import" href="/components/depend-calendar.html">
-    <link href='/estilo.css' rel='stylesheet' type='text/css'>
-    <link href='/calendar.css' rel='stylesheet' type='text/css'>
-    <script src="/contrl/calendarVC.js"></script>
-    <script src="/script/speech.js"></script>
+    <meta name="description" content="Calendar-Events">
+    <!-- Imports e barra de navegação -->
+    <link rel="import" href="/components/depend-calendar-events.html">
     <div id="navbar"></div>
 </head>
+<style>
+    .modal-dialog {
+        width: 800px;
+        position: absolute;
+        left: 50%;
+        margin-left: -412px;
+        top: 50%;
+        margin-top: -250px;
+    }
+</style>
 
-<body id="calendarVC" ng-controller="calendarVC">
+<body id="calendarEventsVC" ng-controller="calendarEventsVC">
     <br>
     <br>
     <hr>
     <!-- Lista de grupos de calendário -->
     <div class="row no-gutter">
-        <div class="col-sm-2">
-            <div class="thumbnail">
-                <p style="display: inline;">Group List:</p>
-                <hr>
-                <div ng-repeat="group in groups">
-                    <div class="col-sm-10 spec">
-                        {{group.summary}}
-                    </div>
-                    <div>
-                        <label class="switch" style="float:right;">
+        <div class="thumbnail col-sm-8">
+            <p style="display: inline;">Group List:</p>
+            <hr>
+            <div ng-repeat="group in groups">
+                <div class="col-sm-10 spec">
+                    {{group.summary}}
+                </div>
+                <div>
+                    <label class="switch" style="float:right;">
                         <input ng-model="group.checked" ng-change="fetch()" type="checkbox"/>
                         <div class="slider round"></div>
                         </label>
-                    </div>
                 </div>
             </div>
-
+        </div>
+        <div class="col-sm-4">
             <!-- Botões diversos do site  -->
             <div align="center">
-                <form action="calendar/list0">
-                    <button type="submit" class="btn btn-success btn-block">Ver eventos</button>
+                <form action="/../calendar/list-events">
+                    <button type="submit" class="btn btn-success btn-block">See events</button>
                 </form><br>
-                <form action="calendar/groups">
-                    <button type="submit" class="btn btn-warning btn-block">Ver grupos</button>
-                </form><br>
-                <form action="calendarAuth/">
+                <form action="/../calendarAuth/">
                     <button type="submit" class="btn btn-danger btn-block">Login Google</button>
                 </form><br>
             </div>
         </div>
-
-        <!-- Calendário estático inicial  -->
-        <div class="col-sm-10 calendar-content" style="text-align: center;">
-            <input type="text" id="monthPicker" class="datepicker-here monthPicker" data-language="pt" data-min-view="months" data-view="months" data-date-format="MM yyyy">
-            <div id="motherTable">
-                <TABLE class="table table-bordered">
-                    <TR>
-                        <TD COLSPAN="7 ">
-                            <B>Calendar</B>
-                        </TD>
-                    </TR>
-                    <TR>
-                        <TD>Sun</TD>
-                        <TD>Mon</TD>
-                        <TD>Tue</TD>
-                        <TD>Wed</TD>
-                        <TD>Thu</TD>
-                        <TD>Fri</TD>
-                        <TD>Sat</TD>
-                    </TR>
-                    <TR>
-                        <TD class="day"></TD>
-                        <TD class="day"></TD>
-                        <TD class="day"></TD>
-                        <TD class="day"></TD>
-                        <TD class="day"></TD>
-                        <TD class="day"></TD>
-                        <TD class="day">1</TD>
-                    </TR>
-                    <TR>
-                        <TD class="day">2</TD>
-                        <TD class="day">3</TD>
-                        <TD class="day">4</TD>
-                        <TD class="day">5</TD>
-                        <TD class="day">6</TD>
-                        <TD class="day">7</TD>
-                        <TD class="day">8</TD>
-                    </TR>
-                    <TR>
-                        <TD class="day">9</TD>
-                        <TD class="day">10</TD>
-                        <TD class="day">11</TD>
-                        <TD class="day">12</TD>
-                        <TD class="day">13</TD>
-                        <TD class="day">14</TD>
-                        <TD class="day">15</TD>
-                    </TR>
-                    <TR>
-                        <TD class="day">16</TD>
-                        <TD class="day">17</TD>
-                        <TD class="day">18</TD>
-                        <TD class="day">19</TD>
-                        <TD class="day">20</TD>
-                        <TD class="day">21</TD>
-                        <TD class="day">22</TD>
-                    </TR>
-                    <TR>
-                        <TD class="day">23</TD>
-                        <TD class="day">24</TD>
-                        <TD class="day">25</TD>
-                        <TD class="day">26</TD>
-                        <TD class="day">27</TD>
-                        <TD class="day">28</TD>
-                        <TD class="day">29</TD>
-                    </TR>
-                    <TR>
-                        <TD class="day">30</TD>
-                        <TD class="day">31</TD>
-                        <TD class="day"></TD>
-                        <TD class="day"></TD>
-                        <TD class="day"></TD>
-                        <TD class="day"></TD>
-                        <TD class="day"></TD>
-                    </TR>
-                </TABLE>
-            </div>
-        </div>
     </div>
-
-    <!-- Template para o popover aberto  -->
-    <p>Grupo de Eventos: {{user}}</p>
-    <div id="snackbar"></div>
-
+    <hr>
+    <div id="list" ng-repeat="eventgroup in events" class="container">
+        <ul class="list-group">
+            <h3 style="display:inline-block;">Group:<a> {{groups[$index].summary}}</a></h3>
+            <label class="switch">
+                        <input ng-model="groups[$index].checked" ng-change="fetch()" type="checkbox"/>
+                        <div class="slider round"></div>
+                </label>
+            <div ng-repeat="event in eventgroup">
+                <li class="list-group-item" style="display: inline;">
+                    <div class="row row-no-padding">
+                        <div class="col-sm-6">
+                            <button class="btn btn-default btn-block" ng-click="select(event)">{{event.summary}}</button>
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="btn btn-info btn-block">
+                            {{(event.start.date != undefined)? event.start.date : event.start.dateTime | date: 'dd/MM/yyyy HH:mm'}}
+                            </button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-danger btn-block" ng-click="deleteEvent(event, $parent.$index)">Delete</button>
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </ul>
+    </div>
     <!-- Modal com o form dos Eventos  -->
-    <div id="formModal" class="modal fade" role="dialog">
+    <div id="descriptionModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -140,99 +89,22 @@
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" ng-show="create">Criar Evento</h4>
-                    <h4 class="modal-title" ng-show="edit">Editar Evento</h4>
+                    <h4 class="modal-title">Event Debugger</h4>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <div class="form-item">
-                        <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Nome:</label>
-                            <div class="col-sm-8">
-                                <input id="summary_form" type="text" class="form-control  input-sm" ng-model="event_form.summary" />
-                            </div>
-                            <div class="col-sm-2">
-                                <button id="start_button" class="mic-btn" onclick='startButton(event, "summary_form" ,"start_img1")'>
-                                <img id="start_img1" class="mic-img" src="speech/mic.gif" alt="Start"></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-item">
-                        <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Descrição:</label>
-                            <div class="col-sm-8">
-                                <input id="description_form" type="text" class="form-control input-sm" ng-model="event_form.description" />
-                            </div>
-                            <div class="col-sm-2">
-                                <button id="start_button" class="mic-btn" onclick='startButton(event, "description_form" ,"start_img2")'>
-                                <img id="start_img2" class="mic-img" src="speech/mic.gif" alt="Start"></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-item">
-                        <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Início:</label>
-                            <div class="col-sm-5">
-                                <input type='text' id="startDate" class="form-control input-sm datepickera" data-language='pt' ng-model="event_form.startDate" />
-                            </div>
-                            <label class="control-label col-sm-1" for="text">às:</label>
-                            <div class="col-sm-4">
-                                <input type='text' id="startHour" class="form-control input-sm hourpickera" ng-model="event_form.startHour" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-item">
-                        <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Fim:</label>
-                            <div class="col-sm-5">
-                                <input type='text' id="endDate" class="form-control input-sm datepickera" data-language='pt' ng-model="event_form.endDate" />
-                            </div>
-                            <label class="control-label col-sm-1" for="text">às:</label>
-                            <div class="col-sm-4">
-                                <input type='text' id="endHour" class="form-control input-sm hourpickera" ng-model="event_form.endHour" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-item">
-                        <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Grupo:</label>
-                            <div class="col-sm-10">
-                                <span class="input-group-addon" style="width:0px; padding:0px; border:none;"></span>
-                                <select class="form-control" ng-model="event_form.group_id">
-                                    <option ng-repeat="group in groups" value={{$index}} ng-model="event_form.group_id">{{group.summary}}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        $('.datepicker-here').datepicker({
-                            autoClose: true,
-                            language: 'pt',
-                            onSelect: function() {
-                                angular.element(document.getElementById('calendarVC')).scope().select_month();
-                            }
-                        });
-
-                        $('.datepickera').datepicker({
-                            autoClose: true,
-                            language: 'pt',
-                            todayButton: true
-                        });
-
-                        $('#startHour').timeAutocomplete();
-                        $('#endHour').timeAutocomplete();
-                    </script>
+                    <pre class="console">{{selected | json}}</pre>
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <button class="btn btn-success" ng-click="postCreateEvent()" ng-show="create">Criar Evento</button>
-                    <button class="btn btn-success" ng-click="postEditEvent()" ng-show="edit">Salvar Evento</button>
-                    <button class="btn btn-danger" ng-click="postDeleteEvent()" ng-show="edit">Deletar</button>
-                    <button class="btn btn-warning" ng-click="closeModal()">Cancelar</button>
+                    <button class="btn btn-danger" ng-click="closeModal()">Exit</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Mensagens snackbar  -->
+    <div id="snackbar"></div>
 </body>
 
 </html>

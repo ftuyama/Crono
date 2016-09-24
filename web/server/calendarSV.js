@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 });
 
 /* GET event list page */
-router.get('/', function(req, res) {
+router.get('/list-events', function(req, res) {
     if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendarAuth');
     if (!req.session.access_token) req.session.access_token = req.cookies.token;
     res.send(fs.readFileSync("web/view/calendar_events.html", "utf8"));

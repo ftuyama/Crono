@@ -57,7 +57,7 @@
                         <input ng-model="groups[$index].checked" ng-change="fetch()" type="checkbox"/>
                         <div class="slider round"></div>
                 </label>
-            <div ng-repeat="event in eventgroup">
+            <div ng-repeat="event in eventgroup | orderBy:'start':false:startComparator">
                 <li class="list-group-item" style="display: inline;">
                     <div class="row row-no-padding">
                         <div class="col-sm-6">

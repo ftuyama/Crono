@@ -201,12 +201,11 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         }
         for (j = 0; j < $scope.groups.length; j++) {
             var group_checked = $scope.groups[j].checked;
-            $cookies[$scope.groups[j].id] = group_checked;
+            createCookie([$scope.groups[j].id], group_checked, 365);
             if (group_checked == true) {
                 $http.get('/calendar/list' + j)
                     .then(function success(response) {
-                        var calendario = response.data;
-                        var events = calendario.items;
+                        var events = response.data.items;
                         var group = Number(response.data.group_id);
                         $scope.events[group] = events;
                         for (i = 0; i < events.length; i++) {
@@ -229,7 +228,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         .then(function success(response) {
             $scope.groups = response.data.items;
             for (i = 0; i < $scope.groups.length; i++) {
-                var cookie = $cookies[$scope.groups[i].id];
+                var cookie = readCookie([$scope.groups[i].id]);
                 $scope.groups[i].checked =
                     (cookie == undefined || cookie == "true");
             }

@@ -34,13 +34,19 @@ angular.module("calendarEventsApp", ['ngCookies'])
                 });
         };
 
+        /*
+        ===========================================================================
+                        Fetching Data from the Server
+        ===========================================================================
+    */
+
         $scope.fetch = function() {
             $scope.events = [];
             for (j = 0; j < $scope.groups.length; j++)
                 $scope.events.push([]);
             for (j = 0; j < $scope.groups.length; j++) {
                 var group_checked = $scope.groups[j].checked;
-                $cookies[$scope.groups[j].id] = group_checked;
+                createCookie([$scope.groups[j].id], group_checked, 365);
                 if (group_checked == true) {
                     $http.get('/calendar/list' + j)
                         .then(function success(response) {
@@ -55,11 +61,29 @@ angular.module("calendarEventsApp", ['ngCookies'])
             .then(function success(response) {
                 $scope.groups = response.data.items;
                 for (i = 0; i < $scope.groups.length; i++) {
-                    var cookie = $cookies[$scope.groups[i].id];
+                    var cookie = readCookie([$scope.groups[i].id]);
                     $scope.groups[i].checked =
                         (cookie == undefined || cookie == "true");
                 }
                 $scope.fetch();
             });
+
+        /*
+            ===========================================================================
+                            Auxialiary functions in javascript
+            ===========================================================================
+        */
+
+        $scope.startComparator = function(d1, d2) {
+            return getDateProperty(d1.value).compare(getDateProperty(d2.value));
+        };
+
+        function getDateProperty(eventDate) {
+            if (eventDate.date != undefined)
+                return new Date(eventDate.date);
+            else if (eventDate.dateTime != undefined)
+                return new Date(eventDate.dateTime);
+            return new Date();
+        }
 
     });

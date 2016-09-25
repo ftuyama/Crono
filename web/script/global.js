@@ -11,7 +11,7 @@ function readCookie(name) {
 }
 
 /* Função para escrita dos cookies */
-var createCookie = function(name, value, days) {
+function createCookie(name, value, days) {
     var expires;
     if (days) {
         var date = new Date();
@@ -58,6 +58,24 @@ function colorInRange(col) {
     else if (col < 0) return 0;
     return col;
 }
+
+/* Compare the current date against another date.
+ *
+ * @param b  {Date} the other date
+ * @returns   -1 : if this < b
+ *             0 : if this === b
+ *             1 : if this > b
+ *            NaN : if a or b is an illegal date
+ */
+Date.prototype.compare = function(b) {
+    if (b.constructor !== Date) {
+        throw "invalid_date";
+    }
+
+    return (isFinite(this.valueOf()) && isFinite(b.valueOf()) ?
+        (this > b) - (this < b) : NaN
+    );
+};
 
 Date.prototype.sameDay = function(d) {
     return this.getFullYear() === d.getFullYear() &&

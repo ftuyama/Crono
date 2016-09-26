@@ -1,3 +1,9 @@
+/*
+    ===========================================================================
+                        Global functions to manage Cookies
+    ===========================================================================
+*/
+
 /* Função para leitura dos cookies */
 function readCookie(name) {
     var nameEQ = name + "=";
@@ -22,6 +28,12 @@ function createCookie(name, value, days) {
     }
     document.cookie = name + "=" + value + expires + "; path=/";
 }
+
+/*
+    ===========================================================================
+                        Global functions to manage Colors
+    ===========================================================================
+*/
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
@@ -59,6 +71,12 @@ function colorInRange(col) {
     return col;
 }
 
+/*
+    ===========================================================================
+                        Global functions to manage Dates
+    ===========================================================================
+*/
+
 /* Compare the current date against another date.
  *
  * @param b  {Date} the other date
@@ -83,6 +101,37 @@ Date.prototype.sameDay = function(d) {
         this.getMonth() === d.getMonth();
 }
 
+var userLang = navigator.language || navigator.userLanguage;
+
+var monthNames = [];
+for (i = 1; i <= 12; i++) {
+    var month = ("0" + i).slice(-2);
+    var date = new Date(month + "/1/2009");
+    var monthName = date.toLocaleString(userLang, { month: "long" });
+    monthNames.push(capitalizeFirstLetter(monthName));
+}
+
+var daysNames = [];
+for (i = 1; i <= 7; i++) {
+    var date = new Date("05/0" + i + "/2016");
+    var dayName = date.toLocaleString(userLang, { weekday: "long" });
+    daysNames.push(capitalizeFirstLetter(dayName));
+}
+
+function returnMonth(month) {
+    return monthNames.indexOf(month.trim());
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+/*
+    ===========================================================================
+                        Global functions to manage Dates
+    ===========================================================================
+*/
+
 function showSnackBar(message) {
     var x = document.getElementById("snackbar");
     x.innerHTML = message;
@@ -91,10 +140,10 @@ function showSnackBar(message) {
 }
 
 /*
-        ===========================================================================
+    ===========================================================================
                         Exporta funções para testes unitários
-        ===========================================================================
-    */
+    ===========================================================================
+*/
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
     module.exports = {
         _colorInRange: colorInRange

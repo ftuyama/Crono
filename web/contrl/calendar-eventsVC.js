@@ -43,7 +43,7 @@ angular.module("calendarEventsApp", ['ngCookies'])
         $scope.fetch = function() {
             $scope.events = [];
             for (j = 0; j < $scope.groups.length; j++)
-                $scope.events.push([]);
+                $scope.events.push({});
             for (j = 0; j < $scope.groups.length; j++) {
                 var group_checked = $scope.groups[j].checked;
                 createCookie([$scope.groups[j].id], group_checked, 365);
@@ -51,7 +51,12 @@ angular.module("calendarEventsApp", ['ngCookies'])
                     $http.get('/calendar/list' + j)
                         .then(function success(response) {
                             var group = Number(response.data.group_id);
-                            $scope.events[group] = response.data.items;
+                            response.data.items.forEach(function(event) {
+                                var dateProp = getDateProperty(event.start);
+                                var key = monthNames[dateProp.getMonth()] + '-' + dateProp.getFullYear();
+                                $scope.events[group][key] = $scope.events[group][key] || [];
+                                $scope.events[group][key].push(event);
+                            });
                         });
                 }
             }

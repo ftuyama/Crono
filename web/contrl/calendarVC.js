@@ -245,24 +245,6 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         $("#monthPicker").focus();
     };
 
-    /* Gera a lista de nomes dos meses e dias de semana conforme língua do usuário */
-    var userLang = navigator.language || navigator.userLanguage;
-
-    var monthNames = [];
-    for (i = 1; i <= 12; i++) {
-        var month = ("0" + i).slice(-2);
-        var date = new Date(month + "/1/2009");
-        var monthName = date.toLocaleString(userLang, { month: "long" });
-        monthNames.push(capitalizeFirstLetter(monthName));
-    }
-
-    var daysNames = [];
-    for (i = 1; i <= 7; i++) {
-        var date = new Date("05/0" + i + "/2016");
-        var dayName = date.toLocaleString(userLang, { weekday: "long" });
-        daysNames.push(capitalizeFirstLetter(dayName));
-    }
-
     /* Resolve bug irritante do AngularJS. Valida também as datas e seu formato */
     $scope.checkDate = function() {
         $scope.event_form.startDate = $("#startDate").val();
@@ -322,15 +304,6 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         if (eventDate.dateTime != undefined)
             return eventDate.dateTime.slice(11, 16);
         return "00:00";
-    }
-
-    function returnMonth(month) {
-        month = month.trim();
-        return monthNames.indexOf(month);
-    }
-
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     /*
@@ -394,11 +367,10 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                 var dayString = dayNumber.toString();
                 var dateString = dayDate.toISOString().split('T')[0];
                 row += '<td id="day-' + dateString + '" class="day';
-                if (dayDate.sameDay(date)) {
+                if (dayDate.sameDay(date))
                     row += " today";
-                } else if (dayDate < date || dayOut == true) {
+                else if (dayDate < date || dayOut == true)
                     row += " day-gone";
-                }
                 row += '" ng-click="newEvent(\'0-666\', \'' + dateString +
                     '\')" ondrop="drop(event)" ondragover="allowDrop(event)">' +
                     '<div id="' + dateString + '" class="list-group">' +

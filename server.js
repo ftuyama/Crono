@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 
 var calendarAuth = require('./APICalendar/auth');
+var firebaseAuth = require('./APIFirebase/auth');
 var projectAuth = require('./APIGit/auth');
 var principal = require('./web/server/principalSV');
 var index = require('./web/server/indexSV');
@@ -38,6 +39,7 @@ app.use(cookieParser());
 app.use(bodyParser.json())
 app.use(session({
     secret: 'my easter egg',
+    maxAge: 3600000, // 1 hour
     resave: false,
     saveUninitialized: true,
 }))
@@ -45,6 +47,7 @@ app.use(passport.initialize());
 
 app.use('/calendarAuth', calendarAuth);
 app.use('/projectAuth', projectAuth);
+app.use('/firebase', firebaseAuth);
 app.use('/calendar', calendar);
 app.use('/users', users);
 app.use('/main', principal);

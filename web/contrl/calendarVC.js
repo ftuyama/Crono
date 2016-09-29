@@ -195,23 +195,19 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
 
     $scope.fetch = function() {
         $scope.create_calendar();
-        $scope.user = "";
         $scope.events = [];
         for (j = 0; j < $scope.groups.length; j++) {
             $scope.events.push([]);
         }
         for (j = 0; j < $scope.groups.length; j++) {
             var group_checked = $scope.groups[j].checked;
-            $cookies[$scope.groups[j].id] = group_checked;
+            createCookie([$scope.groups[j].id], group_checked, 365);
             if (group_checked == true) {
                 $http.get('/calendar/list' + j)
                     .then(function success(response) {
-                        var calendario = response.data;
-                        var events = calendario.items;
+                        var events = response.data.items;
                         var group = Number(response.data.group_id);
-                        $scope.user += calendario.summary + "; ";
                         $scope.events[group] = events;
-                        // Debug: $scope.user = calendario;
                         for (i = 0; i < events.length; i++) {
                             var date = getDateProperty(events[i].start);
                             var tiny_class = getTextSize(events[i].summary.length);
@@ -232,9 +228,9 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         .then(function success(response) {
             $scope.groups = response.data.items;
             for (i = 0; i < $scope.groups.length; i++) {
-                var cookie = $cookies[$scope.groups[i].id];
+                var cookie = readCookie([$scope.groups[i].id]);
                 $scope.groups[i].checked =
-                    (cookie != undefined && cookie == "true");
+                    (cookie == undefined || cookie == "true");
             }
             $scope.fetch();
         });
@@ -248,24 +244,6 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.monthPicker = function() {
         $("#monthPicker").focus();
     };
-
-    /* Gera a lista de nomes dos meses e dias de semana conforme língua do usuário */
-    var userLang = navigator.language || navigator.userLanguage;
-
-    var monthNames = [];
-    for (i = 1; i <= 12; i++) {
-        var month = ("0" + i).slice(-2);
-        var date = new Date(month + "/1/2009");
-        var monthName = date.toLocaleString(userLang, { month: "long" });
-        monthNames.push(capitalizeFirstLetter(monthName));
-    }
-
-    var daysNames = [];
-    for (i = 1; i <= 7; i++) {
-        var date = new Date("05/0" + i + "/2016");
-        var dayName = date.toLocaleString(userLang, { weekday: "long" });
-        daysNames.push(capitalizeFirstLetter(dayName));
-    }
 
     /* Resolve bug irritante do AngularJS. Valida também as datas e seu formato */
     $scope.checkDate = function() {
@@ -326,15 +304,6 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         if (eventDate.dateTime != undefined)
             return eventDate.dateTime.slice(11, 16);
         return "00:00";
-    }
-
-    function returnMonth(month) {
-        month = month.trim();
-        return monthNames.indexOf(month);
-    }
-
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     /*
@@ -398,11 +367,10 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
                 var dayString = dayNumber.toString();
                 var dateString = dayDate.toISOString().split('T')[0];
                 row += '<td id="day-' + dateString + '" class="day';
-                if (dayDate.sameDay(date)) {
+                if (dayDate.sameDay(date))
                     row += " today";
-                } else if (dayDate < date || dayOut == true) {
+                else if (dayDate < date || dayOut == true)
                     row += " day-gone";
-                }
                 row += '" ng-click="newEvent(\'0-666\', \'' + dateString +
                     '\')" ondrop="drop(event)" ondragover="allowDrop(event)">' +
                     '<div id="' + dateString + '" class="list-group">' +

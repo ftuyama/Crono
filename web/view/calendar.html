@@ -7,13 +7,24 @@
     <meta name="description" content="Calendar">
     <!-- Imports e barra de navegação -->
     <link rel="import" href="/components/depend-calendar.html">
+    <!-- Personal Css and Js -->
+    <link href='/light-default.css' rel='stylesheet' type='text/css'>
+    <link href='/light-calendar.css' rel='stylesheet' type='text/css'>
+    <!-- Include do Controller -->
+    <script src="/contrl/calendarVC.js"></script>
+    <!-- Include Speech Js -->
+    <script src="/public/js/annyang.min.js"></script>
+    <script src="/public/js/speechkitt.min.js"></script>
+    <script src="/script/calendarVoice.js"></script>
+    <script src="/script/speech.js"></script>
     <div id="navbar"></div>
 </head>
 
 <body id="calendarVC" ng-controller="calendarVC">
     <br>
     <br>
-    <hr>
+    <br>
+    <br>
     <!-- Lista de grupos de calendário -->
     <div class="row no-gutter">
         <div class="col-sm-2">
@@ -35,11 +46,8 @@
 
             <!-- Botões diversos do site  -->
             <div align="center">
-                <form action="calendar/list0">
-                    <button type="submit" class="btn btn-success btn-block">Ver eventos</button>
-                </form><br>
-                <form action="calendar/groups">
-                    <button type="submit" class="btn btn-warning btn-block">Ver grupos</button>
+                <form action="calendar/list-events">
+                    <button type="submit" class="btn btn-success btn-block">See events</button>
                 </form><br>
                 <form action="calendarAuth/">
                     <button type="submit" class="btn btn-danger btn-block">Login Google</button>
@@ -125,8 +133,7 @@
         </div>
     </div>
 
-    <!-- Template para o popover aberto  -->
-    <p>Grupo de Eventos: {{user}}</p>
+    <!-- Mensagens snackbar  -->
     <div id="snackbar"></div>
 
     <!-- Modal com o form dos Eventos  -->
@@ -138,42 +145,42 @@
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" ng-show="create">Criar Evento</h4>
-                    <h4 class="modal-title" ng-show="edit">Editar Evento</h4>
+                    <h4 class="modal-title" ng-show="create">Create Event</h4>
+                    <h4 class="modal-title" ng-show="edit">Edit Event</h4>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="form-item">
                         <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Nome:</label>
+                            <label class="control-label col-sm-2" for="text">Name:</label>
                             <div class="col-sm-8">
                                 <input id="summary_form" type="text" class="form-control  input-sm" ng-model="event_form.summary" />
                             </div>
                             <div class="col-sm-2">
                                 <button id="start_button" class="mic-btn" onclick='startButton(event, "summary_form" ,"start_img1")'>
-                                <img id="start_img1" class="mic-img" src="speech/mic.gif" alt="Start"></button>
+                                <img id="start_img1" class="mic-img" src="/speech/mic.gif" alt="Start"></button>
                             </div>
                         </div>
                     </div>
                     <div class="form-item">
                         <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Descrição:</label>
+                            <label class="control-label col-sm-2" for="text">Description:</label>
                             <div class="col-sm-8">
                                 <input id="description_form" type="text" class="form-control input-sm" ng-model="event_form.description" />
                             </div>
                             <div class="col-sm-2">
                                 <button id="start_button" class="mic-btn" onclick='startButton(event, "description_form" ,"start_img2")'>
-                                <img id="start_img2" class="mic-img" src="speech/mic.gif" alt="Start"></button>
+                                <img id="start_img2" class="mic-img" src="/speech/mic.gif" alt="Start"></button>
                             </div>
                         </div>
                     </div>
                     <div class="form-item">
                         <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Início:</label>
+                            <label class="control-label col-sm-2" for="text">Start:</label>
                             <div class="col-sm-5">
                                 <input type='text' id="startDate" class="form-control input-sm datepickera" data-language='pt' ng-model="event_form.startDate" />
                             </div>
-                            <label class="control-label col-sm-1" for="text">às:</label>
+                            <label class="control-label col-sm-1" for="text">at:</label>
                             <div class="col-sm-4">
                                 <input type='text' id="startHour" class="form-control input-sm hourpickera" ng-model="event_form.startHour" />
                             </div>
@@ -181,11 +188,11 @@
                     </div>
                     <div class="form-item">
                         <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Fim:</label>
+                            <label class="control-label col-sm-2" for="text">End:</label>
                             <div class="col-sm-5">
                                 <input type='text' id="endDate" class="form-control input-sm datepickera" data-language='pt' ng-model="event_form.endDate" />
                             </div>
-                            <label class="control-label col-sm-1" for="text">às:</label>
+                            <label class="control-label col-sm-1" for="text">at:</label>
                             <div class="col-sm-4">
                                 <input type='text' id="endHour" class="form-control input-sm hourpickera" ng-model="event_form.endHour" />
                             </div>
@@ -193,7 +200,7 @@
                     </div>
                     <div class="form-item">
                         <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Grupo:</label>
+                            <label class="control-label col-sm-2" for="text">Group:</label>
                             <div class="col-sm-10">
                                 <span class="input-group-addon" style="width:0px; padding:0px; border:none;"></span>
                                 <select class="form-control" ng-model="event_form.group_id">
@@ -223,10 +230,10 @@
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <button class="btn btn-success" ng-click="postCreateEvent()" ng-show="create">Criar Evento</button>
-                    <button class="btn btn-success" ng-click="postEditEvent()" ng-show="edit">Salvar Evento</button>
-                    <button class="btn btn-danger" ng-click="postDeleteEvent()" ng-show="edit">Deletar</button>
-                    <button class="btn btn-warning" ng-click="closeModal()">Cancelar</button>
+                    <button class="btn btn-success" ng-click="postCreateEvent()" ng-show="create">Create Event</button>
+                    <button class="btn btn-success" ng-click="postEditEvent()" ng-show="edit">Save Event</button>
+                    <button class="btn btn-danger" ng-click="postDeleteEvent()" ng-show="edit">Delete</button>
+                    <button class="btn btn-warning" ng-click="closeModal()">Cancel</button>
                 </div>
             </div>
         </div>

@@ -4,23 +4,16 @@ var router = express.Router();
 var fs = require("fs");
 var bodyParser = require('body-parser');
 var mustache = require('mustache');
-var firebase = require("firebase");
-
-firebase.initializeApp({
-    databaseURL: 'https://crono-b0853.firebaseio.com/',
-    serviceAccount: 'APIFirebase/Crono.json',
-});
+var request = require('request');
 
 /* GET home page */
 router.get('/', function(req, res) {
     // Processing cookies
     if (req.cookies != undefined) {
         saved_number = req.cookies.number;
-        if (saved_number == undefined || saved_number == null) {
+        if (saved_number == undefined || saved_number == null)
             saved_number = 1;
-        } else {
-            saved_number++;
-        }
+        else saved_number++;
         res.cookie('number', saved_number);
 
         saved_token = req.cookies.token;
@@ -33,29 +26,76 @@ router.get('/', function(req, res) {
     res.send(mustache.to_html(page, { show: false }));
 })
 
+/*
+  ===========================================================================
+            Firebase CRUD HelloWorld implementation
+  ===========================================================================
+*/
 
 router.get('/set', function(req, res) {
-    firebase.database().ref('/').set({
-        username: "test",
-        email: "test@mail.com"
-    });
-    firebase.database().ref('/').child('Tuyama COdao').set({
-        estudante: "test",
-        email: "test@mail.com"
-    });
-
-    var page = fs.readFileSync("web/view/principal.html", "utf8");
-    res.send(mustache.to_html(page, { show: false }));
+    var content = {
+        url: '/Tuyama COdao',
+        content: {
+            username: "test",
+            email: "test@mail.com",
+            ok: {
+                username: "test2"
+            }
+        }
+    };
+    request.post('http://localhost:8080/firebase/set', { json: content },
+        function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log("ok");
+                res.redirect('back');
+            }
+        }
+    );
 })
 
 router.get('/get', function(req, res) {
-    firebase.database().ref('/').on("value", function(snapshot) {
-        console.log(snapshot.val());
-    });
+    var content = {
+        url: '/Tuyama COdao/ok'
+    };
+    request.post('http://localhost:8080/firebase/get', { json: content },
+        function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log("ok");
+                res.redirect('back');
+            }
+        }
+    );
+})
 
+router.get('/upd', function(req, res) {
+    var content = {
+        url: '/',
+        content: {
+            "Tuyama COdao": {}
+        }
+    };
+    request.post('http://localhost:8080/firebase/upd', { json: content },
+        function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log("ok");
+                res.redirect('back');
+            }
+        }
+    );
+})
 
-    var page = fs.readFileSync("web/view/principal.html", "utf8");
-    res.send(mustache.to_html(page, { show: false }));
+router.get('/del', function(req, res) {
+    var content = {
+        url: '/Tuyama COdao'
+    };
+    request.post('http://localhost:8080/firebase/del', { json: content },
+        function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log("ok");
+                res.redirect('back');
+            }
+        }
+    );
 })
 
 module.exports = router;

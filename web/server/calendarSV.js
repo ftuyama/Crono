@@ -16,6 +16,13 @@ router.get('/', function(req, res) {
     res.send(fs.readFileSync("web/view/calendar.html", "utf8"));
 });
 
+/* GET event list page */
+router.get('/list-events', function(req, res) {
+    if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendarAuth');
+    if (!req.session.access_token) req.session.access_token = req.cookies.token;
+    res.send(fs.readFileSync("web/view/calendar_events.html", "utf8"));
+});
+
 /* Authentication function */
 
 function retrieveToken(req, res) {
@@ -61,8 +68,6 @@ router.post('/create', function(req, res) {
     if (accessToken == null) return res.redirect('/calendarAuth');
     var group_id = req.body.group_id;
     var event = JSON.stringify(req.body.event);
-    console.log(group_id);
-    console.log(event);
     gcal(accessToken).events.insert(group_id, event, function(err, data) {
         if (err) return res.redirect('/calendarAuth');
         res.json(data);

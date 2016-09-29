@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en" ng-app="calendarEventsApp">
+
+<head>
+    <title>Calendar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Calendar-Events">
+    <!-- Imports e barra de navegação -->
+    <link rel="import" href="/components/depend-calendar.html">
+    <!-- Personal Css and Js -->
+    <link href='/light-default.css' rel='stylesheet' type='text/css'>
+    <link href='/light-calendar.css' rel='stylesheet' type='text/css'>
+    <!-- Include do Controller -->
+    <script src="/contrl/calendar-eventsVC.js"></script>
+    <div id="navbar"></div>
+</head>
+
+<body id="calendarEventsVC" ng-controller="calendarEventsVC">
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- Lista de grupos de calendário -->
+    <div class="row no-gutter">
+        <div class="thumbnail col-sm-8">
+            <p style="display: inline;">Group List:</p>
+            <hr>
+            <div ng-repeat="group in groups">
+                <div class="col-sm-10 spec">
+                    {{group.summary}}
+                </div>
+                <div>
+                    <label class="switch" style="float:right;">
+                        <input ng-model="group.checked" ng-change="fetch()" type="checkbox"/>
+                        <div class="slider round"></div>
+                        </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <!-- Botões diversos do site  -->
+            <div align="center">
+                <form action="/../calendar">
+                    <button type="submit" class="btn btn-success btn-block">See calendar</button>
+                </form><br>
+                <form action="/../calendarAuth">
+                    <button type="submit" class="btn btn-danger btn-block">Login Google</button>
+                </form><br>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- Lista de eventos -->
+    <div id="list" ng-repeat="eventGroup in events" class="container">
+        <ul class="list-group">
+            <h3 style="display:inline-block;">Group:<a> {{groups[$index].summary}}</a></h3>
+            <label class="switch">
+                        <input ng-model="groups[$index].checked" ng-change="fetch()" type="checkbox"/>
+                        <div class="slider round"></div>
+                </label>
+            <div ng-repeat="(month, eventMonth) in eventGroup">
+                <div>Mês: {{ month }}</div>
+                <div ng-repeat="event in eventMonth | orderBy:'start':false:startComparator">
+                    <li class="list-group-item" style="display: inline;">
+                        <div class="row row-no-padding">
+                            <div class="col-sm-6">
+                                <button class="btn btn-default btn-block" ng-click="select(event)">{{event.summary}}</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <button class="btn btn-info btn-block">
+                                {{(event.start.date != undefined)? event.start.date : event.start.dateTime | date: 'dd/MM/yyyy HH:mm'}}
+                                </button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-danger btn-block" ng-click="deleteEvent(event, $parent.$index)">Delete</button>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </ul>
+    </div>
+    {{events}}
+    <!-- Modal com o form dos Eventos  -->
+    <div id="descriptionModal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="width: 800px;  margin-left: -412px;">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Event Debugger</h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <pre class="console">{{selected | json}}</pre>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-danger" ng-click="closeModal()">Exit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensagens snackbar  -->
+    <div id="snackbar"></div>
+</body>
+
+</html>

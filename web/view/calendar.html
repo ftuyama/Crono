@@ -25,6 +25,11 @@
     <br>
     <br>
     <br>
+    <div id="loader-wrapper" ng-show="loader">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
     <!-- Lista de grupos de calendário -->
     <div class="row no-gutter">
         <div class="col-sm-2">
@@ -37,7 +42,7 @@
                     </div>
                     <div>
                         <label class="switch" style="float:right;">
-                        <input ng-model="group.checked" ng-change="fetch()" type="checkbox"/>
+                        <input ng-model="group.checked" ng-change="requestFetch()" type="checkbox"/>
                         <div class="slider round"></div>
                         </label>
                     </div>

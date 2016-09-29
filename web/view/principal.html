@@ -16,7 +16,7 @@
 <body onload="zero()">
     <br><br><br>
     <h1 id="title">my Homework - {{username}}</h1>
-    <div class="wrapper">
+    <div class="wrapper col-sm-11">
         <button type="button" class="btn btn-primary" onclick="funcao()">Clique aqui</button>
         <p id="counter" hidden>Counter</p><br><br>
         <form action="/users">
@@ -32,6 +32,20 @@
             <button type="submit" class="btn btn-danger">Calendário</button>
         </form> <br>
         <p id="cooki"></p>
+    </div>
+    <div class="col-sm-1">
+        <form action="/main/set" method="GET">
+            <button type="submit" class="btn btn-primary">Set</button>
+        </form> <br>
+        <form action="/main/get" method="GET">
+            <button type="submit" class="btn btn-success">Get</button>
+        </form> <br>
+        <form action="/main/upd" method="GET">
+            <button type="submit" class="btn btn-warning">Upd</button>
+        </form> <br>
+        <form action="/main/del" method="GET">
+            <button type="submit" class="btn btn-danger">Del</button>
+        </form> <br>
     </div>
     {{#show}}
     <h3>Tasks</h3>

@@ -199,7 +199,6 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         ===========================================================================
     */
 
-
     $scope.requestFetch = function() {
         if ($scope.busy == false)
             $scope.fetch();
@@ -208,7 +207,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
 
     $scope.fetch = function() {
         $scope.busy = true;
-        $scope.create_calendar();
+        $scope.refresh_calendar();
         $scope.events = [];
         http_requests = [];
         for (j = 0; j < $scope.groups.length; j++) {
@@ -360,6 +359,12 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         $scope.create_calendar();
     };
 
+    $scope.refresh_calendar = function() {
+        if ($scope.calendarHTML == undefined)
+            $scope.create_calendar();
+        else $("#motherTable").html($compile($scope.calendarHTML)($scope));
+    }
+
     $scope.create_calendar = function() {
         // Hoje
         var date = $scope.monthYear;
@@ -380,6 +385,8 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             date.toISOString().slice(0, 10) + '\'); $event.stopPropagation()">Add event</button>' +
             monthNames[date.getMonth()] + " " + date.getFullYear() +
             '<button class="btn btn-danger" style="float:right;">Change month</button>' +
+            '<i class="fa fa-refresh fa-2x farefresh"' +
+            ' ng-click="requestFetch();  $event.stopPropagation()"></i>' +
             "</td></tr>";
         table += "<tr>";
         daysNames.forEach(function(dayName) {
@@ -428,6 +435,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             table += row + "</tr>";
         }
         table += "</table>";
+        $scope.calendarHTML = table;
         $("#motherTable").html($compile(table)($scope));
     }
 });

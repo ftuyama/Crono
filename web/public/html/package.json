@@ -1,0 +1,62 @@
+{
+  "name": "webcomponents.js",
+  "version": "0.7.22",
+  "description": "webcomponents.js",
+  "main": "webcomponents.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webcomponents/webcomponentsjs.git"
+  },
+  "author": {
+    "name": "The Polymer Authors"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/webcomponents/webcomponentsjs/issues"
+  },
+  "scripts": {
+    "test": "wct"
+  },
+  "homepage": "http://webcomponents.org",
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "gulp-audit": "^1.0.0",
+    "gulp-concat": "^2.4.1",
+    "gulp-header": "^1.1.1",
+    "gulp-uglify": "^1.0.1",
+    "run-sequence": "^1.0.1",
+    "web-component-tester": "^4.0.1"
+  },
+  "gitHead": "50f9751f8e638301603aebb33ba9f1e90d2b0d32",
+  "_id": "webcomponents.js@0.7.22",
+  "_shasum": "107b7b3fd30161100e8e85e400c32bed1bf29fea",
+  "_from": "webcomponents.js@latest",
+  "_npmVersion": "3.8.6",
+  "_nodeVersion": "5.11.0",
+  "_npmUser": {
+    "name": "azakus",
+    "email": "dfreedm2@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "addyosmani",
+      "email": "addyosmani@gmail.com"
+    },
+    {
+      "name": "azakus",
+      "email": "dfreedm2@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "107b7b3fd30161100e8e85e400c32bed1bf29fea",
+    "tarball": "https://registry.npmjs.org/webcomponents.js/-/webcomponents.js-0.7.22.tgz"
+  },
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/webcomponents.js-0.7.22.tgz_1461364919890_0.49159980029799044"
+  },
+  "_resolved": "https://registry.npmjs.org/webcomponents.js/-/webcomponents.js-0.7.22.tgz"
+}

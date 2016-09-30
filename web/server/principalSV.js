@@ -32,6 +32,11 @@ router.get('/', function(req, res) {
   ===========================================================================
 */
 
+var rootUrl = function(req, res) {
+    return req.protocol + '://' + req.get('host');
+}
+
+
 router.get('/set', function(req, res) {
     var content = {
         url: '/Tuyama COdao',
@@ -43,7 +48,7 @@ router.get('/set', function(req, res) {
             }
         }
     };
-    request.post('http://localhost:8080/firebase/set', { json: content },
+    request.post(rootUrl(req, res) + '/firebase/set', { json: content },
         function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log("ok");
@@ -57,7 +62,7 @@ router.get('/get', function(req, res) {
     var content = {
         url: '/Tuyama COdao/ok'
     };
-    request.post('http://localhost:8080/firebase/get', { json: content },
+    request.post(rootUrl(req, res) + '/firebase/get', { json: content },
         function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log("ok");
@@ -74,7 +79,7 @@ router.get('/upd', function(req, res) {
             "Tuyama COdao": {}
         }
     };
-    request.post('http://localhost:8080/firebase/upd', { json: content },
+    request.post(rootUrl(req, res) + '/firebase/upd', { json: content },
         function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log("ok");
@@ -88,7 +93,7 @@ router.get('/del', function(req, res) {
     var content = {
         url: '/Tuyama COdao'
     };
-    request.post('http://localhost:8080/firebase/del', { json: content },
+    request.post(rootUrl(req, res) + '/firebase/del', { json: content },
         function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log("ok");

@@ -11,25 +11,17 @@ var fs = require('fs');
 
 /* GET home page */
 router.get('/', function(req, res) {
-    if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendarAuth');
-    if (!req.session.access_token) req.session.access_token = req.cookies.token;
+    var accessToken = req.session.access_token;
+    if (accessToken == null) return res.redirect('/calendarAuth');
     res.send(fs.readFileSync("web/view/calendar.html", "utf8"));
 });
 
 /* GET event list page */
 router.get('/list-events', function(req, res) {
-    if (!req.session.access_token && !req.cookies.token) return res.redirect('/calendarAuth');
-    if (!req.session.access_token) req.session.access_token = req.cookies.token;
+    var accessToken = req.session.access_token;
+    if (accessToken == null) return res.redirect('/calendarAuth');
     res.send(fs.readFileSync("web/view/calendar_events.html", "utf8"));
 });
-
-/* Authentication function */
-
-function retrieveToken(req, res) {
-    if (!req.session.access_token && !req.cookies.token) return null;
-    if (!req.session.access_token) req.session.access_token = req.cookies.token;
-    return req.session.access_token;
-}
 
 /*
   ===========================================================================
@@ -39,7 +31,7 @@ function retrieveToken(req, res) {
 
 /* GET Groups List */
 router.get('/groups', function(req, res) {
-    var accessToken = retrieveToken(req);
+    var accessToken = req.session.access_token;
     if (accessToken == null) return res.redirect('/calendarAuth');
     gcal(accessToken).calendarList.list(function(err, data) {
         if (err) return res.redirect('/calendarAuth');
@@ -49,7 +41,7 @@ router.get('/groups', function(req, res) {
 
 /* GET Events List */
 router.get('/list:id', function(req, res) {
-    var accessToken = retrieveToken(req);
+    var accessToken = req.session.access_token;
     if (accessToken == null) return res.redirect('/calendarAuth');
     var groupId = req.params.id;
     gcal(accessToken).calendarList.list(function(err, data) {
@@ -64,7 +56,7 @@ router.get('/list:id', function(req, res) {
 
 /* POST Create Event */
 router.post('/create', function(req, res) {
-    var accessToken = retrieveToken(req);
+    var accessToken = req.session.access_token;
     if (accessToken == null) return res.redirect('/calendarAuth');
     var group_id = req.body.group_id;
     var event = JSON.stringify(req.body.event);
@@ -76,7 +68,7 @@ router.post('/create', function(req, res) {
 
 /* POST Edit Event */
 router.post('/edit', function(req, res) {
-    var accessToken = retrieveToken(req);
+    var accessToken = req.session.access_token;
     if (accessToken == null) return res.redirect('/calendarAuth');
     var group_id = req.body.group_id;
     var event_id = req.body.event_id;
@@ -89,7 +81,7 @@ router.post('/edit', function(req, res) {
 
 /* POST Delete Event */
 router.get('/delete', function(req, res) {
-    var accessToken = retrieveToken(req);
+    var accessToken = req.session.access_token;
     if (accessToken == null) return res.redirect('/calendarAuth');
     var group_id = req.query.group_id;
     var event_id = req.query.event_id;

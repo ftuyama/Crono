@@ -32,9 +32,7 @@ fs.readFile('./APICalendar/client_secret.json', function processClientSecrets(er
             scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
         },
         function(accessToken, refreshToken, profile, done) {
-            if (typeof profile._json['picture'] != "undefined")
-                imageUrl = profile._json['picture'];
-            else imageUrl = profile._json.image['url'];
+            imageUrl = retrieveImageUrl(profile);
             console.log("User logged in!");
             profile.accessToken = accessToken;
             return done(null, profile);
@@ -42,13 +40,46 @@ fs.readFile('./APICalendar/client_secret.json', function processClientSecrets(er
     ));
 });
 
+function retrieveImageUrl(profile) {
+    if (typeof profile._json['picture'] != "undefined")
+        return profile._json['picture'];
+    return profile._json.image['url'];
+}
+
+// Passport session setup.
+//   To support persistent login sessions, Passport needs to be able to
+//   serialize users into and deserialize users out of the session.  Typically,
+//   this will be as simple as storing the user ID when serializing, and finding
+//   the user by ID when deserializing.
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+
+
 /* GET auth */
 router.get('/',
-    passport.authenticate('google', { session: false }));
+    passport.authenticate('google'));
+
+/* GET session info */
+router.get('/session', function(req, res) {
+    console.log(req.session);
+    res.send(req.session);
+});
+
+/* GET google pic */
+router.get('/img', function(req, res) {
+    if (req.session.passport.user != undefined)
+        res.send(retrieveImageUrl(req.session.passport.user));
+    else res.send(req.cookies.imageUrl);
+});
 
 /* GET auth callback */
 router.get('/callback',
-    passport.authenticate('google', { session: false, failureRedirect: '/calendar' }),
+    passport.authenticate('google', { failureRedirect: '/' }),
     function(req, res) {
         req.session.access_token = req.user.accessToken;
         res.cookie('token', req.user.accessToken);

@@ -223,6 +223,7 @@ button:focus {
     border-radius: 0px;
     box-shadow: none;
     margin: 0px;
+    margin-right: 16px;
     z-index: 99999;
 }
 

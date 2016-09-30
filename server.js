@@ -40,10 +40,12 @@ app.use(bodyParser.json())
 app.use(session({
     secret: 'my easter egg',
     maxAge: 3600000, // 1 hour
-    resave: false,
+    resave: true,
     saveUninitialized: true,
+    cookie: { maxAge: 3600000 }
 }))
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/calendarAuth', calendarAuth);
 app.use('/projectAuth', projectAuth);
@@ -61,7 +63,6 @@ var port = process.env.PORT || 8080;
 var server = app.listen(port, function() {
     var host = server.address().address
     var port = server.address().port
-
     console.log("Crono app listening at port %s", port)
 })
 

@@ -215,3 +215,14 @@ a.list-group-item {
     font-size: 0px;
     padding: 0px;
 }
+
+.farefresh {
+    width: 50px;
+    margin-top: 8px;
+    color: #2196F3;
+    float: right;
+}
+
+.farefresh:hover {
+    color: #33A8F6;
+}

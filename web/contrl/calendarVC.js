@@ -4,7 +4,7 @@
 ===========================================================================
 */
 
-angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($scope, $http, $cookies, $compile) {
+angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($scope, $http, $q, $cookies, $compile, $timeout) {
     // Variável do form
     $scope.event_form = { summary: '', description: '', group_id: '', startDate: '', startHour: '', endDate: '', endHour: '' };
     $scope.event_id = "";
@@ -16,6 +16,12 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     // Variáveis de negócio
     $scope.events = {};
     $scope.groups = {};
+
+    // Variáveis de semáforo
+    $scope.busy = true;
+    $scope.request = false;
+    $scope.loaded = false;
+    $scope.loader = true;
 
     // Varíaveis para definir Modal Form
     $scope.dateTime = false;
@@ -193,35 +199,49 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         ===========================================================================
     */
 
+    $scope.requestFetch = function() {
+        if ($scope.busy == false)
+            $scope.fetch();
+        else $scope.request = true;
+    }
+
     $scope.fetch = function() {
-        $scope.create_calendar();
+        $scope.busy = true;
+        $scope.refresh_calendar();
         $scope.events = [];
-        for (j = 0; j < $scope.groups.length; j++) {
-            $scope.events.push([]);
-        }
+        http_requests = [];
         for (j = 0; j < $scope.groups.length; j++) {
             var group_checked = $scope.groups[j].checked;
             createCookie([$scope.groups[j].id], group_checked, 365);
+            $scope.events.push([]);
             if (group_checked == true) {
-                $http.get('/calendar/list' + j)
+                http_requests.push($http.get('/calendar/list' + j)
                     .then(function success(response) {
-                        var events = response.data.items;
                         var group = Number(response.data.group_id);
-                        $scope.events[group] = events;
-                        for (i = 0; i < events.length; i++) {
-                            var date = getDateProperty(events[i].start);
-                            var tiny_class = getTextSize(events[i].summary.length);
-                            var event_item = '<a href="#" class="list-group-item' + tiny_class +
-                                '" id="task' + group + '-' + i + '" ng-click="newEvent(\'' +
-                                group + '-' + i + '\', \'' + date + '\'); $event.stopPropagation();"' +
-                                'draggable="true" ondragstart="drag(event)">' +
-                                events[i].summary + '</a>';
-                            $("#" + date).append($compile(event_item)($scope));
-                            $("#task" + group + '-' + i).css('color', getRandomColor());
-                        }
-                    });
+                        $scope.events[group] = response.data.items;
+                    }));
             }
         }
+        $q.all(http_requests).then(function() {
+            for (group = 0; group < $scope.groups.length; group++) {
+                var events = $scope.events[group];
+                for (i = 0; i < events.length; i++) {
+                    var date = getDateProperty(events[i].start);
+                    var tiny_class = getTextSize(events[i].summary.length);
+                    var event_item = '<a href="#" class="list-group-item' + tiny_class +
+                        '" id="task' + group + '-' + i + '" ng-click="newEvent(\'' +
+                        group + '-' + i + '\', \'' + date + '\'); $event.stopPropagation();"' +
+                        'draggable="true" ondragstart="drag(event)">' +
+                        events[i].summary + '</a>';
+                    $("#" + date).append($compile(event_item)($scope));
+                    $("#task" + group + '-' + i).css('color', getRandomColor());
+                }
+            }
+            if ($scope.request == true) {
+                $scope.request = false;
+                $scope.fetch();
+            } else $scope.busy = false;
+        });
     };
 
     $http.get('/calendar/groups')
@@ -234,6 +254,24 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             }
             $scope.fetch();
         });
+
+    $scope.$watch("busy", function() {
+        // Mostra animação bodosa na primeira vez
+        if ($scope.loaded == false && $scope.busy == false) {
+            $scope.loaded = true;
+            $('body').addClass('loaded');
+
+            // Nas demais, só mostra o loader
+            $timeout(function() {
+                $scope.loader = false;
+                $('body').removeClass('loaded');
+                $(".loader-section").css("opacity", 0.3);
+            }, 1500);
+
+        } else {
+            $scope.loader = $scope.busy;
+        }
+    });
 
     /*
         ===========================================================================
@@ -321,6 +359,12 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         $scope.create_calendar();
     };
 
+    $scope.refresh_calendar = function() {
+        if ($scope.calendarHTML == undefined)
+            $scope.create_calendar();
+        else $("#motherTable").html($compile($scope.calendarHTML)($scope));
+    }
+
     $scope.create_calendar = function() {
         // Hoje
         var date = $scope.monthYear;
@@ -341,6 +385,8 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             date.toISOString().slice(0, 10) + '\'); $event.stopPropagation()">Add event</button>' +
             monthNames[date.getMonth()] + " " + date.getFullYear() +
             '<button class="btn btn-danger" style="float:right;">Change month</button>' +
+            '<i class="fa fa-refresh fa-2x farefresh"' +
+            ' ng-click="requestFetch();  $event.stopPropagation()"></i>' +
             "</td></tr>";
         table += "<tr>";
         daysNames.forEach(function(dayName) {
@@ -389,6 +435,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             table += row + "</tr>";
         }
         table += "</table>";
+        $scope.calendarHTML = table;
         $("#motherTable").html($compile(table)($scope));
     }
 });

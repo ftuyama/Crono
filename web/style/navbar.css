@@ -7,3 +7,10 @@
     height: 50px;
     width: 50px;
 }
+
+@media (max-width: 767px) {
+    #logoImg {
+        height: 60px;
+        width: 120px;
+    }
+}

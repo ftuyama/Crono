@@ -101,22 +101,31 @@ Date.prototype.sameDay = function(d) {
         this.getMonth() === d.getMonth();
 }
 
+
 var userLang = navigator.language || navigator.userLanguage;
 
+/* Generating Months' names list */
 var monthNames = [];
-for (i = 1; i <= 12; i++) {
-    var month = ("0" + i).slice(-2);
-    var date = new Date(month + "/1/2009");
-    var monthName = date.toLocaleString(userLang, { month: "long" });
-    monthNames.push(capitalizeFirstLetter(monthName));
-}
+if (isNotSafari()) {
+    for (i = 1; i <= 12; i++) {
+        var month = ("0" + i).slice(-2);
+        var date = new Date(month + "/1/2009");
+        var monthName = date.toLocaleString(userLang, { month: "long" });
+        monthNames.push(capitalizeFirstLetter(monthName));
+    }
+} else monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
 
+/* Generating Days' names list */
 var daysNames = [];
-for (i = 1; i <= 7; i++) {
-    var date = new Date("05/0" + i + "/2016");
-    var dayName = date.toLocaleString(userLang, { weekday: "long" });
-    daysNames.push(capitalizeFirstLetter(dayName));
-}
+if (isNotSafari()) {
+    for (i = 1; i <= 7; i++) {
+        var date = new Date("05/0" + i + "/2016");
+        var dayName = date.toLocaleString(userLang, { weekday: "long" });
+        daysNames.push(capitalizeFirstLetter(dayName));
+    }
+} else daysNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 function returnMonth(month) {
     return monthNames.indexOf(month.trim());
@@ -128,9 +137,13 @@ function capitalizeFirstLetter(string) {
 
 /*
     ===========================================================================
-                        Global functions to manage Dates
+                        Global generic purpose functions
     ===========================================================================
 */
+
+function isNotSafari() {
+    return !navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+}
 
 function showSnackBar(message) {
     var x = document.getElementById("snackbar");

@@ -1,5 +1,7 @@
 /* Carrega o tema salvo em cookie */
-loadTheme(readCookie("theme"));
+$(document).ready(function() {
+    loadTheme(readCookie("theme"));
+});
 
 /* Carrega o tema para as páginas */
 function loadTheme(theme) {

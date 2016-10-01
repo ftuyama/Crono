@@ -357,6 +357,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         [month, year] = $("#monthPicker").val().split(' ');
         $scope.monthYear = new Date(year, returnMonth(month), 1);
         $scope.create_calendar();
+        $scope.requestFetch();
     };
 
     $scope.refresh_calendar = function() {

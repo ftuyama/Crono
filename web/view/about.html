@@ -61,18 +61,11 @@
     <!-- Controller -->
     <script src="/public/js/snowstorm-min.js"></script>
     <script src="/public/js/jquery.videoBG.js"></script>
+    <script src="/contrl/aboutVC.js"></script>
     <div id="navbar"></div>
 </head>
 
 <body style="background: transparent;">
-    <script>
-        // Finaliza Loader em 3 segundos
-        $(document).ready(function() {
-            setTimeout(function() {
-                $('body').addClass('loaded');
-            }, 3000);
-        });
-    </script>
     <!-- Loader animation -->
     <div id="loader-wrapper">
         <div id="loader"></div>
@@ -80,15 +73,18 @@
         <div class="loader-section section-right"></div>
     </div>
     <script>
-        $('body').videoBG({
-            position: "fixed",
-            zIndex: 0,
-            mp4: '/assets/snow.mp4',
-            webm: '/assets/snow.mp4',
-            opacity: 1.0,
-            fullscreen: true,
-        });
-    </script> <br> <br> <br> <br>
+        if (isNotSafari()) {
+            $('body').videoBG({
+                position: "fixed",
+                zIndex: -1,
+                mp4: 'public/assets/snow.mp4',
+                webm: 'public/assets/snow.mp4',
+                opacity: 1.0,
+                fullscreen: true,
+            });
+        }
+    </script>
+    <br> <br> <br> <br>
     <h2>Developed by Felipe Tuyama & João Vitor (Ipatinga)</h2>
     <p>Crono application is our final project for CES-26 course.</p>
     <hr style="opacity: 0.1">

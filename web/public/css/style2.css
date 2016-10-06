@@ -91,7 +91,6 @@ body {
 
 .navbar-brand {
     padding: 0px;
-    opacity: 0.8;
 }
 
 .active-menu {
@@ -156,10 +155,13 @@ body {
     .navbar-toggle {
         margin-right: 10px;
     }
+    .navbar-brand {
+        padding-top: 5px !important;
+    }
     .navbar {
-        background-color: #5f5f5f !important;
+        background-color: #262626 !important;
         padding: 0;
-        opacity: 0.4;
+        opacity: 0.8;
     }
     .navbar .nav a {
         color: #e4e6e5;

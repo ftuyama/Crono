@@ -16,20 +16,21 @@ var client;
 /* GET Git login */
 router.get('/auth', function(req, res) {
     // Loading login information stored in json
-    fs.readFile('./APIGit/client_secret.json', function processClientSecrets(err, content) {
-        if (err) {
-            console.log('Error loading client secret file: ' + err);
-            return;
-        }
-        // Load the credentials
-        console.log("User logged in!");
-        credentials = JSON.parse(content);
-        req.session.git_user = credentials.web.user;
-        req.session.git_pass = credentials.web.pass;
-        res.cookie('git_user', credentials.web.user);
-        res.cookie('git_pass', credentials.web.pass);
-        res.redirect('/');
-    });
+    fs.readFile('./APIGit/client_secret.json',
+        function processClientSecrets(err, content) {
+            if (err) {
+                console.log('Error loading client secret file: ' + err);
+                return;
+            }
+            // Load the credentials
+            console.log("User logged in!");
+            credentials = JSON.parse(content);
+            req.session.git_user = credentials.web.user;
+            req.session.git_pass = credentials.web.pass;
+            res.cookie('git_user', credentials.web.user);
+            res.cookie('git_pass', credentials.web.pass);
+            res.redirect('/');
+        });
 });
 
 /* GET Git list */

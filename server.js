@@ -1,17 +1,25 @@
 // Importação dos modulos necessários.
 var express = require('express');
 var app = express();
+var config = require('./config');
 
+/* APIs */
 var calendarAuth = require('./APICalendar/auth');
 var firebaseAuth = require('./APIFirebase/auth');
 var projectAuth = require('./APIGit/auth');
+/* Pages */
 var principal = require('./web/server/principalSV');
 var index = require('./web/server/indexSV');
 var users = require('./web/server/usersSV');
 var calendar = require('./web/server/calendarSV');
 var about = require('./web/server/aboutSV');
-
+/* Tools */
 var session = require('express-session');
+var redisClient = require('redis').createClient({
+    host: config.redis.host,
+    port: config.redis.port
+});
+var RedisStore = require('connect-redis')(session);
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser')
 var passport = require('passport');
@@ -39,14 +47,19 @@ app.use(cookieParser());
 app.use(bodyParser.json())
 app.use(session({
     secret: 'my easter egg',
-    maxAge: 3600000, // 1 hour
+    cookie: { maxAge: config.web.cookie_age },
+    maxAge: config.web.cookie_age, // 1 hour
     resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 3600000 }
+    saveUninitialized: false,
+    store: new RedisStore({
+        client: redisClient,
+        pass: config.redis.pass
+    })
 }))
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Define routes
 app.use('/calendarAuth', calendarAuth);
 app.use('/projectAuth', projectAuth);
 app.use('/firebase', firebaseAuth);
@@ -56,12 +69,13 @@ app.use('/main', principal);
 app.use('/about', about);
 app.use('/', index);
 
-// set the port of our application
-// process.env.PORT lets the port be set by Heroku
-var port = process.env.PORT || 8080;
+// Redis client
+redisClient.on('connect', function() {
+    console.log("Redis client connected at port %s", config.redis.port)
+});
 
-var server = app.listen(port, function() {
-    var host = server.address().address
+// Server
+var server = app.listen(config.web.port, function() {
     var port = server.address().port
     console.log("Crono app listening at port %s", port)
 })

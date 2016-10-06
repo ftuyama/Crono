@@ -254,6 +254,12 @@ button:focus {
     padding: 25px 20px;
 }
 
+@media (max-width: 1000px) {
+    .navbar-nav>li>a {
+        font-size: 1.0em;
+    }
+}
+
 .bg-change {
     background: #333131;
 }

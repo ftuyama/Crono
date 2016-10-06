@@ -2,11 +2,22 @@
 var express = require('express');
 var router = express.Router();
 var firebase = require("firebase");
+var fs = require('fs');
 
-firebase.initializeApp({
-    databaseURL: 'https://crono-b0853.firebaseio.com/',
-    serviceAccount: 'APIFirebase/Crono.json',
-});
+fs.readFile('./APIFirebase/client_secret.json',
+    function processClientSecrets(err, content) {
+        if (err) {
+            console.log('Error loading client secret file: ' + err);
+            return;
+        }
+        // Load the credentials
+        credentials = JSON.parse(content);
+
+        firebase.initializeApp({
+            databaseURL: credentials.web.database_url,
+            serviceAccount: credentials.web.service_account,
+        });
+    });
 
 router.post('/set', function(req, res) {
     console.log("setting: " + JSON.stringify(req.body));

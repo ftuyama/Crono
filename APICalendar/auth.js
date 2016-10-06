@@ -17,28 +17,29 @@ var imageUrl;
 */
 
 // Loading login information stored in json
-fs.readFile('./APICalendar/client_secret.json', function processClientSecrets(err, content) {
-    if (err) {
-        console.log('Error loading client secret file: ' + err);
-        return;
-    }
-    // Load the credentials
-    credentials = JSON.parse(content);
-
-    passport.use(new GoogleStrategy({
-            clientID: credentials.web.client_id,
-            clientSecret: credentials.web.client_secret,
-            callbackURL: "/calendarAuth/callback",
-            scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
-        },
-        function(accessToken, refreshToken, profile, done) {
-            imageUrl = retrieveImageUrl(profile);
-            console.log("User logged in!");
-            profile.accessToken = accessToken;
-            return done(null, profile);
+fs.readFile('./APICalendar/client_secret.json',
+    function processClientSecrets(err, content) {
+        if (err) {
+            console.log('Error loading client secret file: ' + err);
+            return;
         }
-    ));
-});
+        // Load the credentials
+        credentials = JSON.parse(content);
+
+        passport.use(new GoogleStrategy({
+                clientID: credentials.web.client_id,
+                clientSecret: credentials.web.client_secret,
+                callbackURL: credentials.web.callback_url,
+                scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
+            },
+            function(accessToken, refreshToken, profile, done) {
+                imageUrl = retrieveImageUrl(profile);
+                console.log("User logged in!");
+                profile.accessToken = accessToken;
+                return done(null, profile);
+            }
+        ));
+    });
 
 function retrieveImageUrl(profile) {
     if (typeof profile._json['picture'] != "undefined")
@@ -72,9 +73,11 @@ router.get('/session', function(req, res) {
 
 /* GET google pic */
 router.get('/img', function(req, res) {
-    if (req.session.passport.user != undefined)
+    try { // check undefined passport.user
         res.send(retrieveImageUrl(req.session.passport.user));
-    else res.send(req.cookies.imageUrl);
+    } catch (err) {
+        res.send(req.cookies.imageUrl);
+    }
 });
 
 /* GET auth callback */

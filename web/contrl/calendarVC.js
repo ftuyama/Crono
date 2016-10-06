@@ -75,6 +75,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         if ($scope.checkDate() == false)
             return false;
         // Fecha modal com dados validados
+        alert("ok");
         $("#formModal").modal('hide');
         return true;
     };
@@ -297,6 +298,8 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         }
         date1 = new Date(toDateISO($scope.event_form.startDate, $scope.event_form.startHour));
         date2 = new Date(toDateISO($scope.event_form.endDate, $scope.event_form.endHour));
+        alert(date1);
+        alert(date2);
         if (date1 > date2) {
             $scope.event_form.startDate = $scope.event_form.startHour = "";
             $scope.event_form.endDate = $scope.event_form.endHour = "";
@@ -357,6 +360,7 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
         [month, year] = $("#monthPicker").val().split(' ');
         $scope.monthYear = new Date(year, returnMonth(month), 1);
         $scope.create_calendar();
+        $scope.requestFetch();
     };
 
     $scope.refresh_calendar = function() {

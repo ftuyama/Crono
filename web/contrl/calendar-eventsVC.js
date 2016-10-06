@@ -12,6 +12,9 @@ angular.module("calendarEventsApp", ['ngCookies'])
         $scope.groups = {};
         $scope.selected = '';
 
+        // Varíavel de semáforo
+        $scope.loader = true;
+
         $scope.select = function(selected) {
             $scope.selected = selected;
             $("#descriptionModal").modal('show');
@@ -60,6 +63,7 @@ angular.module("calendarEventsApp", ['ngCookies'])
                         });
                 }
             }
+            $scope.loader = false;
         };
 
         $http.get('/calendar/groups')

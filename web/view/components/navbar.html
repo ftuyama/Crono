@@ -8,7 +8,7 @@
           <i class="fa fa-bars"></i>
         </button>
             <a class="navbar-brand" href="./">
-                <object id="logoImg" data="/public/img/logo.svg" type="image/svg+xml"></object>
+                <object id="logoImg" data="/public/img/logo.png"></object>
             </a>
         </div>
 
@@ -17,10 +17,8 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/">Home</a></li>
                 <li><a href="/calendar">Calendar</a></li>
-                <li><a href="/users">Services</a></li>
-                <li><a href="https://github.com/ftuyama/Crono">Contact Us</a></li>
+                <li><a href="https://github.com/ftuyama/Crono">Contact</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="/main">Extra</a></li>
                 <li>
                     <a id="paint-brush" onclick="changeTheme()" href="#">
                         <i class="fa fa-paint-brush"></i> Theme</a>
@@ -28,10 +26,12 @@
                 <a id="profile" class="shiny-icon" href="https://calendar.google.com/calendar/"></a>
                 <link href='/style/navbar.css' rel='stylesheet' type='text/css'>
                 <script>
-                    $.get("/calendarAuth/img", function(data) {
-                        if (data != undefined && data != "undefined" && data != "null" && data != "")
-                            $('#profile').append('<img id="userImg" src="' + decodeURIComponent(data) + '"/>');
-                    });
+                    if (isNotSafari()) {
+                        $.get("/calendarAuth/img", function(data) {
+                            if (data != undefined && data != "undefined" && data != "null" && data != "")
+                                $('#profile').append('<img id="userImg" src="' + decodeURIComponent(data) + '"/>');
+                        });
+                    }
                 </script>
             </ul>
         </nav>

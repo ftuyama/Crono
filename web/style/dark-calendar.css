@@ -238,6 +238,17 @@ a.list-group-item {
     font-weight: bold;
 }
 
+.fa-navicon:before, .fa-reorder:before, .fa-bars:before {
+    color: white !important;
+}
 .round-button:hover {
     background: #f55f5a;
+}
+
+#start_button:hover {
+    background-color: #c12e2a
+}
+
+#start_img1:hover, #start_img2:hover  {
+    transform: scale(1.5, 1.5);
 }

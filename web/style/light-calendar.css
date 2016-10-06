@@ -244,6 +244,10 @@ a.list-group-item {
     font-weight: bold;
 }
 
+.fa-navicon:before, .fa-reorder:before, .fa-bars:before {
+    color: white !important;
+}
+
 .round-button:hover {
     background: #f55f5a;
 }

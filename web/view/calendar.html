@@ -126,7 +126,7 @@
             <div id="motherTable">
                 <TABLE class="table table-bordered">
                     <TR>
-                        <TD COLSPAN="7 ">
+                        <TD COLSPAN="7">
                             <B>Calendar</B>
                         </TD>
                     </TR>
@@ -210,8 +210,11 @@
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" ng-show="create">Create Event</h4>
-                    <h4 class="modal-title" ng-show="edit">Edit Event</h4>
+                    <h4 class="modal-title" ng-show="create" style="display: inline;">Create Event</h4>
+                    <h4 class="modal-title" ng-show="edit" style="display: inline;">Edit Event</h4>
+                    <a href="#" class="round-button">
+                        <i class="fa fa-navicon" ng-click="requestFetch(); $event.stopPropagation()"></i>
+                    </a>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
@@ -219,10 +222,10 @@
                         <div class="form-item-content">
                             <label class="control-label col-sm-2" for="text">Name:</label>
                             <div class="col-sm-8">
-                                <input id="summary_form" type="text" class="form-control  input-sm" ng-model="event_form.summary" />
+                                <input id="summary_form" type="text" class="form-control input-sm" ng-model="event_form.summary" />
                             </div>
                             <div class="col-sm-2">
-                                <button id="start_button" class="mic-btn" onclick='startButton(event, "summary_form" ,"start_img1")'>
+                                <button id="start_button" class="mic-btn" onclick='startButton(event,"summary_form" ,"start_img1")'>
                                 <img id="start_img1" class="mic-img" src="/speech/mic.gif" alt="Start"></button>
                             </div>
                         </div>
@@ -234,7 +237,7 @@
                                 <input id="description_form" type="text" class="form-control input-sm" ng-model="event_form.description" />
                             </div>
                             <div class="col-sm-2">
-                                <button id="start_button" class="mic-btn" onclick='startButton(event, "description_form" ,"start_img2")'>
+                                <button id="start_button" class="mic-btn" onclick='startButton(event,"description_form" ,"start_img2")'>
                                 <img id="start_img2" class="mic-img" src="/speech/mic.gif" alt="Start"></button>
                             </div>
                         </div>
@@ -247,7 +250,7 @@
                             </div>
                             <label class="control-label col-sm-1" for="text">at:</label>
                             <div class="col-sm-4">
-                                <input type='text' id="startHour" class="form-control input-sm hourpickera" ng-model="event_form.startHour" />
+                                <input type='text' id="startHour" class="form-control input-sm" ng-model="event_form.startHour" />
                             </div>
                         </div>
                     </div>
@@ -259,7 +262,7 @@
                             </div>
                             <label class="control-label col-sm-1" for="text">at:</label>
                             <div class="col-sm-4">
-                                <input type='text' id="endHour" class="form-control input-sm hourpickera" ng-model="event_form.endHour" />
+                                <input type='text' id="endHour" class="form-control input-sm" ng-model="event_form.endHour" />
                             </div>
                         </div>
                     </div>

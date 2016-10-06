@@ -310,6 +310,8 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     };
 
     function toDateISO(date, hour) {
+        if (hour == "")
+            return date + 'T00:00:00-03:00'
         if (date[4] == '-' && date[7] == '-')
             return date;
         var dateISO = date.slice(6, 10) + '-' + date.slice(3, 5) + '-' + date.slice(0, 2);

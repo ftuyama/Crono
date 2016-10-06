@@ -288,6 +288,9 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.checkDate = function() {
         $scope.event_form.startDate = $("#startDate").val();
         $scope.event_form.endDate = $("#endDate").val();
+        $("#startHour").val() = ($("#startHour").val() != undefined) ? $("#startHour").val() : "";
+        $("#endHour").val() = ($("#endHour").val() != undefined) ? $("#endHour").val() : "";
+        alert($("#startHour").val());
         if ($("#startHour").val() != "") {
             digits = $("#startHour").val().split(":");
             $scope.event_form.startHour = ("0" + digits[0]).slice(-2) + ":" + digits[1].slice(0, 2);
@@ -296,10 +299,11 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
             digits = $("#endHour").val().split(":");
             $scope.event_form.endHour = ("0" + digits[0]).slice(-2) + ":" + digits[1].slice(0, 2);
         }
+        alert("ok");
         date1 = new Date(toDateISO($scope.event_form.startDate, $scope.event_form.startHour));
         date2 = new Date(toDateISO($scope.event_form.endDate, $scope.event_form.endHour));
-        alert(date1);
-        alert(date2);
+        alert(date1.toISOString());
+        alert(date2.toISOString());
         if (date1 > date2) {
             $scope.event_form.startDate = $scope.event_form.startHour = "";
             $scope.event_form.endDate = $scope.event_form.endHour = "";
@@ -313,6 +317,8 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     };
 
     function toDateISO(date, hour) {
+        if (hour == "")
+            return date + 'T00:00:00-03:00'
         if (date[4] == '-' && date[7] == '-')
             return date;
         var dateISO = date.slice(6, 10) + '-' + date.slice(3, 5) + '-' + date.slice(0, 2);

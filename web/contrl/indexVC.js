@@ -45,7 +45,7 @@ $(".bxslider").bxSlider({
                 }
             })
         }
-    }
+    }Mudança x
     $("#masthead #main-menu").onePageNav(), i()
 }), $("#contactform").on("submit", function(e) {
     e.preventDefault(), $this = $(this), $.ajax({

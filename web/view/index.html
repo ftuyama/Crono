@@ -4,15 +4,15 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
-<html class="no-js" lang="en-US">
+<html class="no-js" lang="en-US" ng-app="indexApp" ng-controller="indexVC">
 
 <head>
     <title>Crono</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Crono">
-    <!------------------------------------------------------------------------------------->
-    <!--------------------------- Imports e barra de navegação ---------------------------->
-    <!------------------------------------------------------------------------------------->
+    <!-- ############################################################################ -->
+    <!--                       Imports e barra de navegação                           -->
+    <!-- ############################################################################ -->
     <link rel="icon" href="/public/img/favicon.ico">
 
     <link rel="apple-touch-icon" href="/public/img/apple-touch-icon.png">
@@ -55,9 +55,9 @@
     <script src="/components/components.js"></script>
     <script src="/script/global.js"></script>
     <script src="/script/theme.js"></script>
-    <!------------------------------------------------------------------------------------->
-    <!--------------------------- Imports e barra de navegação ---------------------------->
-    <!------------------------------------------------------------------------------------->
+    <!-- ############################################################################ -->
+    <!--                       Imports e barra de navegação                           -->
+    <!-- ############################################################################ -->
     <div id="navbar"></div>
 </head>
 
@@ -384,7 +384,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="about-work wow animated fadeInRight" data-wow-delay=".5s">
-                        <h2 class="section-title"><span>Why</span> Work With Us</h2>
+                        <h2 class="section-title"><span>Why</span> Use Our Service</h2>
                         <!-- /.section-title -->
                         <p class="description">
                             One part of the ether is precisely like any other part everywhere and always, and there are no such distinctions in it as correspond with the elemental forms of matter.
@@ -464,7 +464,7 @@
             <div class="form-area text-center wow animated fadeInRight" data-wow-delay=".75s">
                 <h2 class="section-title"><span>Contact</span> With Us</h2>
                 <!-- /.section-title -->
-                <form action="email.php" method="post" id="contactform" class="contactform">
+                <form action="/mail" method="post" id="contactform" class="contactform">
                     <input id="name" class="form-control" name="name" type="text" placeholder="Name" value="" required>
                     <input id="email" class="form-control pull-right" name="email" type="email" placeholder="Email" value="" required>
                     <textarea id="message" class="form-control" name="message" placeholder="Your Message" rows="5" required></textarea>
@@ -478,9 +478,6 @@
     </section>
 
     <!-- Contact Section -->
-
-
-
 
     <!-- Footer Section -->
 
@@ -559,12 +556,9 @@
                                 <div class="widget-details">
                                     <nav>
                                         <ul>
-                                            <li class="active"><a href="/">Home</a></li>
-                                            <li><a href="/calendar">Calendar</a></li>
-                                            <li><a href="/users">Services</a></li>
-                                            <li><a href="https://github.com/ftuyama/Crono">Contact Us</a></li>
-                                            <li><a href="https://github.com/ftuyama">About</a></li>
-                                            <li><a href="/main">Extra</a></li>
+                                            <span ng-repeat="(name, link) in links">
+                                                <li><a href="{{link}}">{{name}}</a></li>
+                                            </span>
                                         </ul>
                                     </nav>
                                 </div>
@@ -601,10 +595,12 @@
                                     <div class="photo-list">
                                         <ul>
                                             <li>
-                                                <a href="#"><img src="https://avatars1.githubusercontent.com/u/11546507?v=3&s=400" alt="João Vitor"></a>
+                                                <a href="https://github.com/joaovitormarques">
+                                                    <img src="https://avatars1.githubusercontent.com/u/11546507?v=3&s=400" alt="João Vitor"></a>
                                             </li>
                                             <li>
-                                                <a href="#"><img src="https://avatars2.githubusercontent.com/u/11530478?v=3&s=466" alt="Felipe Tuyama"></a>
+                                                <a href="https://github.com/ftuyama">
+                                                    <img src="https://avatars2.githubusercontent.com/u/11530478?v=3&s=466" alt="Felipe Tuyama"></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -621,13 +617,9 @@
                                 <!-- /.widget-title -->
                                 <div class="widget-details">
                                     <ul class="taglist">
-                                        <li><a href="#">calendar</a></li>
-                                        <li><a href="#">angularjs</a></li>
-                                        <li><a href="#">css3</a></li>
-                                        <li><a href="#">nodejs</a></li>
-                                        <li><a href="#">github</a></li>
-                                        <li><a href="#">google</a></li>
-                                        <li><a href="#">firebase</a></li>
+                                        <span ng-repeat="tag in tags">
+                                            <li><a href="https://www.google.com.br/#q={{tag}}">{{tag}}</a></li>
+                                        </span>
                                     </ul>
                                 </div>
                                 <!-- /.widget-details -->
@@ -671,12 +663,9 @@
                     <div class="widget widget_menu">
                         <nav class="widget-menu">
                             <ul>
-                                <li class="active"><a href="/">Home</a></li>
-                                <li><a href="/calendar">Calendar</a></li>
-                                <li><a href="/users">Services</a></li>
-                                <li><a href="https://github.com/ftuyama">About Us</a></li>
-                                <li><a href="https://sites.google.com/site/joaovitorces65/">Contact us</a></li>
-                                <li><a href="/main">Extra</a></li>
+                                <span ng-repeat="(name, link) in links">
+                                    <li><a href="{{link}}">{{name}}</a></li>
+                                </span>
                             </ul>
                         </nav>
                     </div>

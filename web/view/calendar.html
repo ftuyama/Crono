@@ -71,6 +71,7 @@
     <link href='/light-calendar.css' rel='stylesheet' type='text/css'>
     <!-- Include do Controller -->
     <script src="/contrl/calendarVC.js"></script>
+    <script src="/contrl/firebaseVC.js"></script>
     <!-- Include Speech Js -->
     <script src="/public/js/annyang.min.js"></script>
     <script src="/public/js/speechkitt.min.js"></script>
@@ -220,7 +221,7 @@
                     <h4 class="modal-title" ng-show="create" style="display: inline;">Create Event</h4>
                     <h4 class="modal-title" ng-show="edit" style="display: inline;">Edit Event</h4>
                     <a href="#" class="round-button">
-                        <i class="fa fa-navicon" ng-click="requestFetch(); $event.stopPropagation()"></i>
+                        <i class="fa fa-navicon" ng-click="invokeFirebase(); $event.stopPropagation()"></i>
                     </a>
                 </div>
                 <!-- Modal Body -->
@@ -314,5 +315,43 @@
         </div>
     </div>
 </body>
+<!-- ############################################################################ -->
+<!--                         Modal com dados Firebase                             -->
+<!-- ############################################################################ -->
+<div id="firebaseVC" ng-controller="firebaseVC">
+    <div id="firebaseModal" class="modal side-modal fade" role="dialog">
+        <div class="side-modal-dialog">
+
+            <!-- Modal content-->
+            <div class="side-modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header side-modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" style="display: inline;">Firebase Event</h3>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body side-modal-body">
+                    <div class="form-item">
+                        <div class="form-item-content">
+                            <h1>{{event.summary || "Evento"}}</h1>
+                            <p>{{event.description || "Descrição"}}</p>
+                            <p>
+                                <span>{{event.startDate}} {{event.startHour? ":" : ""}}  {{event.startHour}} -</span>
+                                <span>{{event.endDate}} {{event.endHour? ":" : ""}} {{event.endHour}}</span>
+                            </p>
+                            <p>{{groups[event.group_id].id}}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer side-modal-footer">
+                    <button class="btn btn-success" ng-click="saveFirebase()">Save</button>
+                    <button class="btn btn-danger" ng-click="deleteFirebase()">Delete</button>
+                    <button class="btn btn-warning" ng-click="closeFirebaseModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </html>

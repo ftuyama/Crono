@@ -5,9 +5,9 @@
     <title>Calendar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Calendar-Events">
-    <!------------------------------------------------------------------------------------->
-    <!--------------------------- Imports e barra de navegação ---------------------------->
-    <!------------------------------------------------------------------------------------->
+    <!-- ############################################################################ -->
+    <!--                       Imports e barra de navegação                           -->
+    <!-- ############################################################################ -->
     <link rel="icon" href="/public/img/favicon.ico">
 
     <link rel="apple-touch-icon" href="/public/img/apple-touch-icon.png">
@@ -62,9 +62,9 @@
     <script src="/public/js/formatters/24hr.js"></script>
     <script src="/public/js/formatters/ampm.js"></script>
     <script src="/public/js/formatters/french.js"></script>
-    <!------------------------------------------------------------------------------------->
-    <!--------------------------- Imports e barra de navegação ---------------------------->
-    <!------------------------------------------------------------------------------------->
+    <!-- ############################################################################ -->
+    <!--                       Imports e barra de navegação                           -->
+    <!-- ############################################################################ -->
     <!-- Personal Css and Js -->
     <link href='/light-default.css' rel='stylesheet' type='text/css'>
     <link href='/light-calendar.css' rel='stylesheet' type='text/css'>
@@ -84,8 +84,11 @@
         <div class="loader-section section-left"></div>
         <div class="loader-section section-right"></div>
     </div>
-    <!-- Lista de grupos de calendário -->
+    <!-- ############################################################################ -->
+    <!--                       Menu superior da lista                                 -->
+    <!-- ############################################################################ -->
     <div class="row no-gutter">
+        <!-- Lista de grupos de calendário -->
         <div class="thumbnail col-sm-8">
             <p style="display: inline;">Group List:</p>
             <hr>
@@ -114,7 +117,9 @@
         </div>
     </div>
     <hr>
-    <!-- Lista de eventos -->
+    <!-- ############################################################################ -->
+    <!--                       Lista principal de eventos                             -->
+    <!-- ############################################################################ -->
     <div id="list" ng-repeat="eventGroup in events" class="container">
         <ul class="list-group">
             <h3 style="display:inline-block;">Group:<a> {{groups[$index].summary}}</a></h3>
@@ -144,8 +149,9 @@
             </div>
         </ul>
     </div>
-    {{events}}
-    <!-- Modal com o form dos Eventos  -->
+    <!-- ############################################################################ -->
+    <!--                       Modal com form dos eventos                             -->
+    <!-- ############################################################################ -->
     <div id="descriptionModal" class="modal fade" role="dialog">
         <div class="modal-dialog" style="width: 800px;  margin-left: -412px;">
 

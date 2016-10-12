@@ -48,12 +48,16 @@ $(".bxslider").bxSlider({
     }
     $("#masthead #main-menu").onePageNav(), i()
 }), $("#contactform").on("submit", function(e) {
+    $("#submit").attr("disabled", "disabled");
     e.preventDefault(), $this = $(this), $.ajax({
         type: "POST",
         url: $this.attr("action"),
         data: $this.serialize(),
         success: function() {
             alert("Message Sent Successfully")
+        },
+        fail: function() {
+            alert("Sorry, something went wrong");
         }
     })
 });
@@ -73,3 +77,10 @@ $(".bxslider").bxSlider({
 
 ga('create', 'UA-63948535-1', 'auto');
 ga('send', 'pageview');
+
+
+angular.module("indexApp", ['ngCookies'])
+    .controller("indexVC", function($scope, $http, $cookies, $compile) {
+        $scope.tags = ["calendar", "angularjs", "css3", "nodejs", "github", "google", "firebase"];
+        $scope.links = { "Home": "/", "Calendar": "/calendar", "Contact": "https://github.com/ftuyama/Crono", "About": "/about" };
+    });

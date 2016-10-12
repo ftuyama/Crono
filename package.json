@@ -17,6 +17,7 @@
     "google-calendar": "^1.3.2",
     "googleapis": "^12.4.0",
     "mustache": "^2.2.1",
+    "nodemailer": "^2.6.4",
     "nodemon": "^1.10.2",
     "octonode": "^0.7.6",
     "passport": "^0.3.2",
@@ -24,6 +25,7 @@
     "passport-strategy": "^1.0.0",
     "path": "^0.12.7",
     "pause": "^0.1.0",
+    "qs": "^6.2.1",
     "redis": "^2.6.2",
     "request": "^2.75.0"
   },

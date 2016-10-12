@@ -5,9 +5,9 @@
     <title>Calendar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Calendar">
-    <!------------------------------------------------------------------------------------->
-    <!--------------------------- Imports e barra de navegação ---------------------------->
-    <!------------------------------------------------------------------------------------->
+    <!-- ############################################################################ -->
+    <!--                       Imports e barra de navegação                           -->
+    <!-- ############################################################################ -->
     <link rel="icon" href="/public/img/favicon.ico">
 
     <link rel="apple-touch-icon" href="/public/img/apple-touch-icon.png">
@@ -62,9 +62,9 @@
     <script src="/public/js/formatters/24hr.js"></script>
     <script src="/public/js/formatters/ampm.js"></script>
     <script src="/public/js/formatters/french.js"></script>
-    <!------------------------------------------------------------------------------------->
-    <!--------------------------- Imports e barra de navegação ---------------------------->
-    <!------------------------------------------------------------------------------------->
+    <!-- ############################################################################ -->
+    <!--                              Imports particulares                            -->
+    <!-- ############################################################################ -->
 
     <!-- Personal Css and Js -->
     <link href='/light-default.css' rel='stylesheet' type='text/css'>
@@ -90,9 +90,12 @@
         <div class="loader-section section-left"></div>
         <div class="loader-section section-right"></div>
     </div>
-    <!-- Lista de grupos de calendário -->
+    <!-- ############################################################################ -->
+    <!--                       Barra lateral do calendário                            -->
+    <!-- ############################################################################ -->
     <div class="row no-gutter">
         <div class="col-sm-2">
+            <!-- Lista de grupos de calendário -->
             <div class="thumbnail">
                 <p style="display: inline;">Group List:</p>
                 <hr>
@@ -120,7 +123,9 @@
             </div>
         </div>
 
-        <!-- Calendário estático inicial  -->
+        <!-- ############################################################################ -->
+        <!--                       Calendário estático inicial                            -->
+        <!-- ############################################################################ -->
         <div class="col-sm-10 calendar-content" style="text-align: center;">
             <input type="text" id="monthPicker" class="datepicker-here monthPicker" data-language="pt" data-min-view="months" data-view="months" data-date-format="MM yyyy">
             <div id="motherTable">
@@ -201,7 +206,9 @@
     <!-- Mensagens snackbar  -->
     <div id="snackbar"></div>
 
-    <!-- Modal com o form dos Eventos  -->
+    <!-- ############################################################################ -->
+    <!--                       Modal com form dos eventos                             -->
+    <!-- ############################################################################ -->
     <div id="formModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 

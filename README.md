@@ -1,4 +1,5 @@
 # Crono
+[![Build Status](https://travis-ci.org/ftuyama/Crono.svg?branch=master)](https://travis-ci.org/ftuyama/Crono)
 
 Projeto de um calendário virtual e gerenciador de projetos desenvolvido em linguagem javascript e plataformas NodeJS e AngularJS
 

@@ -46,6 +46,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $("#formModal").css({ "margin-left": "0px", "opacity": "1.0" });
     });
 
+    $scope.firebaseActive = function() {
+
+    }
+
     /*
         ===========================================================================
                         Manage user's decisions using Modal
@@ -410,6 +414,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             '<button class="btn btn-danger" style="float:right;">Change month</button>' +
             '<i class="fa fa-refresh fa-2x farefresh"' +
             ' ng-click="requestFetch();  $event.stopPropagation()"></i>' +
+            '<i class="fa fa-eye fa-2x farefresh eyefarefresh"' +
+            ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' +
             "</td></tr>";
         table += "<tr>";
         daysNames.forEach(function(dayName) {

@@ -3,8 +3,9 @@
             Calendar View Controller using Angular
 ===========================================================================
 */
+var calendarApp = angular.module("calendarApp", ['ngCookies']);
 
-angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($scope, $http, $q, $cookies, $compile, $timeout) {
+calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $compile, $timeout) {
     // Variável do form
     $scope.event_form = { summary: '', description: '', group_id: '', startDate: '', startHour: '', endDate: '', endHour: '' };
     $scope.event_id = "";
@@ -27,6 +28,23 @@ angular.module("calendarApp", ['ngCookies']).controller("calendarVC", function($
     $scope.dateTime = false;
     $scope.create = false;
     $scope.edit = false;
+
+    /*
+        ===========================================================================
+                        Communication between ViewControllers
+        ===========================================================================
+    */
+
+    /* Comunica com o FirebaseVC */
+    $scope.invokeFirebase = function() {
+        $("#formModal").css({ "margin-left": "500px", "opacity": "0.5" });
+        angular.element('#firebaseVC').scope()
+            .$emit('firebaseModal', [$scope.event_form, $scope.groups]);
+    };
+
+    $scope.$on('eventModal', function(event, data) {
+        $("#formModal").css({ "margin-left": "0px", "opacity": "1.0" });
+    });
 
     /*
         ===========================================================================

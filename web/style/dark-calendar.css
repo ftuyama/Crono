@@ -235,6 +235,14 @@ a.list-group-item {
     color: #f55f5a;
 }
 
+.eyeslashfarefresh {
+    color: #888;
+}
+
+.eyeslashfarefresh:hover {
+    color: #bbb;
+}
+
 .round-button {
     float: right;
     display: inline-block;

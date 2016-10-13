@@ -23,6 +23,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.request = false;
     $scope.loaded = false;
     $scope.loader = true;
+    $scope.fbActive = false;
 
     // Varíaveis para definir Modal Form
     $scope.dateTime = false;
@@ -47,7 +48,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     });
 
     $scope.firebaseActive = function() {
-
+        $scope.fbActive = !$scope.fbActive;
     }
 
     /*
@@ -420,7 +421,9 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             '<button class="btn btn-danger" style="float:right;">Change month</button>' +
             '<i class="fa fa-refresh fa-2x farefresh"' +
             ' ng-click="requestFetch();  $event.stopPropagation()"></i>' +
-            '<i class="fa fa-eye fa-2x farefresh eyefarefresh"' +
+            '<i class="fa fa-eye fa-2x farefresh eyefarefresh" ng-hide="fbActive"' +
+            ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' +
+            '<i class="fa fa-eye-slash fa-2x farefresh eyeslashfarefresh" ng-show="fbActive"' +
             ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' +
             "</td></tr>";
         table += "<tr>";

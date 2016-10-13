@@ -8,8 +8,22 @@ var indexApp = angular.module("indexApp", ['ngCookies']);
 indexApp.controller("indexVC", function($scope, $http, $cookies, $compile) {
 
     $scope.commits = [];
+    $scope.languages = {}
     $scope.tags = ["calendar", "angularjs", "css3", "nodejs", "github", "google", "firebase"];
     $scope.links = { "Home": "/", "Calendar": "/calendar", "Contact": "https://github.com/ftuyama/Crono", "About": "/about" };
+
+    /* Fetching Crono languages */
+    $.getJSON("https://api.github.com/repos/ftuyama/Crono/languages", function(data) {
+        total = $
+            .map(data, function(v) { return v; })
+            .reduce(function(a, b) { return a + b; }, 0);
+        percents = $.map(data, function(v) { return 100 * v / total; });
+        var index = 0;
+        for (var key in data)
+            data[key] = percents[index++];
+        $scope.languages = data;
+        $scope.$apply();
+    });
 
     /* Fetching last commits */
     $.getJSON("https://api.github.com/repos/ftuyama/Crono/commits", function(data) {

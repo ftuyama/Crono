@@ -1,0 +1,31 @@
+[{
+        "name": "Home",
+        "icon": "fa fa-home",
+        "url": "/",
+        "event": ""
+    },
+    {
+        "name": "Calendar",
+        "icon": "fa fa-calendar",
+        "url": "/calendar",
+        "event": ""
+    },
+    {
+        "name": "Contact",
+        "icon": "fa fa-bug",
+        "url": "https://github.com/ftuyama/Crono",
+        "event": ""
+    },
+    {
+        "name": "About",
+        "icon": "fa fa-info",
+        "url": "/about",
+        "event": ""
+    },
+    {
+        "name": "Theme",
+        "icon": "fa fa-paint-brush",
+        "url": "#",
+        "event": "changeTheme()"
+    }
+]

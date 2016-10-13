@@ -47,6 +47,7 @@ td {
 }
 
 .day {
+    cursor: pointer;
     text-align: left;
 }
 
@@ -218,10 +219,20 @@ a.list-group-item {
     margin-top: 8px;
     color: #2196F3;
     float: right;
+    cursor: pointer;
 }
 
 .farefresh:hover {
     color: #33A8F6;
+    cursor: pointer;
+}
+
+.eyefarefresh {
+    color: #c12e2a;
+}
+
+.eyefarefresh:hover {
+    color: #f55f5a;
 }
 
 .round-button {
@@ -270,7 +281,7 @@ a.list-group-item {
 }
 
 .side-modal-body {
-    height: 80%;
+    height: 70%;
 }
 
 .side-modal-content {

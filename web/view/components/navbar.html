@@ -1,5 +1,7 @@
 <!-- Header Section -->
 
+<script src="components/navbar.js"></script>
+<link href='/style/navbar.css' rel='stylesheet' type='text/css'>
 <header id="masthead" class="masthead navbar navbar-default navbar-fixed-top">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -14,25 +16,8 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <nav id="main-menu" class="collapse navbar-collapse pull-right">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="/calendar">Calendar</a></li>
-                <li><a href="https://github.com/ftuyama/Crono">Contact</a></li>
-                <li><a href="/about">About</a></li>
-                <li>
-                    <a id="paint-brush" onclick="changeTheme()" href="#">
-                        <i class="fa fa-paint-brush"></i> Theme</a>
-                </li>
+            <ul id="navlinks" class="nav navbar-nav">
                 <a id="profile" class="shiny-icon" href="https://calendar.google.com/calendar/"></a>
-                <link href='/style/navbar.css' rel='stylesheet' type='text/css'>
-                <script>
-                    if (isNotSafari()) {
-                        $.get("/calendarAuth/img", function(data) {
-                            if (data != undefined && data != "undefined" && data != "null" && data != "")
-                                $('#profile').append('<img id="userImg" src="' + decodeURIComponent(data) + '"/>');
-                        });
-                    }
-                </script>
             </ul>
         </nav>
         <!-- /.navbar-collapse -->

@@ -406,7 +406,13 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         // Quantos dias teve último mês
         var lastDayOfLastMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
 
-        var table = '<table class="table table-bordered">';
+        var progress = Math.round(1000 * date.getDate() / lastDay) / 10;
+        var progressHTML =
+            '<div class="progress progress-striped"><div class="progress-bar" ' +
+            'role="progressbar" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="100"' +
+            ' style="width:' + progress + '%">Month ' + progress + ' % Complete</div></div>';
+
+        var table = progressHTML + '<table class="table table-bordered">';
         table += '<tr><td COLSPAN=7 ng-click="monthPicker()">' +
             '<button class="btn btn-success" style="float:left;" ng-click="newEvent(\'0-666\', \'' +
             date.toISOString().slice(0, 10) + '\'); $event.stopPropagation()">Add event</button>' +

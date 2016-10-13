@@ -297,3 +297,15 @@ a.list-group-item {
     width: 40%;
     height: 90%;
 }
+
+.progress {
+    background: #333;
+    border-radius: 8px;
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    line-height: 20px;
+    background: #533;
+}

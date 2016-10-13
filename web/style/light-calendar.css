@@ -277,9 +277,9 @@ a.list-group-item {
 }
 
 .side-modal-content {
-    background-color: #422;
-    color: white;
-    border: 2px solid #ebedef;
+    background-color: #a66;
+    color: #faa;
+    border: 2px solid #faa;
     height: 100%;
 }
 
@@ -288,4 +288,16 @@ a.list-group-item {
     top: 10%;
     width: 40%;
     height: 90%;
+}
+
+.progress {
+    background: #ded;
+    border-radius: 8px;
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    line-height: 20px;
+    background: #5a5;
 }

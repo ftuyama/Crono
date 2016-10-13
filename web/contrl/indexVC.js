@@ -11,10 +11,24 @@ indexApp.controller("indexVC", function($scope, $http, $cookies, $compile) {
     $scope.tags = ["calendar", "angularjs", "css3", "nodejs", "github", "google", "firebase"];
     $scope.links = { "Home": "/", "Calendar": "/calendar", "Contact": "https://github.com/ftuyama/Crono", "About": "/about" };
 
+    /* Fetching last commits */
     $.getJSON("https://api.github.com/repos/ftuyama/Crono/commits", function(data) {
         $scope.commits = data.filter(mergeOff).slice(0, 5);
         $scope.$apply();
     });
+
+    /* Fetching IP and Address */
+    $.get("http://ipinfo.io", function(response) {
+        $("#coffee").attr("href",
+            "https://www.google.com.br/maps/search/café/@" +
+            response.loc + ",14z"
+        );
+        $("#ip").append(
+            '<p style="color:#e74c3c;">IP: ' + response.ip + '</p>' +
+            '<p style="color:#e74c3c;">Location: ' + response.city +
+            ', ' + response.region + '</p>'
+        );
+    }, "jsonp");
 
     function mergeOff(commit) {
         return (commit.commit.message.indexOf("Merged") == -1);

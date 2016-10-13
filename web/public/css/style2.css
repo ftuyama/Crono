@@ -305,3 +305,10 @@ body {
 .icon-navigation-text {
     color: #e4e6e5;
 }
+
+#coffee {
+    z-index: 2;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+}

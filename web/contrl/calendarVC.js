@@ -244,15 +244,17 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             for (group = 0; group < $scope.groups.length; group++) {
                 var events = $scope.events[group];
                 for (i = 0; i < events.length; i++) {
-                    var date = getDateProperty(events[i].start);
-                    var tiny_class = getTextSize(events[i].summary.length);
-                    var event_item = '<a href="#" class="list-group-item' + tiny_class +
-                        '" id="task' + group + '-' + i + '" ng-click="newEvent(\'' +
-                        group + '-' + i + '\', \'' + date + '\'); $event.stopPropagation();"' +
-                        'draggable="true" ondragstart="drag(event)">' +
-                        events[i].summary + '</a>';
-                    $("#" + date).append($compile(event_item)($scope));
-                    $("#task" + group + '-' + i).css('color', getRandomColor());
+                    if (events[i] != undefined && events[i].summary != undefined && events[i].start != undefined) {
+                        var date = getDateProperty(events[i].start);
+                        var tiny_class = (events[i].summary != undefined) ? getTextSize(events[i].summary.length) : getTextSize(0);
+                        var event_item = '<a href="#" class="list-group-item' + tiny_class +
+                            '" id="task' + group + '-' + i + '" ng-click="newEvent(\'' +
+                            group + '-' + i + '\', \'' + date + '\'); $event.stopPropagation();"' +
+                            'draggable="true" ondragstart="drag(event)">' +
+                            events[i].summary + '</a>';
+                        $("#" + date).append($compile(event_item)($scope));
+                        $("#task" + group + '-' + i).css('color', getRandomColor());
+                    }
                 }
             }
             if ($scope.request == true) {

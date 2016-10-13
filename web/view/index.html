@@ -4,7 +4,7 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
-<html class="no-js" lang="en-US" ng-app="indexApp" ng-controller="indexVC">
+<html class="no-js" lang="en-US" ng-app="indexApp" id="indexVC" ng-controller="indexVC">
 
 <head>
     <title>Crono</title>
@@ -567,19 +567,18 @@
                             <!-- /.widget -->
                         </div>
 
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="widget widget_latest-blog-post">
                                 <h3 class="widget-title">Recent Updates</h3>
                                 <!-- /.widget-title -->
                                 <div class="widget-details">
-                                    <div class="title-list">
-                                        <ul>
-                                            <li><a href="#" class="entry-title">Index Page Creation</a></li>
-                                            <li><a href="#" class="entry-title">Google Calendar Integration</a></li>
-                                            <li><a href="#" class="entry-title">Voice Service Included</a></li>
-                                            <li><a href="#" class="entry-title">Firebase Database</a></li>
-                                        </ul>
-                                    </div>
+                                    <table class="title-list">
+                                        <tr ng-repeat="commit in commits">
+                                            <th style="color:#98a0a8;">{{commit.commit.message.substr(0, 20)}} </th>
+                                            <th style="color:#3b5998;">@{{commit.commit.author.name}} </th>
+                                            <th style="color:#e74c3c;">{{commit.commit.author.date | date: 'dd/MM/yy'}}</th>
+                                        </tr>
+                                    </table>
                                     <!-- /.title-list -->
                                 </div>
                                 <!-- /.widget-details -->
@@ -587,7 +586,7 @@
                             <!-- /.widget -->
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="widget widget_photo_stream">
                                 <h3 class="widget-title">Developers</h3>
                                 <!-- /.widget-title -->
@@ -714,9 +713,7 @@
     <script src="public/js/jquery.ajaxchimp.min.js"></script>
     <!-- Include Custom Js </-->
     <script src="public/js/custom.min.js"></script>
-
-    <script src="/indexVC.js">
-    </script>
+    <script src="/indexVC.js"></script>
 
 </body>
 

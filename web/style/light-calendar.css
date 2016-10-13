@@ -244,7 +244,9 @@ a.list-group-item {
     font-weight: bold;
 }
 
-.fa-navicon:before, .fa-reorder:before, .fa-bars:before {
+.fa-navicon:before,
+.fa-reorder:before,
+.fa-bars:before {
     color: white !important;
 }
 
@@ -256,6 +258,34 @@ a.list-group-item {
     background-color: #c12e2a
 }
 
-#start_img1:hover, #start_img2:hover  {
+#start_img1:hover,
+#start_img2:hover {
     transform: scale(1.5, 1.5);
+}
+
+.side-modal {
+    z-index: 1100;
+}
+
+.side-modal-header .close {
+    font-size: 40px;
+    color: white;
+}
+
+.side-modal-body {
+    height: 80%;
+}
+
+.side-modal-content {
+    background-color: #422;
+    color: white;
+    border: 2px solid #ebedef;
+    height: 100%;
+}
+
+.side-modal-dialog {
+    position: absolute;
+    top: 10%;
+    width: 40%;
+    height: 90%;
 }

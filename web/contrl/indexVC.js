@@ -1,3 +1,26 @@
+/*
+===========================================================================
+                Index View Controller using Angular
+===========================================================================
+*/
+var indexApp = angular.module("indexApp", ['ngCookies']);
+
+indexApp.controller("indexVC", function($scope, $http, $cookies, $compile) {
+
+    $scope.commits = [];
+    $scope.tags = ["calendar", "angularjs", "css3", "nodejs", "github", "google", "firebase"];
+    $scope.links = { "Home": "/", "Calendar": "/calendar", "Contact": "https://github.com/ftuyama/Crono", "About": "/about" };
+
+    $.getJSON("https://api.github.com/repos/ftuyama/Crono/commits", function(data) {
+        $scope.commits = data.filter(mergeOff).slice(0, 5);
+        $scope.$apply();
+    });
+
+    function mergeOff(commit) {
+        return (commit.commit.message.indexOf("Merged") == -1);
+    }
+});
+
 $(".bxslider").bxSlider({
         auto: !0,
         preloadImages: "all",
@@ -83,12 +106,3 @@ $(".bxslider").bxSlider({
 
 ga('create', 'UA-60506552-2', 'auto');
 ga('send', 'pageview');
-
-/*
- * List Elements
- */
-angular.module("indexApp", ['ngCookies'])
-    .controller("indexVC", function($scope, $http, $cookies, $compile) {
-        $scope.tags = ["calendar", "angularjs", "css3", "nodejs", "github", "google", "firebase"];
-        $scope.links = { "Home": "/", "Calendar": "/calendar", "Contact": "https://github.com/ftuyama/Crono", "About": "/about" };
-    });

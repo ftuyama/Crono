@@ -380,6 +380,19 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $event.stopPropagation();
     };
 
+    $scope.fullscreen = function() {
+        if (!screenfull.isFullscreen) {
+            $("#motherTable").css("background-color", "#111");
+            $("#motherTable").css("height", "100%");
+            $("#motherTable").css("width", "100%");
+        } else {
+            $("#motherTable").css("background-color", "#111");
+            $("#motherTable").css("height", "");
+            $("#motherTable").css("width", "");
+        }
+        screenfull.toggle($("#motherTable")[0]);
+    };
+
     $scope.select_month = function() {
         [month, year] = $("#monthPicker").val().split(' ');
         $scope.monthYear = new Date(year, returnMonth(month), 1);

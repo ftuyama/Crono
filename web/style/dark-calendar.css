@@ -318,11 +318,11 @@ a.list-group-item {
 
 .sidenav {
     height: 90%;
-    width: 30%;
+    width: 0%;
     position: fixed;
-    z-index: 201;
+    z-index: 1000000;
     top: 10%;
-    left: 0;
+    left: -5px;
     background-color: #422;
     overflow: auto;
     overflow-x: hidden;

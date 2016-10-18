@@ -8,6 +8,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     $scope.groups = {};
     $scope.event = {};
+    $("#firebaseVC").show();
 
     /*
         ===========================================================================

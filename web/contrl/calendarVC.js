@@ -24,6 +24,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.loaded = false;
     $scope.loader = true;
     $scope.fbActive = false;
+    $scope.fbOver = false;
 
     // Varíaveis para definir Modal Form
     $scope.dateTime = false;
@@ -46,6 +47,15 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.$on('eventModal', function(event, data) {
         $("#formModal").css({ "margin-left": "0px", "opacity": "1.0" });
     });
+
+    $scope.flashFirebase = function(info, selected_date) {
+        if ($scope.fbActive) {
+            $scope.fbOver = true;
+            $scope.newEvent(info, selected_date);
+            $scope.fbOver = false;
+            $scope.invokeFirebase();
+        }
+    }
 
     $scope.firebaseActive = function() {
         $scope.fbActive = !$scope.fbActive;
@@ -90,7 +100,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 group_id: $scope.event_group
             };
         }
-        $("#formModal").modal('show');
+        if (!$scope.fbOver)
+            $("#formModal").modal('show');
     };
 
     $scope.closeModal = function() {
@@ -249,16 +260,19 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             for (group = 0; group < $scope.groups.length; group++) {
                 var events = $scope.events[group];
                 for (i = 0; i < events.length; i++) {
-                    if (events[i] != undefined && events[i].summary != undefined && events[i].start != undefined) {
+                    if (isValidEvent(events[i])) {
                         var date = getDateProperty(events[i].start);
-                        var tiny_class = (events[i].summary != undefined) ? getTextSize(events[i].summary.length) : getTextSize(0);
-                        var event_item = '<a href="#" class="list-group-item' + tiny_class +
-                            '" id="task' + group + '-' + i + '" ng-click="newEvent(\'' +
-                            group + '-' + i + '\', \'' + date + '\'); $event.stopPropagation();"' +
-                            'draggable="true" ondragstart="drag(event)">' +
+                        var clazz = getTextSize(events[i].summary);
+                        var event_ref = group + '-' + i;
+                        var event_item =
+                            '<a href="#" class="list-group-item' + clazz + '" id="task' +
+                            event_ref + '" ng-mouseover="flashFirebase(\'' +
+                            event_ref + '\', \'' + date + '\');" ng-click="newEvent(\'' +
+                            event_ref + '\', \'' + date + '\'); $event.stopPropagation();"' +
+                            ' draggable="true" ondragstart="drag(event)">' +
                             events[i].summary + '</a>';
                         $("#" + date).append($compile(event_item)($scope));
-                        $("#task" + group + '-' + i).css('color', getRandomColor());
+                        $("#task" + event_ref).css('color', getRandomColor());
                     }
                 }
             }
@@ -334,6 +348,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         return true;
     };
 
+    function isValidEvent(event) {
+        return event != undefined &&
+            event.summary != undefined &&
+            event.start != undefined;
+    }
+
     function toDateISO(date, hour) {
         if (hour == "")
             return date + 'T00:00:00-03:00'
@@ -349,7 +369,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         return date.slice(8, 10) + '/' + date.slice(5, 7) + '/' + date.slice(0, 4);
     }
 
-    function getTextSize(length) {
+    function getTextSize(text) {
+        if (text == undefined)
+            return "";
+        length = text.length;
         if (length > 40)
             return "-micro";
         else if (length > 18)

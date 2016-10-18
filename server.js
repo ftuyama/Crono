@@ -13,6 +13,8 @@ var index = require('./web/server/indexSV');
 var users = require('./web/server/usersSV');
 var calendar = require('./web/server/calendarSV');
 var about = require('./web/server/aboutSV');
+/* Services */
+var chat = require('./chat/chatindex');
 /* Tools */
 var session = require('express-session');
 var redisClient = require('redis').createClient({
@@ -67,6 +69,7 @@ app.use('/calendar', calendar);
 app.use('/users', users);
 app.use('/main', principal);
 app.use('/about', about);
+app.use('/chat', chat);
 app.use('/', index);
 
 // Redis client

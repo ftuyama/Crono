@@ -1,8 +1,16 @@
+/*
+  ===========================================================================
+            Chat Application written with Socket.io
+  ===========================================================================
+*/
+// Importing packages
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var express = require('express');
+var router = express.Router();
 
-app.get('/', function(req, res) {
+router.get('/', function(req, res) {
     res.sendFile(__dirname + '/chatindex.html');
 });
 
@@ -19,3 +27,5 @@ io.on('connection', function(socket) {
 http.listen(3000, function() {
     console.log('listening on *:3000');
 });
+
+module.exports = router;

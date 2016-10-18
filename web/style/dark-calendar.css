@@ -31,6 +31,9 @@ table table-bordered {
     }
 }
 
+
+/* Calendar Component */
+
 tr {
     color: white;
 }
@@ -161,6 +164,9 @@ a.list-group-item {
     color: white;
 }
 
+
+/* Microphone icon */
+
 .mic-btn {
     width: 40px;
     height: 40px;
@@ -174,6 +180,9 @@ a.list-group-item {
     -ms-transform: scale(2.0, 2.0);
     -webkit-transform: scale(2.0, 2.0);
 }
+
+
+/* Event Modal */
 
 .form-item {
     height: 50px;
@@ -214,6 +223,9 @@ a.list-group-item {
     padding: 0px;
 }
 
+
+/* Icon */
+
 .farefresh {
     width: 50px;
     margin-top: 8px;
@@ -226,6 +238,9 @@ a.list-group-item {
     color: #33A8F6;
     cursor: pointer;
 }
+
+
+/* Eye icon */
 
 .eyefarefresh {
     color: #c12e2a;
@@ -279,32 +294,8 @@ a.list-group-item {
     transform: scale(1.5, 1.5);
 }
 
-.side-modal {
-    z-index: 1100;
-}
 
-.side-modal-header .close {
-    font-size: 40px;
-    color: white;
-}
-
-.side-modal-body {
-    height: 70%;
-}
-
-.side-modal-content {
-    background-color: #422;
-    color: white;
-    border: 2px solid #ebedef;
-    height: 100%;
-}
-
-.side-modal-dialog {
-    position: absolute;
-    top: 10%;
-    width: 40%;
-    height: 90%;
-}
+/* Month progress bar */
 
 .progress {
     background: #333;
@@ -316,4 +307,53 @@ a.list-group-item {
 .progress-bar {
     line-height: 20px;
     background: #533;
+}
+
+
+/* Firebase SideNav */
+
+#motherTable {
+    transition: 0.5s;
+}
+
+.sidenav {
+    height: 90%;
+    width: 30%;
+    position: fixed;
+    z-index: 201;
+    top: 10%;
+    left: 0;
+    background-color: #422;
+    overflow: auto;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 20px;
+    border: 2px solid #ebedef;
+}
+
+.sidenav-content {
+    height: 100%;
+}
+
+.sidenav-header .close:hover,
+.sidenav-header .close:focus {
+    font-size: 40px;
+    color: #ddd;
+    opacity: 1;
+}
+
+.sidenav-header .close {
+    font-size: 40px;
+    color: white;
+    opacity: .8;
+}
+
+.sidenav-body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 60%;
+}
+
+.sidenav-footer {
+    text-align: center;
 }

@@ -39,13 +39,13 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     /* Comunica com o FirebaseVC */
     $scope.invokeFirebase = function() {
-        $("#formModal").css({ "margin-left": "500px", "opacity": "0.5" });
+        $("#formModal").css({ "margin-left": "20%" });
         angular.element('#firebaseVC').scope()
-            .$emit('firebaseModal', [$scope.event_form, $scope.groups]);
+            .$emit('firebaseNav', [$scope.event_form, $scope.groups]);
     };
 
     $scope.$on('eventModal', function(event, data) {
-        $("#formModal").css({ "margin-left": "0px", "opacity": "1.0" });
+        $("#formModal").css({ "margin-left": "0%" });
     });
 
     $scope.flashFirebase = function(info, selected_date) {
@@ -457,9 +457,9 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             '<button class="btn btn-danger" style="float:right;">Change month</button>' +
             '<i class="fa fa-refresh fa-2x farefresh"' +
             ' ng-click="requestFetch();  $event.stopPropagation()"></i>' +
-            '<i class="fa fa-eye fa-2x farefresh eyefarefresh" ng-hide="fbActive"' +
+            '<i class="fa fa-eye fa-2x farefresh eyefarefresh" ng-show="fbActive"' +
             ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' +
-            '<i class="fa fa-eye-slash fa-2x farefresh eyeslashfarefresh" ng-show="fbActive"' +
+            '<i class="fa fa-eye-slash fa-2x farefresh eyeslashfarefresh" ng-hide="fbActive"' +
             ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' +
             "</td></tr>";
         table += "<tr>";

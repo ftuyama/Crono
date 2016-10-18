@@ -263,33 +263,6 @@ a.list-group-item {
     transform: scale(1.5, 1.5);
 }
 
-.side-modal {
-    z-index: 1100;
-}
-
-.side-modal-header .close {
-    font-size: 40px;
-    color: white;
-}
-
-.side-modal-body {
-    height: 70%;
-}
-
-.side-modal-content {
-    background-color: #a66;
-    color: #faa;
-    border: 2px solid #faa;
-    height: 100%;
-}
-
-.side-modal-dialog {
-    position: absolute;
-    top: 10%;
-    width: 40%;
-    height: 90%;
-}
-
 .progress {
     background: #ded;
     border-radius: 8px;
@@ -300,4 +273,53 @@ a.list-group-item {
 .progress-bar {
     line-height: 20px;
     background: #5a5;
+}
+
+
+/* Firebase SideNav */
+
+#motherTable {
+    transition: 0.5s;
+}
+
+.sidenav {
+    height: 90%;
+    width: 30%;
+    position: fixed;
+    z-index: 201;
+    top: 10%;
+    left: 0;
+    background-color: #a66;
+    overflow: auto;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 20px;
+    border: 2px solid #faa;
+}
+
+.sidenav-content {
+    height: 100%;
+}
+
+.sidenav-header .close:hover,
+.sidenav-header .close:focus {
+    font-size: 40px;
+    color: #ddd;
+    opacity: 1;
+}
+
+.sidenav-header .close {
+    font-size: 40px;
+    color: white;
+    opacity: .8;
+}
+
+.sidenav-body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 60%;
+}
+
+.sidenav-footer {
+    text-align: center;
 }

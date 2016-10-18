@@ -15,23 +15,39 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         ===========================================================================
     */
 
-    /* Ouve CalendarVC para abrir FirebaseModal */
-    $scope.$on('firebaseModal', function(event, data) {
+    /* Ouve CalendarVC para abrir firebaseNav */
+    $scope.$on('firebaseNav', function(event, data) {
         $scope.event = data[0];
         $scope.groups = data[1];
-        $("#firebaseModal").modal('show');
+        expandSideBar();
     });
 
-    $scope.closeFirebaseModal = function() {
+
+    $scope.closefirebaseNav = function() {
         angular.element('#calendarVC').scope()
             .$emit('eventModal', []);
-        // Fecha Firebase modal
-        $("#firebaseModal").modal('hide');
+        contractSideBar();
     };
 
-    $('#firebaseModal').on('hidden.bs.modal', function() {
-        angular.element($('#firebaseVC')).scope().closeFirebaseModal();
-    })
+    /*
+        ===========================================================================
+                                    Auxiliary functions
+        ===========================================================================
+    */
+
+    function expandSideBar() {
+        $("#firebaseNav").css("width", "30%");
+        $("#firebaseNav").css("left", "0px");
+        $("#motherTable").css("width", "83%");
+        $("#motherTable").css("left", "17%");
+    }
+
+    function contractSideBar() {
+        $("#firebaseNav").css("width", "0%");
+        $("#firebaseNav").css("left", "-5px");
+        $("#motherTable").css("width", "100%");
+        $("#motherTable").css("left", "0%");
+    }
 
     /*
         ===========================================================================
@@ -40,11 +56,13 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     */
 
     $scope.saveFirebase = function() {
-
+        showSnackBar("Informação salva com sucesso!");
+        $scope.closefirebaseNav();
     }
 
     $scope.deleteFirebase = function() {
-
+        showSnackBar("Informação deletada com sucesso!");
+        $scope.closefirebaseNav();
     }
 
     /*

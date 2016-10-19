@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font: 13px Helvetica, Arial;
+    background-color: #336;
+    overflow: hidden;
+}
+
+form {
+    padding: 3px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+form input {
+    border: 0;
+    padding: 10px;
+    width: 90%;
+    margin-right: .5%;
+}
+
+form button {
+    width: 9%;
+    border: none;
+    padding: 10px;
+}
+
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#messages p {
+    text-align: left;
+    padding: 5px 10px;
+}
+
+#messages p:nth-child(odd) {
+    background: #66d;
+}
+
+.title {
+    display: flex;
+}
+
+.title-text {
+    left: 50%;
+}
+
+.title-side {
+    left: 70%;
+}

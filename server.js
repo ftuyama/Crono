@@ -14,7 +14,7 @@ var users = require('./web/server/usersSV');
 var calendar = require('./web/server/calendarSV');
 var about = require('./web/server/aboutSV');
 /* Services */
-var chat = require('./chat/chatindex');
+var chat = require('./chat/chatSV');
 /* Tools */
 var session = require('express-session');
 var redisClient = require('redis').createClient({
@@ -43,6 +43,7 @@ app.use(express.static(__dirname + '/web/style'));
 //Store all public in web folder
 app.use(express.static(__dirname + '/web/public'));
 app.use(express.static(__dirname + '/web'));
+app.use(express.static(__dirname + '/chat'));
 
 // Configure server
 app.use(cookieParser());

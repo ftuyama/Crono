@@ -11,9 +11,9 @@
         "event": ""
     },
     {
-        "name": "Contact",
-        "icon": "fa fa-bug",
-        "url": "https://github.com/ftuyama/Crono",
+        "name": "Chat",
+        "icon": "fa fa-comment-o",
+        "url": "/chat",
         "event": ""
     },
     {

@@ -8,28 +8,20 @@ var calendarApp = angular.module("calendarApp", ['ngCookies']);
 calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $compile, $timeout) {
     // Variável do form
     $scope.event_form = { summary: '', description: '', group_id: '', startDate: '', startHour: '', endDate: '', endHour: '' };
-    $scope.event_id = "";
-    $scope.event_group = "";
+    $scope.event_id = $scope.event_group = "";
 
     // Variável de calendário
     $scope.monthYear = new Date();
 
     // Variáveis de negócio
-    $scope.events = {};
-    $scope.groups = {};
+    $scope.events = $scope.groups = {};
 
     // Variáveis de semáforo
-    $scope.busy = true;
-    $scope.request = false;
-    $scope.loaded = false;
-    $scope.loader = true;
-    $scope.fbActive = false;
-    $scope.fbOver = false;
+    $scope.busy = $scope.loader = $scope.fbActive = true;
+    $scope.request = $scope.loaded = $scope.fbOver = false;
 
     // Varíaveis para definir Modal Form
-    $scope.dateTime = false;
-    $scope.create = false;
-    $scope.edit = false;
+    $scope.dateTime = $scope.create = $scope.edit = false;
 
     /*
         ===========================================================================

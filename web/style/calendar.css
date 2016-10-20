@@ -1,0 +1,58 @@
+/* Redimensionamento Mobile */
+
+@media only screen and (max-width: 767px) {
+    .calendar-content {
+        width: 80%;
+    }
+    .modal-dialog,
+    .side-modal-dialog {
+        height: 80%;
+        width: 100%;
+    }
+    .modal-body,
+    .side-modal-body {
+        width: 100%;
+        height: 70%;
+    }
+    .modal-content,
+    .side-modal-content {
+        width: 80%;
+        height: 90%;
+        top: 10%;
+        left: 10%;
+    }
+    .form-item-content,
+    .form-item {
+        width: 100%;
+    }
+    #skitt-toggle-button {
+        width: 50px !important;
+        height: 50px !important;
+        background-position: 6px 7px !important;
+    }
+    #skitt-ui {
+        font-size: 15px !important;
+    }
+    /* Comportamento de expansão */
+    .firebase-expand {
+        width: 100% !important;
+        left: 0px !important;
+    }
+    .motherTable-expand {
+        width: 0% !important;
+        left: 0% !important;
+    }
+}
+
+
+/* Comportamento de expansão */
+
+.firebase-expand {
+    width: 30%;
+    left: 0px;
+}
+
+.motherTable-expand {
+    width: 83%;
+    left: 17%;
+}

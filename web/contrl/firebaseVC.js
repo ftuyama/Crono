@@ -37,17 +37,13 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     */
 
     function expandSideBar() {
-        $("#firebaseNav").css("width", "30%");
-        $("#firebaseNav").css("left", "0px");
-        $("#motherTable").css("width", "83%");
-        $("#motherTable").css("left", "17%");
+        $("#firebaseNav").addClass("firebase-expand");
+        $("#motherTable").addClass("motherTable-expand");
     }
 
     function contractSideBar() {
-        $("#firebaseNav").css("width", "0%");
-        $("#firebaseNav").css("left", "-5px");
-        $("#motherTable").css("width", "100%");
-        $("#motherTable").css("left", "0%");
+        $("#firebaseNav").removeClass("firebase-expand");
+        $("#motherTable").removeClass("motherTable-expand");
     }
 
     /*

@@ -8,30 +8,6 @@ table table-bordered {
     color: #114;
 }
 
-@media only screen and (max-width: 767px) {
-    .calendar-content {
-        width: 80%;
-    }
-    .modal-dialog {
-        height: 80%;
-        width: 100%;
-    }
-    .modal-body {
-        width: 100%;
-        height: 70%;
-    }
-    .modal-content {
-        width: 80%;
-        height: 90%;
-        top: 10%;
-        left: 10%;
-    }
-    .form-item-content,
-    .form-item {
-        width: 100%;
-    }
-}
-
 tr {
     color: #225;
     background-color: #aad;

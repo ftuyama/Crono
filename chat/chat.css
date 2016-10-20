@@ -5,27 +5,43 @@
 }
 
 body {
-    font: 13px Helvetica, Arial;
     background-color: #336;
     overflow: hidden;
 }
 
-form {
+.footer {
     padding: 3px;
     position: fixed;
     bottom: 0;
     width: 100%;
 }
 
+@media only screen and (max-width: 767px) {
+    #text {
+        display: block;
+        width: 100%;
+    }
+    #send {
+        display: block;
+        width: 100%;
+    }
+    .title-side {
+        visibility: hidden;
+    }
+}
+
 form input {
-    border: 0;
-    padding: 10px;
-    width: 90%;
+    padding: 8px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 85%;
+    margin-left: .5%;
     margin-right: .5%;
 }
 
 form button {
-    width: 9%;
+    width: 10%;
     border: none;
     padding: 10px;
 }
@@ -51,8 +67,4 @@ form button {
 
 .title-text {
     left: 50%;
-}
-
-.title-side {
-    left: 70%;
 }

@@ -12,10 +12,13 @@ $(document).ready(function() {
         });
     });
 
-    if (isNotSafari()) {
+    if (isNotSafari())
         $.get("/calendarAuth/img", function(data) {
             if (data != undefined && data != "undefined" && data != "null" && data != "")
                 $('#profile').append('<img id="userImg" src="' + decodeURIComponent(data) + '"/>');
         });
-    }
+    $.get("/calendarAuth/user", function(user) {
+        if (user != undefined && user != "undefined" && user != "null" && user != "")
+            $('#username').text(user.displayName);
+    });
 });

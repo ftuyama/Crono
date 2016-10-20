@@ -8,7 +8,7 @@ var gcal = require('google-calendar');
 var passport = require('passport');
 var mustache = require('mustache');
 var fs = require('fs');
-var imageUrl;
+var imageUrl, user;
 
 /*
   ===========================================================================
@@ -34,7 +34,8 @@ fs.readFile('./APICalendar/client_secret.json',
             },
             function(accessToken, refreshToken, profile, done) {
                 imageUrl = retrieveImageUrl(profile);
-                console.log("User logged in!");
+                user = profile;
+                console.log("%s logged in!", user.displayName);
                 profile.accessToken = accessToken;
                 return done(null, profile);
             }
@@ -80,6 +81,15 @@ router.get('/img', function(req, res) {
     }
 });
 
+/* GET google user */
+router.get('/user', function(req, res) {
+    try { // check undefined passport.user
+        res.send(req.session.passport.user);
+    } catch (err) {
+        res.send(req.cookies.user);
+    }
+});
+
 /* GET auth callback */
 router.get('/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
@@ -87,6 +97,7 @@ router.get('/callback',
         req.session.access_token = req.user.accessToken;
         res.cookie('token', req.user.accessToken);
         res.cookie('imageUrl', imageUrl);
+        res.cookie('user', user);
         res.redirect('/calendar');
     });
 

@@ -1,16 +1,249 @@
 #logoImg {
+    transition: .25s all linear;
     height: 100px;
     width: 200px;
 }
 
 #userImg {
+    transition: .25s all linear;
     height: 50px;
     width: 50px;
+}
+
+#username {
+    transition: .25s all linear;
+    color: #e4e6e5;
+    top: 25px;
+    left: 15px;
+    float: right;
+    font-size: 1.4em;
+}
+
+.navbar-brand {
+    padding-top: 0px;
+}
+
+.bg-change .navbar-brand {
+    padding-top: 8px;
+}
+
+.bg-change .navbar-nav>li>a {
+    padding: 15px 20px;
+}
+
+
+/* Navbar stuff 1 */
+
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.open>a:hover {
+    background: transparent;
+    box-shadow: none;
+    color: #ffffff;
+}
+
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:focus,
+.navbar-default .navbar-nav>.active>a:hover {
+    background: transparent;
+}
+
+.navbar-nav>li>a {
+    box-shadow: none;
+    color: #ffffff !important;
+    font-size: 1.2em;
+    font-weight: 400;
+    padding: 25px 20px;
+}
+
+@media (max-width: 1100px) {
+    #logoImg {
+        height: 80px;
+        width: 160px;
+    }
+    #userImg {
+        height: 40px;
+        width: 40px;
+    }
+    .navbar-nav>li>a {
+        font-size: 1.0em;
+    }
+    .navbar #username {
+        font-size: 1.0em;
+    }
+}
+
+.navbar {
+    border-bottom: 0 none;
+    font-size: 12px;
+    transition: .25s all linear;
+}
+
+.navbar.inv {
+    background-color: rgba( 0, 0, 0, .5);
+    border-bottom: 1px solid #bfbfbf;
+}
+
+.navbar .nav a {
+    color: #5f5f5f;
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 600;
+    transition: all .5 linear;
+}
+
+.navbar.inv a {
+    color: #e4e6e5;
+}
+
+.navbar-responsive-collapse {
+    margin: 0 auto;
+    width: 80%;
+}
+
+.nav li {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.nav>li>a:hover,
+.nav>li>a:focus {
+    background-color: inherit;
+    outline: none;
+}
+
+.navbar-brand {
+    padding: 0px;
+}
+
+.active-menu {
+    background-color: #4e4e4e;
+    content: '.';
+    display: block;
+    height: 5px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: all .5 linear;
+    width: 1%;
+    z-index: 9;
+}
+
+.inv .active-menu {
+    background-color: #e4e6e5;
+}
+
+.special-active-menu {
+    z-index: 10;
+}
+
+#special-active-menu-1,
+#special-active-menu-6 {
+    background-color: #4e4e4e !important;
+}
+
+#special-active-menu-2 {
+    background-color: #1abc9c !important;
+}
+
+#special-active-menu-3 {
+    background-color: #e74c3c !important;
+}
+
+#special-active-menu-4 {
+    background-color: #34495e !important;
+}
+
+#special-active-menu-5 {
+    background-color: #e67e22 !important;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    #logoImg {
+        height: 60px;
+        width: 120px;
+    }
+    .container {
+        width: 100%;
+    }
+}
+
+@media (min-width: 991px) {
+    .container {
+        width: 90%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    #slide-4 .content-row h2 {
+        min-height: 6em;
+    }
 }
 
 @media (max-width: 767px) {
     #logoImg {
         height: 60px;
         width: 120px;
+    }
+    .navbar #username {
+        float: left;
+        padding-right: 20px;
+        font-size: 1.4em;
+    }
+    .nav li {
+        height: 40px;
+        text-align: left;
+        white-space: nowrap;
+    }
+    .navbar-responsive-collapse {
+        width: 50%;
+    }
+    .active-menu {
+        display: none !important;
+    }
+    .navbar-toggle {
+        margin-right: 0px;
+    }
+    .navbar-brand {
+        padding-top: 0px !important;
+    }
+    .navbar {
+        background-color: #262626 !important;
+        padding: 0;
+        opacity: 0.8;
+    }
+    .navbar-nav {
+        padding-left: 3%;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+    .navbar .nav a {
+        color: #e4e6e5;
+        font-size: 1.0em;
+        padding-left: 0;
+    }
+    .icon {
+        margin-right: 12px;
+    }
+    .nav li[data-slide="1"],
+    .nav li[data-slide="6"] {
+        background-color: #2f2f2f;
+    }
+    .nav li[data-slide="2"] {
+        background-color: #1abc9c;
+    }
+    .nav li[data-slide="3"] {
+        background-color: #e74c3c;
+    }
+    .nav li[data-slide="4"] {
+        background-color: #34495e;
+    }
+    .nav li[data-slide="5"] {
+        background-color: #e67e22;
+    }
+    .navbar-brand {
+        padding: 0px;
+        margin: 0;
+        text-align: left;
     }
 }

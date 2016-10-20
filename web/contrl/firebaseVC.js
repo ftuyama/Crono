@@ -6,8 +6,9 @@
 
 calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $compile) {
 
-    $scope.groups = {};
-    $scope.event = {};
+    $scope.all_event = { link: '/' };
+    $scope.user_event = { status: '' };
+    $scope.groups = $scope.event = {};
     $("#firebaseVC").show();
 
     /*
@@ -53,6 +54,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     */
 
     $scope.saveFirebase = function() {
+        $scope.save();
         showSnackBar("Informação salva com sucesso!");
         $scope.closefirebaseNav();
     }
@@ -67,6 +69,36 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
                         Fetching and Managing Firebase data
         ===========================================================================
     */
+
+    $scope.save = function() {
+        var fbUrl =
+            '/' + $scope.groups[$scope.event.group_id].id +
+            '/' + $scope.event.id;
+        var all_post = {
+            url: fbUrl + '/all',
+            content: $scope.all_event
+        };
+        var user_post = {
+            url: fbUrl + '/' + ,
+            content: $scope.user_post
+        };
+        $http.post('/firebase/set', JSON.stringify(all_post))
+            .then(function success(response) {
+                // success
+            });
+
+        $http.post('/firebase/set', JSON.stringify(user_post))
+            .then(function success(response) {
+                // success
+            });
+    }
+
+    $scope.getUser = function() {
+        $http.get('/calendarAuth/user')
+            .then(function success(response) {
+                $scope.user = response.data;
+            });
+    }
 
     $scope.fetch = function() {
 

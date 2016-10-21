@@ -258,8 +258,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                         var event_ref = group + '-' + i;
                         var event_item =
                             '<a href="#" class="list-group-item' + clazz + '" id="task' +
-                            event_ref + '" ng-mouseover="flashFirebase(\'' +
-                            event_ref + '\', \'' + date + '\');" ng-click="newEvent(\'' +
+                            event_ref + '" ng-click="flashFirebase(\'' +
                             event_ref + '\', \'' + date + '\'); $event.stopPropagation();"' +
                             ' draggable="true" ondragstart="drag(event)">' +
                             events[i].summary + '</a>';

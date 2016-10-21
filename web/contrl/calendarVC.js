@@ -18,7 +18,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     // Variáveis de semáforo
     $scope.busy = $scope.loader = $scope.fbActive = true;
-    $scope.request = $scope.loaded = $scope.fbOver = false;
+    $scope.request = $scope.loaded = false;
 
     // Varíaveis para definir Modal Form
     $scope.dateTime = $scope.create = $scope.edit = false;
@@ -42,9 +42,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     $scope.flashFirebase = function(info, selected_date) {
         if ($scope.fbActive) {
-            $scope.fbOver = true;
             $scope.newEvent(info, selected_date);
-            $scope.fbOver = false;
             $scope.invokeFirebase();
         }
     }
@@ -92,8 +90,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 group_id: $scope.event_group
             };
         }
-        if (!$scope.fbOver)
-            $("#formModal").modal('show');
+        $("#formModal").modal('show');
     };
 
     $scope.closeModal = function() {

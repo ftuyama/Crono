@@ -299,3 +299,7 @@ a.list-group-item {
 .sidenav-footer {
     text-align: center;
 }
+
+label {
+    color: #ddd;
+}

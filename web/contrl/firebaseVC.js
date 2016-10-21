@@ -6,9 +6,13 @@
 
 calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $compile) {
 
-    $scope.all_event = { link: '/' };
-    $scope.user_event = { status: '' };
-    $scope.groups = $scope.event = {};
+    /* Variáveis de negócio */
+    $scope.new_all_event = { link: '' };
+    $scope.new_user_event = { priority: '3', status: 'TODO', comment: '' };
+    $scope.user = $scope.groups = $scope.event = {};
+
+    /* Interface gráfica */
+    $scope.fetching = true;
     $("#firebaseVC").show();
 
     /*
@@ -19,8 +23,11 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /* Ouve CalendarVC para abrir firebaseNav */
     $scope.$on('firebaseNav', function(event, data) {
+        $scope.fetching = true;
         $scope.event = data[0];
         $scope.groups = data[1];
+        $scope.event.id = data[2];
+        $scope.fetch();
         expandSideBar();
     });
 
@@ -47,11 +54,43 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         $("#motherTable").removeClass("motherTable-expand");
     }
 
+    function copy(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
+
+    var statusMap = {
+        "TODO": "#dac586",
+        "DEV": "#160c76",
+        "TEST": "#702898",
+        "DONE": "#197403"
+    }
+
+    $scope.statusColor = function() {
+        if ($scope.user_event != undefined) {
+            if (statusMap[$scope.user_event.status] != undefined)
+                $scope.user_event.statusColor = statusMap[$scope.user_event.status];
+            else $scope.user_event.statusColor = "#b8a88a";
+        }
+    }
+
+    $scope.nextKey = function(current) {
+        var keys = []
+        for (var key in statusMap) keys.push(key);
+        var index = (keys.indexOf(current) + 1) % keys.length;
+        return keys[index];
+    }
+
     /*
         ===========================================================================
                         Managing modal Firebase information
         ===========================================================================
     */
+
+    $scope.change_status = function() {
+        $scope.user_event.status = $scope.nextKey($scope.user_event.status);
+        $scope.save();
+        $scope.statusColor();
+    }
 
     $scope.saveFirebase = function() {
         $scope.save();
@@ -66,28 +105,26 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /*
         ===========================================================================
-                        Fetching and Managing Firebase data
+                        Connection with NodeJS and Firebase database
         ===========================================================================
     */
 
-    $scope.save = function() {
-        var fbUrl =
-            '/' + $scope.groups[$scope.event.group_id].id +
-            '/' + $scope.event.id;
-        var all_post = {
-            url: fbUrl + '/all',
-            content: $scope.all_event
-        };
-        var user_post = {
-            url: fbUrl + '/' + ,
-            content: $scope.user_post
-        };
-        $http.post('/firebase/set', JSON.stringify(all_post))
-            .then(function success(response) {
-                // success
-            });
+    /* Get Firebase Url for event */
+    $scope.fbUrl = function() {
+        var cleanGroup = $scope.groups[$scope.event.group_id].id
+            .replace(/\.|\#|\$|\[|\]|\@/g, "");
+        return '/' + cleanGroup + '/' + $scope.event.id;
+    }
 
-        $http.post('/firebase/set', JSON.stringify(user_post))
+    /* Post save */
+    $scope.save = function(post) {
+        var post = {
+            url: $scope.fbUrl(),
+            content: {}
+        };
+        post.content['all'] = $scope.all_event;
+        post.content[$scope.user.id] = $scope.user_event;
+        $http.post('/firebase/set', JSON.stringify(post))
             .then(function success(response) {
                 // success
             });
@@ -100,8 +137,20 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
             });
     }
 
+    /* Carrega informações do evento */
     $scope.fetch = function() {
-
+        $scope.getUser();
+        $http.post('/firebase/get', JSON.stringify({ 'url': $scope.fbUrl() }))
+            .then(function success(response) {
+                $scope.all_event = copy($scope.new_all_event);
+                $scope.user_event = copy($scope.new_user_event);
+                if (response.data != undefined && response.data != "") {
+                    $scope.all_event = $.extend({}, $scope.all_event, response.data['all']);
+                    $scope.user_event = $.extend({}, $scope.new_user_event, response.data[$scope.user.id]);
+                }
+                $scope.statusColor();
+                $scope.fetching = false;
+            });
     }
 
 });

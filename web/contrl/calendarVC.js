@@ -14,7 +14,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.monthYear = new Date();
 
     // Variáveis de negócio
-    $scope.events = $scope.groups = {};
+    $scope.evento = $scope.events = $scope.groups = {};
 
     // Variáveis de semáforo
     $scope.busy = $scope.loader = $scope.fbActive = true;
@@ -33,7 +33,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.invokeFirebase = function() {
         $("#formModal").css({ "margin-left": "20%" });
         angular.element('#firebaseVC').scope()
-            .$emit('firebaseNav', [$scope.event_form, $scope.groups]);
+            .$emit('firebaseNav', [$scope.event_form, $scope.groups, $scope.evento.id]);
     };
 
     $scope.$on('eventModal', function(event, data) {
@@ -81,7 +81,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             };
         } else {
             $scope.edit = true;
-            evento = $scope.events[$scope.event_group][$scope.event_id];
+            $scope.evento = evento = $scope.events[$scope.event_group][$scope.event_id];
             $scope.event_form = {
                 summary: evento.summary,
                 description: evento.description,
@@ -131,14 +131,13 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     */
 
     $scope.generatePost = function() {
-        var post = {
+        return $scope.appendDatePost({
             group_id: $scope.groups[$scope.event_form.group_id].id,
             event: {
                 summary: $scope.event_form.summary,
                 description: $scope.event_form.description
             }
-        };
-        return $scope.appendDatePost(post);
+        });
     };
 
     $scope.appendDatePost = function(post) {
@@ -231,6 +230,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         else $scope.request = true;
     }
 
+    /* Carrega todos os eventos */
     $scope.fetch = function() {
         $scope.busy = true;
         $scope.refresh_calendar();
@@ -275,6 +275,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         });
     };
 
+    /* Inicialmente carrega lista de grupos */
     $http.get('/calendar/groups')
         .then(function success(response) {
             $scope.groups = response.data.items;

@@ -37,6 +37,7 @@
     .firebase-expand {
         width: 100% !important;
         left: 0px !important;
+        overflow-y: hidden !important;
     }
     .motherTable-expand {
         width: 0% !important;
@@ -50,9 +51,45 @@
 .firebase-expand {
     width: 30%;
     left: 0px;
+    overflow-y: hidden;
 }
 
 .motherTable-expand {
     width: 83%;
     left: 17%;
+}
+
+.status {
+    font-size: 1.0em;
+    vertical-align: middle;
+}
+
+
+/* Small loader */
+
+.small-loader {
+    display: inline-flex;
+    border: 6px solid #f3f3f3;
+    /* Light grey */
+    border-top: 6px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#slider1 {
+    cursor: pointer;
+    border-radius: 15px;
+    background: #6a6;
 }

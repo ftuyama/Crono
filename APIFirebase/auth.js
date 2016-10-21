@@ -27,7 +27,7 @@ router.post('/set', function(req, res) {
 
 router.post('/get', function(req, res) {
     console.log("getting: " + JSON.stringify(req.body));
-    firebase.database().ref(req.body.url).on("value", function(snapshot) {
+    firebase.database().ref(req.body.url).once("value", function(snapshot) {
         res.send(snapshot.val());
     });
 })

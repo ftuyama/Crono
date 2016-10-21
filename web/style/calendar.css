@@ -24,6 +24,9 @@
     .calendar-content {
         width: 80%;
     }
+    .sidenav-content {
+        height: 90%;
+    }
     .modal-dialog,
     .side-modal-dialog {
         height: 80%;

@@ -7,7 +7,7 @@ var calendarApp = angular.module("calendarApp", ['ngCookies']);
 
 calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $compile, $timeout) {
     // Variável do form
-    $scope.event_form = { summary: '', description: '', group_id: '', startDate: '', startHour: '', endDate: '', endHour: '' };
+    $scope.event_form = { summary: '', description: '', group_id: -1, startDate: '', startHour: '', endDate: '', endHour: '' };
     $scope.event_id = $scope.event_group = "";
 
     // Variável de calendário
@@ -17,8 +17,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.evento = $scope.events = $scope.groups = {};
 
     // Variáveis de semáforo
-    $scope.busy = $scope.loader = $scope.fbActive = true;
-    $scope.request = $scope.loaded = false;
+    $scope.busy = $scope.loader = true;
+    $scope.request = $scope.loaded = $scope.fbActive = false;
 
     // Varíaveis para definir Modal Form
     $scope.dateTime = $scope.create = $scope.edit = false;
@@ -29,13 +29,20 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         ===========================================================================
     */
 
-    /* Comunica com o FirebaseVC */
+    /* Comunica com FirebaseVC - abre sideBar */
     $scope.invokeFirebase = function() {
         $("#formModal").css({ "margin-left": "20%" });
         angular.element('#firebaseVC').scope()
             .$emit('firebaseNav', [$scope.event_form, $scope.groups, $scope.evento.id]);
     };
 
+    /* Comunica com FirebaseVC - fecha sideBar */
+    $scope.closeFirebase = function() {
+        $("#formModal").css({ "margin-left": "0%" });
+        angular.element('#firebaseVC').scope().$emit('firebaseNavClose', []);
+    };
+
+    /* Ouve FirebaseVC - fecha sideBar */
     $scope.$on('eventModal', function(event, data) {
         $("#formModal").css({ "margin-left": "0%" });
     });
@@ -45,6 +52,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             $scope.newEvent(info, selected_date);
             $scope.invokeFirebase();
         }
+    }
+
+    $scope.openModals = function(info, selected_date) {
+        $scope.fbActive = false;
+        $scope.newEvent(info, selected_date);
+        $scope.invokeFirebase();
     }
 
     $scope.firebaseActive = function() {
@@ -90,7 +103,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 group_id: $scope.event_group
             };
         }
-        $("#formModal").modal('show');
+        if (!$scope.fbActive)
+            $("#formModal").modal('show');
     };
 
     $scope.closeModal = function() {
@@ -98,6 +112,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         if ($scope.checkDate() == false)
             return false;
         // Fecha modal com dados validados
+        $scope.closeFirebase();
         $("#formModal").modal('hide');
         return true;
     };
@@ -139,22 +154,11 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     $scope.appendDatePost = function(post) {
         if ($scope.dateTime == true) {
-            post.event["start"] = {
-                dateTime: toDateISO(
-                    $scope.event_form.startDate,
-                    $scope.event_form.startHour
-                )
-            };
-            post.event["end"] = {
-                dateTime: toDateISO(
-                    $scope.event_form.endDate,
-                    $scope.event_form.endHour
-                )
-            };
+            post.event["start"] = { dateTime: toDateISO($scope.event_form.startDate, $scope.event_form.startHour) };
+            post.event["end"] = { dateTime: toDateISO($scope.event_form.endDate, $scope.event_form.endHour) };
         } else {
             post.event["start"] = { date: toDateISO($scope.event_form.startDate, "") };
             post.event["end"] = { date: toDateISO($scope.event_form.endDate, "") };
-
         }
         return post;
     };
@@ -255,7 +259,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                         var event_ref = group + '-' + i;
                         var event_item =
                             '<a href="#" class="list-group-item' + clazz + '" id="task' +
-                            event_ref + '" ng-click="flashFirebase(\'' +
+                            event_ref + '" ng-mouseover="flashFirebase(\'' +
+                            event_ref + '\', \'' + date + '\')" ng-click="openModals(\'' +
                             event_ref + '\', \'' + date + '\'); $event.stopPropagation();"' +
                             ' draggable="true" ondragstart="drag(event)">' +
                             events[i].summary + '</a>';
@@ -344,8 +349,6 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     }
 
     function toDateISO(date, hour) {
-        if (hour == "")
-            return date + 'T00:00:00-03:00'
         if (date[4] == '-' && date[7] == '-')
             return date;
         var dateISO = date.slice(6, 10) + '-' + date.slice(3, 5) + '-' + date.slice(0, 2);
@@ -527,3 +530,9 @@ function drop(ev) {
     destine = ev.target.id;
     angular.element(document.getElementById('calendarVC')).scope().move(origin, destine);
 }
+
+/* Esc pressed */
+$(document).keyup(function(e) {
+    if (e.keyCode == 27)
+        angular.element(document.getElementById('calendarVC')).scope().closeModal();
+});

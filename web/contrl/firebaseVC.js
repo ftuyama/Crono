@@ -23,18 +23,18 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /* Ouve CalendarVC para abrir firebaseNav */
     $scope.$on('firebaseNav', function(event, data) {
-        $scope.fetching = true;
-        $scope.event = data[0];
-        $scope.groups = data[1];
-        $scope.event.id = data[2];
+        [$scope.event, $scope.groups, $scope.event.id] = data;
         $scope.fetch();
         expandSideBar();
     });
 
+    /* Ouve CalendarVC para fechar firebaseNav */
+    $scope.$on('firebaseNavClose', function(event, data) {
+        $scope.closefirebaseNav();
+    });
 
     $scope.closefirebaseNav = function() {
-        angular.element('#calendarVC').scope()
-            .$emit('eventModal', []);
+        angular.element('#calendarVC').scope().$emit('eventModal', []);
         contractSideBar();
     };
 
@@ -99,6 +99,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     }
 
     $scope.deleteFirebase = function() {
+        $scope.delet();
         showSnackBar("Informação deletada com sucesso!");
         $scope.closefirebaseNav();
     }
@@ -118,18 +119,19 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /* Post save */
     $scope.save = function(post) {
-        var post = {
-            url: $scope.fbUrl(),
-            content: {}
-        };
+        var post = { url: $scope.fbUrl(), content: {} };
         post.content['all'] = $scope.all_event;
         post.content[$scope.user.id] = $scope.user_event;
         $http.post('/firebase/set', JSON.stringify(post))
-            .then(function success(response) {
-                // success
-            });
+            .then(function success(response) {});
     }
 
+    /* Post delete */
+    $scope.delet = function(post) {
+        $http.post('/firebase/set', JSON.stringify({ url: $scope.fbUrl() }));
+    }
+
+    /* Carrega informações do usuário */
     $scope.getUser = function() {
         $http.get('/calendarAuth/user')
             .then(function success(response) {
@@ -139,6 +141,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /* Carrega informações do evento */
     $scope.fetch = function() {
+        $scope.fetching = true;
         $scope.getUser();
         $http.post('/firebase/get', JSON.stringify({ 'url': $scope.fbUrl() }))
             .then(function success(response) {

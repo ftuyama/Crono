@@ -18,6 +18,7 @@ router.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+    retrieveChatHistory();
     console.log('a user connected');
     redis.set("chat:connected:" + timeStamp(), 'user');
     socket.on('disconnect', function() {
@@ -33,6 +34,17 @@ io.on('connection', function(socket) {
         }));
     });
 });
+
+function retrieveChatHistory() {
+    redis.keys('chat:talk:*', function(err, keys) {
+        keys.sort();
+        keys.forEach(function(key) {
+            redis.get(key, function(err, value) {
+                io.emit('history', { key, value });
+            });
+        });
+    });
+}
 
 function timeStamp() {
     return new Date().toISOString().replace(/\-|\T|\./g, ':');

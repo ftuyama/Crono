@@ -94,6 +94,18 @@
         socket.on('chat message', function(msg) {
             $('#messages').append($('<p>').text(msg));
         });
+        socket.on('history', function(msg) {
+            var time = msg.key.split(':').slice(5, 8).join(':');
+            var value = JSON.parse(msg.value);
+            $('#messages').append(
+                $('<p>').html(
+                    time + "  " +
+                    '<b style="color:#c66">@' + value.user + '</b> ' +
+                    '<span style="color:#6c6">said</span> ' +
+                    value.message
+                )
+            );
+        });
     </script>
 </body>
 

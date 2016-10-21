@@ -79,14 +79,16 @@
         </div>
     </div>
     <form class="footer" action="">
-        <input id="text" class="w3-input" id="m" autocomplete="off" />
+        <input id="text" class="w3-input" autocomplete="off" />
         <button id="send" class="btn btn-success">Send</button>
     </form>
     <script>
-        var socket = io.connect('http://localhost:3000');;
+        var socket = io.connect('/', {
+            path: '/chatS'
+        });
         $('form').submit(function() {
-            socket.emit('chat message', $('#m').val());
-            $('#m').val('');
+            socket.emit('chat message', $('#text').val());
+            $('#text').val('');
             return false;
         });
         socket.on('chat message', function(msg) {

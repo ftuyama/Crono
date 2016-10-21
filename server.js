@@ -22,7 +22,7 @@ var bodyParser = require('body-parser')
 var passport = require('passport');
 
 // Redis client
-redisClient.on('connect', function() {
+var redisClient = redisClient.on('connect', function() {
     console.log("Redis client connected at port %s", config.redis.port)
 });
 
@@ -32,6 +32,7 @@ var server = app.listen(config.web.port, function() {
     console.log("Crono app listening at port %s", port)
 })
 app.server = server;
+app.redis = redisClient;
 
 module.exports = app;
 

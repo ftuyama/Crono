@@ -8,7 +8,9 @@ var app = require('express')();
 var express = require('express');
 var router = express.Router();
 // Setting socket.io application
-var server = require("../server").server;
+var appl = require("../server");
+var server = appl.server;
+var redis = appl.redis;
 var io = require('socket.io')(server, { path: '/chatS' });
 
 router.get('/', function(req, res) {
@@ -17,13 +19,23 @@ router.get('/', function(req, res) {
 
 io.on('connection', function(socket) {
     console.log('a user connected');
+    redis.set("chat:connected:" + timeStamp(), 'user');
     socket.on('disconnect', function() {
         console.log('user disconnected');
+        redis.set("chat:disconnected:" + timeStamp(), 'user');
     });
     socket.on('chat message', function(msg) {
         io.emit('chat message', msg);
         console.log('user sent' + msg);
+        redis.set("chat:talk:" + timeStamp(), JSON.stringify({
+            'user': 'user',
+            'message': msg
+        }));
     });
 });
+
+function timeStamp() {
+    return new Date().toISOString().replace(/\-|\T|\./g, ':');
+}
 
 module.exports = router;

@@ -33,6 +33,12 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         $scope.closefirebaseNav();
     });
 
+    /* Ouve CalendarVC para deletar evento*/
+    $scope.$on('firebaseDelete', function(event, data) {
+        [$scope.event, $scope.groups, $scope.event.id] = data;
+        $scope.deleteFirebase();
+    });
+
     $scope.closefirebaseNav = function() {
         angular.element('#calendarVC').scope().$emit('eventModal', []);
         contractSideBar();
@@ -128,7 +134,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /* Post delete */
     $scope.delet = function(post) {
-        $http.post('/firebase/set', JSON.stringify({ url: $scope.fbUrl() }));
+        $http.post('/firebase/del', JSON.stringify({ url: $scope.fbUrl() }));
     }
 
     /* Carrega informações do usuário */

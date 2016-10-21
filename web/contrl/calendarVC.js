@@ -42,6 +42,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         angular.element('#firebaseVC').scope().$emit('firebaseNavClose', []);
     };
 
+    /* Comunica com FirebaseVC - deletar evento */
+    $scope.deleteFirebase = function() {
+        angular.element('#firebaseVC').scope()
+            .$emit('firebaseDelete', [$scope.event_form, $scope.groups, $scope.evento.id]);
+    };
+
     /* Ouve FirebaseVC - fecha sideBar */
     $scope.$on('eventModal', function(event, data) {
         $("#formModal").css({ "margin-left": "0%" });
@@ -194,6 +200,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     }
 
     $scope.postDeleteEvent = function() {
+        $scope.deleteFirebase();
         if (!$scope.closeModal()) return;
         var param = {
             group_id: $scope.groups[$scope.event_group].id,

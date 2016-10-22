@@ -106,7 +106,8 @@
         });
         socket.on('connected', function(msg) {
             var time = msg.key.split(':').slice(5, 8).join(':');
-            username = msg.value.user;
+            if (username == undefined)
+                username = msg.value.user;
             $('#messages').append(
                 $('<p>').html(
                     time + "  " +

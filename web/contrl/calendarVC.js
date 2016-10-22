@@ -63,20 +63,26 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $("#formModal").css({ "margin-left": "0%" });
     });
 
+    /* Ouve FirebaseVC - atualiza status */
+    $scope.$on('updateStatus', function(event, data) {
+        $scope.firebaseFetch();
+    });
+
     $scope.translate = function(firebase, user, statusMap) {
         $.each($scope.events, function(group_id, events) {
             $.each(events, function(event_id, event) {
-                var group_key = cleanGroup($scope.groups[group_id].id);
-                var event_key = event.id;
-                var user_key = user.id;
-                var status_key = "status";
                 try {
+                    var group_key = cleanGroup($scope.groups[group_id].id);
+                    var event_key = event.id;
+                    var user_key = user.id;
+                    var status_key = "status";
                     var status = firebase[group_key][event_key][user_key][status_key];
                     $scope.events[group_id][event_id].status = status;
                     $scope.events[group_id][event_id].statusColor = statusMap[status];
                 } catch (err) {}
             });
         });
+        $scope.$apply();
     }
 
     /*
@@ -319,6 +325,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                     $scope.request = false;
                     $scope.fetch();
                 } else $scope.busy = false;
+                $scope.firebaseFetch();
                 resolve();
             });
         });

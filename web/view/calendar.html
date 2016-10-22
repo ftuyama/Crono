@@ -337,7 +337,7 @@
                     <button class="btn btn-default" ng-bind="user_event.priority"></button>
                     <span>Firebase Event</span>
                     <span class="small-loader" ng-show="fetching"></span>
-                    <span class="label label-info status" style="background-color:{{user_event.statusColor}}" ng-bind="user_event.status" ng-click="change_status()"></span>
+                    <span class="label label-info status" style="background-color:{{user_event.statusColor}}" ng-bind="user_event.status" ng-click="change_status(); updateStatus();"></span>
                 </h3>
                 <h1>{{event.summary || "Evento"}}</h1>
                 <hr>
@@ -385,7 +385,7 @@
                         <div class="row">
                             <label>Status: <i class="fa fa-check-circle"></i></label>
                             <div class="input-control modern text">
-                                <input class="magic" type="text" ng-model="user_event.status" ng-change="save()" ng-model-options="{debounce: 1000}">
+                                <input class="magic" type="text" ng-model="user_event.status" ng-change="save(); updateStatus();" ng-model-options="{debounce: 1000}">
                                 <span class="label">Status</span>
                                 <span class="informer">Please, update the status</span>
                                 <span class="placeholder" ng-hide="user_event.status">Status</span>

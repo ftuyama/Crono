@@ -8,7 +8,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /* Variáveis de negócio */
     $scope.new_all_event = { link: '' };
-    $scope.new_user_event = { priority: '3', status: 'TODO', comment: '' };
+    $scope.new_user_event = { priority: '3', status: 'NEW', comment: '' };
     $scope.user = $scope.groups = $scope.event = {};
 
     /* Interface gráfica */
@@ -53,6 +53,13 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         angular.element('#calendarVC').scope().$emit('eventModal', []);
         contractSideBar();
     };
+
+    /* Comunica com CalendarVC para atualizar os status */
+    $scope.updateStatus = function() {
+        angular.element('#calendarVC').scope().$emit('updateStatus', []);
+    };
+
+
 
     /*
         ===========================================================================
@@ -133,7 +140,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     }
 
     /* Post save */
-    $scope.save = function(post) {
+    $scope.save = function() {
         var post = { url: $scope.fbUrl(), content: {} };
         post.content['all'] = $scope.all_event;
         post.content[$scope.user.id] = $scope.user_event;
@@ -142,7 +149,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     }
 
     /* Post delete */
-    $scope.delet = function(post) {
+    $scope.delet = function() {
         $http.post('/firebase/del', JSON.stringify({ url: $scope.fbUrl() }));
     }
 

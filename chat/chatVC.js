@@ -59,9 +59,10 @@ $(document).ready(function() {
     }
 
     function processUsers(msg, kind) {
-        if (kind == "connected")
+        if (kind == "connected" && msg.value.user != username &&
+            $("[id='" + msg.value.user + "']").length == 0)
             $('#users').append(
-                $('<p id="' + msg.value.user + '">').html(user_credential(msg.value.user))
+                $('<p id="' + msg.value.user + '">').html(user_great_credential(msg.value))
             );
         else if (kind == "disconnected")
             $("[id='" + msg.value.user + "']").remove();
@@ -69,7 +70,7 @@ $(document).ready(function() {
 
     function register_self(msg) {
         username = msg.value.user;
-        $('#users').append($('<p>').html(user_credential(username)));
+        $('#users').append($('<p>').html(user_great_credential(msg.value)));
     }
 
     /*
@@ -77,6 +78,10 @@ $(document).ready(function() {
                                 Helpers to Manage View
         ===========================================================================
     */
+
+    function user_great_credential(value) {
+        return '<img class="userIcon" src="' + value.img + '"/>' + user_credential(value.user);
+    }
 
     function user_credential(user) {
         return '<b style="color:' + stringToColour(user) + '">@' + user + '</b>';

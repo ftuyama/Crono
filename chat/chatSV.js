@@ -59,7 +59,11 @@ function sendEvent(kind, msg, user) {
 function getEvent(kind, msg, user, time_stamp) {
     return {
         'key': 'chat:' + kind + ':' + time_stamp,
-        'value': { 'user': user.displayName, 'message': msg }
+        'value': {
+            'user': user.displayName,
+            'message': msg,
+            'img': retrieveImageUrl(user)
+        }
     };
 }
 
@@ -84,6 +88,13 @@ function retrieveChatHistory() {
                     Auxialliary Functions - Code Smell
   ===========================================================================
 */
+
+function retrieveImageUrl(profile) {
+    console.log(profile);
+    if (typeof profile._json['picture'] != "undefined")
+        return profile._json['picture'];
+    return profile._json.image['url'];
+}
 
 function dancaDoCrioulo(keys) {
     keys = jogaParaTras(keys);

@@ -24,8 +24,10 @@ router.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
-    retrieveChatHistory();
-    sendEvent('connected', '');
+    if (user != undefined) {
+        retrieveChatHistory();
+        sendEvent('connected', '');
+    }
     socket.on('disconnect', function() { sendEvent('disconnected', '') });
     socket.on('chat message', function(msg) { sendEvent('chat', msg) });
 });
@@ -86,7 +88,10 @@ function dancaDoCrioulo(keys) {
 function jogaParaTras(keys) {
     new_keys = [];
     keys.forEach(function(key) {
-        new_keys.push(key.split(':').slice(2).join(':') + ':' + key.split(':').slice(0, 2).join(':'));
+        new_keys.push(
+            key.split(':').slice(2).join(':') + ':' +
+            key.split(':').slice(0, 2).join(':')
+        );
     });
     return new_keys;
 }
@@ -94,7 +99,10 @@ function jogaParaTras(keys) {
 function jogaParaFrente(keys) {
     new_keys = [];
     keys.forEach(function(key) {
-        new_keys.push(key.split(':').slice(7).join(':') + ':' + key.split(':').slice(0, 7).join(':'));
+        new_keys.push(
+            key.split(':').slice(7).join(':') + ':' +
+            key.split(':').slice(0, 7).join(':')
+        );
     });
     return new_keys;
 }

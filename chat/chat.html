@@ -131,7 +131,6 @@
         socket.on('history', function(history) {
             [dest, msg] = [history.dest, history.msg];
             if (dest != username) return;
-            alert(dest);
             var kind = msg.key.split(':').slice(1, 2)[0];
             var time = msg.key.split(':').slice(5, 8).join(':');
             var value = JSON.parse(msg.value);

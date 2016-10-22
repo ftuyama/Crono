@@ -69,12 +69,12 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row row-message">
         <div class="col-sm-2">
             <h3>Online:</h3>
             <hr>
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-10 row-message">
             <ul id="messages"></ul>
         </div>
     </div>
@@ -92,7 +92,38 @@
             return false;
         });
         socket.on('chat message', function(msg) {
-            $('#messages').append($('<p>').text(msg));
+            var time = msg.key.split(':').slice(5, 8).join(':');
+            $('#messages').append(
+                $('<p>').html(
+                    time + "  " +
+                    '<b style="color:#c66">@' + msg.value.user + '</b> ' +
+                    '<span style="color:#6c6">said</span> ' +
+                    msg.value.message
+                )
+            );
+            scrollBotton();
+        });
+        socket.on('user connected', function(msg) {
+            var time = msg.key.split(':').slice(5, 8).join(':');
+            $('#messages').append(
+                $('<p>').html(
+                    time + "  " +
+                    '<b style="color:#c66">@' + msg.value.user +
+                    '<span style="color:#6c6"> connected</span> '
+                )
+            );
+            scrollBotton();
+        });
+        socket.on('user disconnected', function(msg) {
+            var time = msg.key.split(':').slice(5, 8).join(':');
+            $('#messages').append(
+                $('<p>').html(
+                    time + "  " +
+                    '<b style="color:#c66">@' + msg.value.user +
+                    '<span style="color:#6c6"> disconnected</span> '
+                )
+            );
+            scrollBotton();
         });
         socket.on('history', function(msg) {
             var time = msg.key.split(':').slice(5, 8).join(':');
@@ -105,7 +136,13 @@
                     value.message
                 )
             );
+            scrollBotton();
         });
+
+        function scrollBotton() {
+            var scroll = document.getElementById('messages');
+            scroll.scrollTop = scroll.scrollHeight
+        }
     </script>
 </body>
 

@@ -50,6 +50,8 @@ form button {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
+    height: 90%;
 }
 
 #messages p {
@@ -67,4 +69,8 @@ form button {
 
 .title-text {
     left: 50%;
+}
+
+.row-message {
+    height: 80%;
 }

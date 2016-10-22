@@ -15,6 +15,12 @@ var io = require('socket.io')(server, { path: '/chatS' });
 var config = require('../config');
 var user;
 
+/*
+  ===========================================================================
+                    Definindo Sessão e Conexão básica
+  ===========================================================================
+*/
+
 router.get('/', function(req, res) {
     if (req.session == null || req.session == undefined ||
         req.session.access_token == null || req.session.access_token == undefined)
@@ -24,12 +30,13 @@ router.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+    socket.handshake.session = user;
     if (user != undefined) {
         retrieveChatHistory();
-        sendEvent('connected', '');
+        sendEvent('connected', '', user);
     }
-    socket.on('disconnect', function() { sendEvent('disconnected', '') });
-    socket.on('chat message', function(msg) { sendEvent('chat', msg) });
+    socket.on('disconnect', function() { sendEvent('disconnected', '', socket.handshake.session) });
+    socket.on('chat message', function(msg) { sendEvent('chat', msg, socket.handshake.session) });
 });
 
 /*
@@ -38,9 +45,9 @@ io.on('connection', function(socket) {
   ===========================================================================
 */
 
-function sendEvent(kind, msg) {
+function sendEvent(kind, msg, user) {
     try {
-        var event = getEvent(kind, msg, timeStamp());
+        var event = getEvent(kind, msg, user, timeStamp());
         console.log(user.displayName + ' ' + kind + ': ' + msg);
         redis.set(event.key, JSON.stringify(event.value));
         io.emit(kind, event);
@@ -49,7 +56,7 @@ function sendEvent(kind, msg) {
     }
 }
 
-function getEvent(kind, msg, time_stamp) {
+function getEvent(kind, msg, user, time_stamp) {
     return {
         'key': 'chat:' + kind + ':' + time_stamp,
         'value': { 'user': user.displayName, 'message': msg }

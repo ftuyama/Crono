@@ -48,10 +48,42 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             .$emit('firebaseDelete', [$scope.event_form, $scope.groups, $scope.evento.id]);
     };
 
+    /* Comunica com FirebaseVC - requisita informações */
+    $scope.firebaseFetch = function() {
+        angular.element('#firebaseVC').scope().$emit('firebaseFetch', []);
+    }
+
+    /* Ouve FirebaseVC - recebe informações */
+    $scope.$on('firebaseFetched', function(event, data) {
+        $scope.translate(data[0], data[1], data[2]);
+    });
+
     /* Ouve FirebaseVC - fecha sideBar */
     $scope.$on('eventModal', function(event, data) {
         $("#formModal").css({ "margin-left": "0%" });
     });
+
+    $scope.translate = function(firebase, user, statusMap) {
+        $.each($scope.events, function(group_id, events) {
+            $.each(events, function(event_id, event) {
+                var group_key = cleanGroup($scope.groups[group_id].id);
+                var event_key = event.id;
+                var user_key = user.id;
+                var status_key = "status";
+                try {
+                    var status = firebase[group_key][event_key][user_key][status_key];
+                    $scope.events[group_id][event_id].status = status;
+                    $scope.events[group_id][event_id].statusColor = statusMap[status];
+                } catch (err) {}
+            });
+        });
+    }
+
+    /*
+        ===========================================================================
+                                Modal Display Management
+        ===========================================================================
+    */
 
     $scope.flashFirebase = function(info, selected_date) {
         if ($scope.fbActive) {
@@ -240,46 +272,55 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     /* Carrega todos os eventos */
     $scope.fetch = function() {
-        $scope.busy = true;
-        $scope.refresh_calendar();
-        $scope.events = [];
-        http_requests = [];
-        for (j = 0; j < $scope.groups.length; j++) {
-            var group_checked = $scope.groups[j].checked;
-            createCookie([$scope.groups[j].id], group_checked, 365);
-            $scope.events.push([]);
-            if (group_checked == true) {
-                http_requests.push($http.get('/calendar/list' + j)
-                    .then(function success(response) {
-                        var group = Number(response.data.group_id);
-                        $scope.events[group] = response.data.items;
-                    }));
-            }
-        }
-        $q.all(http_requests).then(function() {
-            for (group = 0; group < $scope.groups.length; group++) {
-                var events = $scope.events[group];
-                for (i = 0; i < events.length; i++) {
-                    if (isValidEvent(events[i])) {
-                        var date = getDateProperty(events[i].start);
-                        var clazz = getTextSize(events[i].summary);
-                        var event_ref = group + '-' + i;
-                        var event_item =
-                            '<a href="#" class="list-group-item' + clazz + '" id="task' +
-                            event_ref + '" ng-mouseover="flashFirebase(\'' +
-                            event_ref + '\', \'' + date + '\')" ng-click="openModals(\'' +
-                            event_ref + '\', \'' + date + '\'); $event.stopPropagation();"' +
-                            ' draggable="true" ondragstart="drag(event)">' +
-                            events[i].summary + '</a>';
-                        $("#" + date).append($compile(event_item)($scope));
-                        $("#task" + event_ref).css('color', getRandomColor());
-                    }
+        return new Promise(function(resolve, reject) {
+            $scope.busy = true;
+            $scope.refresh_calendar();
+            $scope.events = http_requests = [];
+            for (j = 0; j < $scope.groups.length; j++) {
+                var group_checked = $scope.groups[j].checked;
+                createCookie([$scope.groups[j].id], group_checked, 365);
+                $scope.events.push([]);
+                if (group_checked == true) {
+                    http_requests.push($http.get('/calendar/list' + j)
+                        .then(function success(response) {
+                            var group = Number(response.data.group_id);
+                            $scope.events[group] = response.data.items;
+                        }));
                 }
             }
-            if ($scope.request == true) {
-                $scope.request = false;
-                $scope.fetch();
-            } else $scope.busy = false;
+            $q.all(http_requests).then(function() {
+                for (group = 0; group < $scope.groups.length; group++) {
+                    var events = $scope.events[group];
+                    for (i = 0; i < events.length; i++) {
+                        $scope.events[group][i].status = 'NEW';
+                        $scope.events[group][i].statusColor = 'red';
+                        if (isValidEvent(events[i])) {
+                            var date = getDateProperty(events[i].start);
+                            var clazz = getTextSize(events[i].summary);
+                            var event_ref = group + '-' + i;
+                            var event_item =
+                                '<div class="row rowitens">' +
+                                '<a href="#" class="list-group-item' + clazz + '" id="task' +
+                                event_ref + '" ng-mouseover="flashFirebase(\'' +
+                                event_ref + '\', \'' + date + '\')" ng-click="openModals(\'' +
+                                event_ref + '\', \'' + date + '\'); $event.stopPropagation();"' +
+                                ' draggable="true" ondragstart="drag(event)">' +
+                                events[i].summary +
+                                '<span class="label label-info status Cstatus"' +
+                                ' style="background-color:{{events[' + group + '][' + i + '].statusColor}}"' +
+                                ' ng-bind="events[' + group + '][' + i + '].status"></span>' +
+                                '</a></div>';
+                            $("#" + date).append($compile(event_item)($scope));
+                            $("#task" + event_ref).css('color', getRandomColor());
+                        }
+                    }
+                }
+                if ($scope.request == true) {
+                    $scope.request = false;
+                    $scope.fetch();
+                } else $scope.busy = false;
+                resolve();
+            });
         });
     };
 
@@ -292,7 +333,9 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 $scope.groups[i].checked =
                     (cookie == undefined || cookie == "true");
             }
-            $scope.fetch();
+            $scope.fetch().then(function() {
+                $scope.firebaseFetch();
+            });
         });
 
     $scope.$watch("busy", function() {
@@ -308,9 +351,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 $(".loader-section").css("opacity", 0.3);
             }, 1500);
 
-        } else {
-            $scope.loader = $scope.busy;
-        }
+        } else $scope.loader = $scope.busy;
     });
 
     /*
@@ -371,11 +412,9 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     function getTextSize(text) {
         if (text == undefined)
             return "";
-        length = text.length;
-        if (length > 40)
-            return "-micro";
-        else if (length > 18)
-            return "-tiny";
+        if (text.length > 40) return " item-micro";
+        else if (text.length > 18) return " item-tiny";
+        else if (text.length > 10) return " item-small";
         else return "";
     }
 

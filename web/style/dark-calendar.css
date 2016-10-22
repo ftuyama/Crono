@@ -82,18 +82,6 @@ a.list-group-item {
     max-width: 140px;
 }
 
-.list-group-item-micro {
-    font-size: 10px;
-}
-
-.list-group-item-tiny {
-    font-size: 12px;
-}
-
-.list-group-item-esp {
-    display: inline;
-}
-
 .spc-btn {
     visibility: hidden;
     display: inline-block;

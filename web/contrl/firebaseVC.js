@@ -33,12 +33,22 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         $scope.closefirebaseNav();
     });
 
-    /* Ouve CalendarVC para deletar evento*/
+    /* Ouve CalendarVC para deletar evento */
     $scope.$on('firebaseDelete', function(event, data) {
         [$scope.event, $scope.groups, $scope.event.id] = data;
         $scope.deleteFirebase();
     });
 
+    /* Ouve CalendarVC e comunica para enviar informações */
+    $scope.$on('firebaseFetch', function(event, data) {
+        $scope.getUser();
+        $scope.fetchHard().then(function(response) {
+            angular.element('#calendarVC').scope()
+                .$emit('firebaseFetched', [response.data, $scope.user, statusMap]);
+        });
+    });
+
+    /* Comunica com CalendarVC para fechar sideBar */
     $scope.closefirebaseNav = function() {
         angular.element('#calendarVC').scope().$emit('eventModal', []);
         contractSideBar();
@@ -118,9 +128,8 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /* Get Firebase Url for event */
     $scope.fbUrl = function() {
-        var cleanGroup = $scope.groups[$scope.event.group_id].id
-            .replace(/\.|\#|\$|\[|\]|\@/g, "");
-        return '/' + cleanGroup + '/' + $scope.event.id;
+        return '/' + cleanGroup($scope.groups[$scope.event.group_id].id) +
+            '/' + $scope.event.id;
     }
 
     /* Post save */
@@ -143,6 +152,16 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
             .then(function success(response) {
                 $scope.user = response.data;
             });
+    }
+
+    /* Carrega todas as informações */
+    $scope.fetchHard = function() {
+        return new Promise(function(resolve, reject) {
+            $http.get('/firebase/fetch')
+                .then(function success(response) {
+                    resolve(response);
+                });
+        });
     }
 
     /* Carrega informações do evento */

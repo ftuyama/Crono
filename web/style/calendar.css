@@ -82,9 +82,52 @@
     left: 17%;
 }
 
+
+/* Status Label */
+
 .status {
     font-size: 1.0em;
     vertical-align: middle;
+}
+
+.Cstatus {
+    font-size: 0.8em;
+    float: right;
+    right: -16px;
+    padding: 4px;
+}
+
+.rowitens {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+
+/* Table size */
+
+.table-bordered>tbody>tr>td,
+.table-bordered>tbody>tr>th,
+.table-bordered>tfoot>tr>td,
+.table-bordered>tfoot>tr>th,
+.table-bordered>thead>tr>td,
+.table-bordered>thead>tr>th {
+    padding-right: 0px;
+}
+
+.item-micro {
+    font-size: 0.7em;
+}
+
+.item-tiny {
+    font-size: 0.8em;
+}
+
+.item-small {
+    font-size: 0.9em;
+}
+
+.list-group-item-esp {
+    display: inline;
 }
 
 

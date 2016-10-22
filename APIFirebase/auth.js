@@ -32,6 +32,14 @@ router.post('/get', function(req, res) {
     });
 })
 
+router.get('/fetch', function(req, res) {
+    console.log("fetching");
+    firebase.database().ref('root').root
+        .orderByKey().once("value", function(snapshot) {
+            res.send(snapshot.val());
+        });
+})
+
 router.post('/upd', function(req, res) {
     console.log("updating: " + JSON.stringify(req.body));
     firebase.database().ref(req.body.url).update(req.body.content);

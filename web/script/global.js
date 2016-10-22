@@ -152,6 +152,9 @@ function showSnackBar(message) {
     setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
 }
 
+function cleanGroup(group) {
+    return group.replace(/\.|\#|\$|\[|\]|\@/g, "");
+}
 /*
     ===========================================================================
                         Exporta funções para testes unitários

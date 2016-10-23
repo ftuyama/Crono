@@ -37,6 +37,7 @@ io.on('connection', function(socket) {
     }
     socket.on('disconnect', function() { sendEvent('disconnected', '', socket.handshake.session) });
     socket.on('chat message', function(msg) { sendEvent('chat', msg, socket.handshake.session) });
+    socket.on('spam', function(msg) { sendSpam(msg) });
 });
 
 /*
@@ -83,6 +84,13 @@ function retrieveChatHistory() {
     });
 }
 
+function sendSpam(msg) {
+    io.emit('spam', {
+        'key': 'chat:spam:' + timeStamp(),
+        'value': { 'user': 'Anon', 'message': msg }
+    });
+}
+
 /*
   ===========================================================================
                     Auxialliary Functions - Code Smell
@@ -90,7 +98,6 @@ function retrieveChatHistory() {
 */
 
 function retrieveImageUrl(profile) {
-    console.log(profile);
     if (typeof profile._json['picture'] != "undefined")
         return profile._json['picture'];
     return profile._json.image['url'];

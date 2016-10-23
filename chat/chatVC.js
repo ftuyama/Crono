@@ -9,10 +9,17 @@ $(document).ready(function() {
     var socket = io.connect('/', {
         path: '/chatS'
     });
-    $('form').submit(function() {
+
+    $('form').submit(function() {});
+
+    $('#send').click(function() {
         socket.emit('chat message', $('#text').val());
         $('#text').val('');
         return false;
+    });
+
+    $('#melar').click(function() {
+        socket.emit('spam', "melar");
     });
 
     /*
@@ -31,6 +38,9 @@ $(document).ready(function() {
     });
     socket.on('disconnected', function(msg) {
         printMsg(msg, 'disconnected');
+    });
+    socket.on('spam', function(msg) {
+        printMsg(msg, 'spam');
     });
     socket.on('history', function(history) {
         [dest, msg] = [history.dest, history.msg];

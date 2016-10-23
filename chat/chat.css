@@ -22,26 +22,12 @@ body {
     width: 100%;
 }
 
-@media only screen and (max-width: 767px) {
-    #text {
-        display: block;
-        width: 100%;
-    }
-    #send {
-        display: block;
-        width: 100%;
-    }
-    .title-side {
-        visibility: hidden;
-    }
-}
-
 form input {
     padding: 8px 20px;
     margin: 8px 0;
     box-sizing: border-box;
     border-radius: 4px;
-    width: 85%;
+    width: 75%;
     margin-left: .5%;
     margin-right: .5%;
 }
@@ -79,4 +65,24 @@ form button {
 
 .row-message {
     height: 80%;
+}
+
+@media only screen and (max-width: 767px) {
+    #text {
+        display: block;
+        width: 100%;
+    }
+    #send {
+        display: block;
+        width: 100%;
+    }
+    #melar,
+    .mobile,
+    .title-side,
+    .title {
+        display: none;
+    }
+    #users p {
+        display: inline;
+    }
 }

@@ -49,7 +49,7 @@ io.on('connection', function(socket) {
 
 function sendEvent(kind, msg, user) {
     try {
-        avoidCacheLimit();
+        if (avoidCacheLimit(msg)) return;
         var event = getEvent(kind, msg, user, timeStamp());
         console.log(user.displayName + ' ' + kind + ': ' + msg);
         if (!debug(kind))
@@ -72,7 +72,8 @@ function getEvent(kind, msg, user, time_stamp) {
 }
 
 /* Evita ataque hackers. Xupa Ilharco ;) */
-function avoidCacheLimit() {
+function avoidCacheLimit(msg) {
+    if (msg && msg.length > 200) return true;
     redis.keys('*', function(err, keys) {
         var transbordo = keys.length - cacheLimit;
         if (transbordo > 0) {
@@ -81,6 +82,7 @@ function avoidCacheLimit() {
                 redis.del(keys[i]);
         }
     });
+    return false;
 }
 
 function retrieveChatHistory() {

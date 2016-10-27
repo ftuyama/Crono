@@ -377,6 +377,7 @@ button:focus {
 
 .know-about-us .description {
     font-size: .8125em;
+    color: white;
 }
 
 .about-top .btn {
@@ -421,6 +422,16 @@ button:focus {
     font-size: .8125em;
     padding-right: 15%;
     padding-bottom: 8px;
+}
+
+.about {
+    background: url(../../public/img/promo.jpg) no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff;
+}
+
+.bg-white-overlay {
+    background-color: rgba(122, 122, 122, 0.75);
 }
 
 

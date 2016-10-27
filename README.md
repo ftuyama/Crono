@@ -1,7 +1,11 @@
 # Crono
 [![Build Status](https://travis-ci.org/ftuyama/Crono.svg?branch=master)](https://travis-ci.org/ftuyama/Crono)
 
-Projeto de um calendário virtual e gerenciador de projetos desenvolvido em linguagem javascript e plataformas NodeJS e AngularJS
+Projeto de um calendário virtual integrado com Google Calendar, gerenciador de projetos e eventos. Funcionalidade chat built-in.
+
+Desenvolvido utilizando metodologias AJAX, usando linguagem javascript e plataformas NodeJS e AngularJS.
+
+Aplicação com design responsivo e minimalista, otimizando experência de usuário.
 
 ## Preview - Tela Inicial
 
@@ -10,6 +14,10 @@ Projeto de um calendário virtual e gerenciador de projetos desenvolvido em ling
 ## Preview - Tela Calendário
 
 ![Tela Calendário](https://github.com/ftuyama/Crono/blob/master/web/public/img/tab.jpg)
+
+## Preview - Firebase & Chat
+
+![Tela Firebase & Chat](https://github.com/ftuyama/Crono/blob/master/web/public/img/promo.jpg)
 
 ## Developers:
 

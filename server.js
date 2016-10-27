@@ -83,21 +83,16 @@ var calendarAuth = require('./APICalendar/auth');
 var firebaseAuth = require('./APIFirebase/auth');
 var projectAuth = require('./APIGit/auth');
 /* Pages */
-var principal = require('./web/server/principalSV');
 var index = require('./web/server/indexSV');
-var users = require('./web/server/usersSV');
 var calendar = require('./web/server/calendarSV');
 var about = require('./web/server/aboutSV');
-/* Services */
-var chat = require('./chat/chatSV');
+var chat = require('./web/server/chatSV');
 
 // Define routes
 app.use('/calendarAuth', calendarAuth);
 app.use('/projectAuth', projectAuth);
 app.use('/firebase', firebaseAuth);
 app.use('/calendar', calendar);
-app.use('/users', users);
-app.use('/main', principal);
 app.use('/about', about);
 app.use('/chat', chat);
 app.use('/', index);

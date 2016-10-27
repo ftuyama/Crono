@@ -85,15 +85,15 @@
                     <a href="/calendar" class="icon-navigation-text">CALENDAR</a></div>
                 <div class="col-sm-4">
                     <div class="home-hover navigation-slide" data-slide="3">
-                        <a href="/users"><img src="public/img/s01.png"></a>
+                        <a href="/chat"><img src="public/img/s01.png"></a>
                     </div>
-                    <a href="/users" class="icon-navigation-text">PROFILE</a>
+                    <a href="/chat" class="icon-navigation-text">PROFILE</a>
                 </div>
                 <div class="col-sm-4">
                     <div class="home-hover navigation-slide" data-slide="5">
-                        <a href="/main"><img src="public/img/s03.png"></a>
+                        <a href="/about"><img src="public/img/s03.png"></a>
                     </div>
-                    <a href="/main" class="icon-navigation-text">PROJECT</a></div>
+                    <a href="/about" class="icon-navigation-text">PROJECT</a></div>
             </div>
             <!-- /row -->
         </div>
@@ -209,195 +209,196 @@
 
     <!-- Service Section-->
 
-
+    <br>
 
     <!-- About Us Section -->
 
-    <section id="about" class="about">
-        <div class="about-top">
-            <div class="section-padding">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="know-about-us wow animated fadeInLeft" data-wow-delay=".5s">
-                                <h2 class="section-title"><span>We</span> are <span>Crono</span> Unlimited Creative Web Agency</h2>
-                                <!-- /.section-title -->
-                                <p class="description">
-                                    There is so considerable a body of knowledge bearing upon the similarities and dissimilarities of these two entities that it will be well to compare them. After such comparison one will be better able to judge of the propriety of assuming them to be subject
-                                    to identical laws
-                                </p>
-                                <!-- /.description -->
-                                <div class="btn-container">
-                                    <a href="#" class="btn read-more">Learn More</a>
+    <section id="about" class="about" data-stellar-background-ratio="0.1" data-stellar-vertical-offset="2000">
+        <div class="bg-white-overlay">
+            <div class="about-top">
+                <div class="section-padding">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="know-about-us wow animated fadeInLeft" data-wow-delay=".5s">
+                                    <h2 class="section-title"><span>We</span> are <span>Crono</span> Unlimited Creative Web Agency</h2>
+                                    <!-- /.section-title -->
+                                    <p class="description">
+                                        There is so considerable a body of knowledge bearing upon the similarities and dissimilarities of these two entities that it will be well to compare them. After such comparison one will be better able to judge of the propriety of assuming them to be subject
+                                        to identical laws
+                                    </p>
+                                    <!-- /.description -->
+                                    <div class="btn-container">
+                                        <a href="#" class="btn read-more">Learn More</a>
+                                    </div>
+                                    <!-- /.btn-container -->
                                 </div>
-                                <!-- /.btn-container -->
+                                <!-- /.know-about-us -->
                             </div>
-                            <!-- /.know-about-us -->
-                        </div>
 
-                        <div class="col-md-5">
-                            <div class="our-skills wow animated fadeInRight" data-wow-delay=".5s">
-                                <h2 class="section-title"><span>Our</span> areas of expertise</h2>
-                                <!-- /.section-title -->
-                                <div class="skill-bars" ng-repeat="(language, value) in languages">
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="100" style="width: {{2*value}}%;">
-                                            <span class="skill-name">{{language}}</span>{{value | number:1}} %
+                            <div class="col-md-5">
+                                <div class="our-skills wow animated fadeInRight" data-wow-delay=".5s">
+                                    <h2 class="section-title"><span>Our</span> areas of expertise</h2>
+                                    <!-- /.section-title -->
+                                    <div class="skill-bars" ng-repeat="(language, value) in languages">
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="100" style="width: {{2*value}}%;">
+                                                <span class="skill-name">{{language}}</span>{{value | number:1}} %
+                                            </div>
                                         </div>
                                     </div>
+                                    <!-- /.skill-bars -->
                                 </div>
-                                <!-- /.skill-bars -->
+                                <!-- /.our-skills -->
                             </div>
-                            <!-- /.our-skills -->
                         </div>
+                        <!-- /.row -->
                     </div>
-                    <!-- /.row -->
+                    <!-- /.container -->
                 </div>
-                <!-- /.container -->
+                <!-- /.section-padding -->
             </div>
-            <!-- /.section-padding -->
-        </div>
-        <!-- /.about-top -->
+            <!-- /.about-top -->
 
-        <div class="about-middle">
-            <div class="about-breifing">
-                <div class="col-md-3 col-sm-6">
-                    <div class="item media wow animated fadeInLeft" data-wow-delay=".35s">
-                        <div class="section-padding">
-                            <div class="item-no media-left">
-                                <span class="count text-right">01</span>
-                            </div>
-                            <!-- /.item-no -->
-                            <div class="item-details media-body text-center">
-                                <div class="item-icon">
-                                    <i class="fa fa-heart-o"></i>
+            <div class="about-middle">
+                <div class="about-breifing">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="item media wow animated fadeInLeft" data-wow-delay=".35s">
+                            <div class="section-padding">
+                                <div class="item-no media-left">
+                                    <span class="count text-right">01</span>
                                 </div>
-                                <!-- /.item-icon -->
-                                <div class="countdown">
-                                    <span class="count-number counter">8,236</span>
+                                <!-- /.item-no -->
+                                <div class="item-details media-body text-center">
+                                    <div class="item-icon">
+                                        <i class="fa fa-heart-o"></i>
+                                    </div>
+                                    <!-- /.item-icon -->
+                                    <div class="countdown">
+                                        <span class="count-number counter">8,236</span>
+                                    </div>
+                                    <!-- /.coundown -->
+                                    <span class="about-item">Love Bites</span>
                                 </div>
-                                <!-- /.coundown -->
-                                <span class="about-item">Love Bites</span>
+                                <!-- /.item-details -->
                             </div>
-                            <!-- /.item-details -->
+                            <!-- /.section-padding -->
                         </div>
-                        <!-- /.section-padding -->
+                        <!-- /.item -->
                     </div>
-                    <!-- /.item -->
-                </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="item media wow animated fadeInLeft" data-wow-delay=".55s">
-                        <div class="section-padding">
-                            <div class="item-no media-left">
-                                <span class="count text-right">02</span>
-                            </div>
-                            <!-- /.item-no -->
-                            <div class="item-details media-body text-center">
-                                <div class="item-icon">
-                                    <i class="fa fa-wifi"></i>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="item media wow animated fadeInLeft" data-wow-delay=".55s">
+                            <div class="section-padding">
+                                <div class="item-no media-left">
+                                    <span class="count text-right">02</span>
                                 </div>
-                                <!-- /.item-icon -->
-                                <div class="countdown">
-                                    <span class="count-number counter">1,203</span>
+                                <!-- /.item-no -->
+                                <div class="item-details media-body text-center">
+                                    <div class="item-icon">
+                                        <i class="fa fa-wifi"></i>
+                                    </div>
+                                    <!-- /.item-icon -->
+                                    <div class="countdown">
+                                        <span class="count-number counter">1,203</span>
+                                    </div>
+                                    <!-- /.coundown -->
+                                    <span class="about-item">Wifi Zones</span>
                                 </div>
-                                <!-- /.coundown -->
-                                <span class="about-item">Wifi Zones</span>
+                                <!-- /.item-details -->
                             </div>
-                            <!-- /.item-details -->
+                            <!-- /.section-padding -->
                         </div>
-                        <!-- /.section-padding -->
+                        <!-- /.item -->
                     </div>
-                    <!-- /.item -->
-                </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="item media wow animated fadeInLeft" data-wow-delay=".75s">
-                        <div class="section-padding">
-                            <div class="item-no media-left">
-                                <span class="count text-right">03</span>
-                            </div>
-                            <!-- /.item-no -->
-                            <div class="item-details media-body text-center">
-                                <div class="item-icon">
-                                    <i class="fa fa-map-marker"></i>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="item media wow animated fadeInLeft" data-wow-delay=".75s">
+                            <div class="section-padding">
+                                <div class="item-no media-left">
+                                    <span class="count text-right">03</span>
                                 </div>
-                                <!-- /.item-icon -->
-                                <div class="countdown">
-                                    <span class="count-number counter">3,679</span>
+                                <!-- /.item-no -->
+                                <div class="item-details media-body text-center">
+                                    <div class="item-icon">
+                                        <i class="fa fa-map-marker"></i>
+                                    </div>
+                                    <!-- /.item-icon -->
+                                    <div class="countdown">
+                                        <span class="count-number counter">3,679</span>
+                                    </div>
+                                    <!-- /.coundown -->
+                                    <span class="about-item">Customer Centers</span>
                                 </div>
-                                <!-- /.coundown -->
-                                <span class="about-item">Customer Centers</span>
+                                <!-- /.item-details -->
                             </div>
-                            <!-- /.item-details -->
+                            <!-- /.section-padding -->
                         </div>
-                        <!-- /.section-padding -->
+                        <!-- /.item -->
                     </div>
-                    <!-- /.item -->
-                </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="item media wow animated fadeInLeft" data-wow-delay=".95s">
-                        <div class="section-padding">
-                            <div class="item-no media-left">
-                                <span class="count text-right">04</span>
-                            </div>
-                            <!-- /.item-no -->
-                            <div class="item-details media-body text-center">
-                                <div class="item-icon">
-                                    <i class="fa fa-cogs"></i>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="item media wow animated fadeInLeft" data-wow-delay=".95s">
+                            <div class="section-padding">
+                                <div class="item-no media-left">
+                                    <span class="count text-right">04</span>
                                 </div>
-                                <!-- /.item-icon -->
-                                <div class="countdown">
-                                    <span class="count-number counter">2,310</span>
+                                <!-- /.item-no -->
+                                <div class="item-details media-body text-center">
+                                    <div class="item-icon">
+                                        <i class="fa fa-cogs"></i>
+                                    </div>
+                                    <!-- /.item-icon -->
+                                    <div class="countdown">
+                                        <span class="count-number counter">2,310</span>
+                                    </div>
+                                    <!-- /.coundown -->
+                                    <span class="about-item">Mechanical Cogs</span>
                                 </div>
-                                <!-- /.coundown -->
-                                <span class="about-item">Mechanical Cogs</span>
+                                <!-- /.item-details -->
                             </div>
-                            <!-- /.item-details -->
+                            <!-- /.section-padding -->
                         </div>
-                        <!-- /.section-padding -->
+                        <!-- /.item -->
                     </div>
-                    <!-- /.item -->
                 </div>
+                <!-- /.about-briefing -->
             </div>
-            <!-- /.about-briefing -->
         </div>
         <!-- /.about-middle -->
-
-        <div class="about-bottom">
-            <div class="section-padding">
-                <div class="col-sm-6">
-                    <div class="tab-image wow animated fadeInLeft" data-wow-delay=".5s">
-                        <img src="public/img/tab.jpg" alt="Tab Image">
-                    </div>
-                    <!-- /.tab-image -->
-                </div>
-                <div class="col-sm-6">
-                    <div class="about-work wow animated fadeInRight" data-wow-delay=".5s">
-                        <h2 class="section-title"><span>Why</span> Use Our Service</h2>
-                        <!-- /.section-title -->
-                        <p class="description">
-                            One part of the ether is precisely like any other part everywhere and always, and there are no such distinctions in it as correspond with the elemental forms of matter.
-                        </p>
-                        <p class="description">
-                            There is an ultimate particle of each one of the elements which is practically absolute and known as an atom. The atom retains its identity through all combinations and processes. It may be here or there, move fast or slow, but its atomic form persists
-                            <br> <br> One might infer already that if the ether were structureless, physical laws operative upon such material substances as atoms could not be applicable to it, and so indeed all the evidence we have shows that gravitation
-                            is not one of its properties.
-                        </p>
-                        <!-- /.description -->
-                    </div>
-                    <!-- /.about-work -->
-                </div>
-            </div>
-            <!-- /.section-padding -->
-        </div>
-        <!-- /.about-bottom -->
     </section>
     <!-- /#about -->
 
     <!-- About Us Section -->
 
+    <div class="about-bottom">
+        <div class="section-padding">
+            <div class="col-sm-8">
+                <div class="tab-image wow animated fadeInLeft" data-wow-delay=".5s">
+                    <img src="public/img/tab.jpg" alt="Tab Image">
+                </div>
+                <!-- /.tab-image -->
+            </div>
+            <div class="col-sm-4">
+                <div class="about-work wow animated fadeInRight" data-wow-delay=".5s">
+                    <h2 class="section-title"><span>Why</span> Use Our Service</h2>
+                    <!-- /.section-title -->
+                    <p class="description">
+                        Crono has an unique calendar event system, capable of integrating <b>Google Calendar</b>,
+                        <b>Facebook Events</b> and its own system to provide you the best planning tool ever created.
+                    </p>
+                    <p class="description">
+                        We also have a chat system so that members can discuss planning meetings and events ideas. You have freely store your files, audios and pictures with us, easilly planning your life.
+                        <br><br> We have also compatibility with mobile devices and tablets, with a friendly user responsive design. I'm glad to meet you, my dear user!
+                    </p>
+                    <!-- /.description -->
+                </div>
+                <!-- /.about-work -->
+            </div>
+        </div>
+        <!-- /.section-padding -->
+    </div>
+    <!-- /.about-bottom -->
 
     <div class="clearfix"></div>
     <!-- /.clearfix -->

@@ -7,12 +7,13 @@
 var app = require('express')();
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
 // Setting socket.io application
-var appl = require("../server");
+var appl = require("../../server");
 var server = appl.server;
 var redis = appl.redis;
 var io = require('socket.io')(server, { path: '/chat-socket' });
-var config = require("../config/config");
+var config = require("../../config/config");
 var cacheLimit = 1000;
 var user;
 
@@ -27,7 +28,7 @@ router.get('/', function(req, res) {
         req.session.access_token == null || req.session.access_token == undefined)
         return res.redirect('/calendarAuth');
     user = req.session.passport.user;
-    res.sendFile(__dirname + '/chat.html');
+    res.send(fs.readFileSync("web/view/chat.html", "utf8"));
 });
 
 io.on('connection', function(socket) {

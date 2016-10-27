@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.userIcon {
+    border-radius: 15px;
+    width: 30px;
+    height: 30px
+}
+
+body {
+    background-color: lightskyblue;
+    overflow: hidden;
+}
+
+.footer {
+    padding: 3px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.form-group {
+    width: 75%;
+    display: inline-flex;
+}
+
+#text {
+    padding: 8px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 100%;
+    margin-left: .5%;
+    margin-right: .5%;
+    top: 10px;
+}
+
+form button {
+    width: 10%;
+    border: none;
+    padding: 10px;
+    top: 10px;
+}
+
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 90%;
+}
+
+#messages p {
+    text-align: left;
+    padding: 5px 10px;
+}
+
+#messages p:nth-child(odd) {
+    background: whitesmoke;
+}
+
+.title {
+    display: flex;
+}
+
+.title-text {
+    left: 50%;
+}
+
+.row-message {
+    height: 80%;
+}
+
+.wdt-emoji-popup.open {
+    top: 30% !important;
+}
+
+@media only screen and (max-width: 1200px) {
+    #melar {
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 600px) {
+    .row-message {
+        height: 75%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .form-group {
+        width: 99%;
+        display: block;
+    }
+    #text {
+        display: block;
+        width: 100%;
+    }
+    #send {
+        display: block;
+        width: 100%;
+    }
+    #melar,
+    .mobile,
+    .title-side,
+    .title {
+        display: none;
+    }
+    form button {
+        top: 0px;
+    }
+    #users p {
+        display: inline;
+    }
+}

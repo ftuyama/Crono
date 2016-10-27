@@ -56,8 +56,6 @@ $(document).ready(function() {
         ===========================================================================
     */
 
-
-
     function printMsg(msg, kind) {
         new EmbedJS({
             googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
@@ -107,6 +105,29 @@ $(document).ready(function() {
     function scrollBotton() {
         var scroll = document.getElementById('messages');
         scroll.scrollTop = scroll.scrollHeight
+    }
+
+    /*
+        ===========================================================================
+                                Emoticons Selector
+        ===========================================================================
+    */
+
+    wdtEmojiBundle.defaults.emojiSheets = {
+        'apple': 'https://cdn.rawgit.com/needim/wdt-emoji-bundle/master/sheets/sheet_apple_64.png',
+        'google': 'https://cdn.rawgit.com/needim/wdt-emoji-bundle/master/sheets/sheet_google_64.png',
+        'twitter': 'https://cdn.rawgit.com/needim/wdt-emoji-bundle/master/sheets/sheet_twitter_64.png',
+        'emojione': 'https://cdn.rawgit.com/needim/wdt-emoji-bundle/master/sheets/sheet_emojione_64.png'
+    };
+
+    wdtEmojiBundle.init('.wdt-emoji-bundle-enabled');
+
+    var typeChangers = document.querySelectorAll('.change-emoji-type');
+    for (var i = 0; i < typeChangers.length; i++) {
+        typeChangers[i].addEventListener('click', function() {
+            wdtEmojiBundle.changeType(this.dataset.emojiType);
+            return false;
+        });
     }
 
 });

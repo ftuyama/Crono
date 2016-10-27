@@ -22,20 +22,27 @@ body {
     width: 100%;
 }
 
-form input {
+.form-group {
+    width: 75%;
+    display: inline-flex;
+}
+
+#text {
     padding: 8px 20px;
     margin: 8px 0;
     box-sizing: border-box;
     border-radius: 4px;
-    width: 75%;
+    width: 100%;
     margin-left: .5%;
     margin-right: .5%;
+    top: 10px;
 }
 
 form button {
     width: 10%;
     border: none;
     padding: 10px;
+    top: 10px;
 }
 
 #messages {
@@ -43,6 +50,7 @@ form button {
     margin: 0;
     padding: 0;
     overflow-y: scroll;
+    overflow-x: hidden;
     height: 90%;
 }
 
@@ -53,15 +61,6 @@ form button {
 
 #messages p:nth-child(odd) {
     background: #448;
-}
-
-.face {
-    float: left;
-    margin-right: 10px;
-    margin-top: 10px;
-    position: relative;
-    color: greenyellow;
-    z-index: 2;
 }
 
 .title {
@@ -76,16 +75,30 @@ form button {
     height: 80%;
 }
 
+.wdt-emoji-popup.open {
+    top: 30% !important;
+}
+
 @media only screen and (max-width: 1200px) {
     #melar {
         display: none;
     }
 }
 
+@media only screen and (max-height: 600px) {
+    .row-message {
+        height: 75%;
+    }
+}
+
 @media only screen and (max-width: 767px) {
+    .form-group {
+        width: 99%;
+        display: block;
+    }
     #text {
         display: block;
-        width: 90%;
+        width: 100%;
     }
     #send {
         display: block;
@@ -97,7 +110,9 @@ form button {
     .title {
         display: none;
     }
-    .face {}
+    form button {
+        top: 0px;
+    }
     #users p {
         display: inline;
     }

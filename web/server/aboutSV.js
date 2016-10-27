@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 
 /* GET sitemap */
 router.get('/sitemap', function(req, res) {
-    var sitemap = fs.readFileSync("web/data/sitemap.txt", "utf8");
+    var sitemap = fs.readFileSync("config/sitemap.txt", "utf8");
     res.send(sitemap);
 })
 

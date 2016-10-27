@@ -7,7 +7,7 @@
 /* Core Modules */
 var express = require('express');
 var app = express();
-var config = require('./config');
+var config = require('./config/config');
 
 /* Redis Modules */
 var session = require('express-session');

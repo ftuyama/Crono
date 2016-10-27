@@ -52,7 +52,7 @@ form button {
 }
 
 #messages p:nth-child(odd) {
-    background: #66d;
+    background: #448;
 }
 
 .title {

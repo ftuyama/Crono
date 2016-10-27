@@ -11,8 +11,9 @@ var router = express.Router();
 var appl = require("../server");
 var server = appl.server;
 var redis = appl.redis;
-var io = require('socket.io')(server, { path: '/chatS' });
-var config = require('../config');
+var io = require('socket.io')(server, { path: '/chat-socket' });
+var config = require("../config/config");
+var cacheLimit = 1000;
 var user;
 
 /*
@@ -48,9 +49,11 @@ io.on('connection', function(socket) {
 
 function sendEvent(kind, msg, user) {
     try {
+        avoidCacheLimit();
         var event = getEvent(kind, msg, user, timeStamp());
         console.log(user.displayName + ' ' + kind + ': ' + msg);
-        redis.set(event.key, JSON.stringify(event.value));
+        if (!debug(kind))
+            redis.set(event.key, JSON.stringify(event.value));
         io.emit(kind, event);
     } catch (err) {
         console.log('error: ' + err);
@@ -68,7 +71,20 @@ function getEvent(kind, msg, user, time_stamp) {
     };
 }
 
+/* Evita ataque hackers. Xupa Ilharco ;) */
+function avoidCacheLimit() {
+    redis.keys('*', function(err, keys) {
+        var transbordo = keys.length - cacheLimit;
+        if (transbordo > 0) {
+            keys = dancaDoCrioulo(keys);
+            for (var i = 0; i < transbordo; i++)
+                redis.del(keys[i]);
+        }
+    });
+}
+
 function retrieveChatHistory() {
+    avoidCacheLimit();
     redis.keys('chat:*', function(err, keys) {
         keys = dancaDoCrioulo(keys);
         keys.forEach(function(key) {
@@ -96,12 +112,6 @@ function sendSpam(msg) {
                     Auxialliary Functions - Code Smell
   ===========================================================================
 */
-
-function retrieveImageUrl(profile) {
-    if (typeof profile._json['picture'] != "undefined")
-        return profile._json['picture'];
-    return profile._json.image['url'];
-}
 
 function dancaDoCrioulo(keys) {
     keys = jogaParaTras(keys);
@@ -132,8 +142,26 @@ function jogaParaFrente(keys) {
     return new_keys;
 }
 
+/*
+  ===========================================================================
+                    Auxialliary Functions - Small funcs
+  ===========================================================================
+*/
+
+function retrieveImageUrl(profile) {
+    if (typeof profile._json['picture'] != "undefined")
+        return profile._json['picture'];
+    return profile._json.image['url'];
+}
+
 function timeStamp() {
     return new Date().toISOString().replace(/\-|\T|\./g, ':');
+}
+
+/* Não emite evento em localhost */
+function debug(kind) {
+    return config.web.port == 8080 &&
+        (kind == "connected" || kind == "disconnected")
 }
 
 module.exports = router;

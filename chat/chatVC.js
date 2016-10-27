@@ -7,7 +7,7 @@ $(document).ready(function() {
     */
     var username;
     var socket = io.connect('/', {
-        path: '/chatS'
+        path: '/chat-socket'
     });
 
     $('form').submit(function() {});
@@ -56,16 +56,23 @@ $(document).ready(function() {
         ===========================================================================
     */
 
+
+
     function printMsg(msg, kind) {
-        var time = msg.key.split(':').slice(5, 8).join(':');
-        $('#messages').append(
-            $('<p>').html(time + "  " + user_credential(msg.value.user) +
-                '<span style="color:#6c6"> ' + kind + '</span> ' +
-                msg.value.message
-            )
-        );
-        processUsers(msg, kind);
-        scrollBotton();
+        new EmbedJS({
+            googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
+            input: msg.value.message
+        }).text(function(compiled) {
+            var time = msg.key.split(':').slice(5, 8).join(':');
+            $('#messages').append(
+                $('<p>').html(time + "  " + user_credential(msg.value.user) +
+                    '<span style="color:#6c6"> ' + kind + '</span> ' +
+                    compiled
+                )
+            );
+            processUsers(msg, kind);
+            scrollBotton();
+        })
     }
 
     function processUsers(msg, kind) {

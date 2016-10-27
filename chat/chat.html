@@ -33,6 +33,11 @@
     <script src="/public/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     <!-- Include Shiny Icon Css -->
     <link rel="stylesheet" href="/public/css/shiny-icon.css">
+    <!-- Include emojify -->
+    <link rel="stylesheet" href="/public/css/embed.min.css" />
+    <script src="/public/js/embed.min.js"></script>
+    <!-- Include Socket.io -->
+    <script src="/public/js/socket.io-1.4.5.js"></script>
 
 
     <!-- Include Initialization script Js -->
@@ -48,7 +53,6 @@
     <link href='/chat.css' rel='stylesheet' type='text/css'>
     <script src="/chatVC.js"></script>
 
-    <script src="/public/js/socket.io-1.4.5.js"></script>
     <div id="navbar"></div>
 </head>
 
@@ -72,9 +76,11 @@
     <hr class="mobile">
     <div class="row row-message">
         <div class="col-sm-2">
-            <h3>Online:</h3>
-            <hr>
-            <ul id="users"></ul>
+            <div class="container">
+                <h3>Online:</h3>
+                <hr>
+                <ul id="users"></ul>
+            </div>
         </div>
         <div class="col-sm-10 row-message">
             <ul id="messages"></ul>
@@ -85,6 +91,7 @@
         <button id="send" class="btn btn-success">Send</button>
         <button id="melar" class="btn btn-danger">Melar</button>
     </form>
+    <div id="compiler" style="display:none;"></div>
 </body>
 
 </html>

@@ -258,6 +258,7 @@ a.list-group-item {
     box-shadow: 0 0 3px gray;
     font-size: 20px;
     font-weight: bold;
+    transition: 0.5s;
 }
 
 .fa-navicon:before,
@@ -268,6 +269,15 @@ a.list-group-item {
 
 .round-button:hover {
     background: #f55f5a;
+}
+
+#start_button {
+    transition: 0.5s;
+}
+
+#start_img1,
+#start_img2 {
+    transition: 0.5s;
 }
 
 #start_button:hover {

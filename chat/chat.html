@@ -40,6 +40,8 @@
     <link rel="stylesheet" href="/public/css/wdt-emoji-bundle.css" />
     <script src="/public/js/wdt-emoji-bundle.min.js"></script>
     <script src="/public/js/emoji.min.js"></script>
+    <!-- Speech Lib -->
+    <script src="/script/speech.js"></script>
 
     <!-- Include Socket.io -->
     <script src="/public/js/socket.io-1.4.5.js"></script>
@@ -100,6 +102,9 @@
         </div>
         <button id="send" class="btn btn-success">Send</button>
         <button id="melar" class="btn btn-danger">Melar</button>
+        <button id="start_button" class="mic-btn round-button" onclick='startButton(event,"text" ,"start_img")'>
+            <img id="start_img" class="mic-img" src="speech/mic.gif" alt="Start">
+        </button>
     </form>
     <!-- Emoticons -->
     <div class="wdt-emoji-popup">

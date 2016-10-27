@@ -55,6 +55,7 @@
     font-size: 1.2em;
     font-weight: 400;
     padding: 25px 20px;
+    transition: 0.5s;
 }
 
 @media (max-width: 1100px) {
@@ -110,6 +111,7 @@
 .nav>li>a:focus {
     background-color: inherit;
     outline: none;
+    color: #e74c3c !important;
 }
 
 .navbar-brand {

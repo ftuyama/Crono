@@ -34,7 +34,7 @@ router.get('/', function(req, res) {
 io.on('connection', function(socket) {
     socket.handshake.session = user;
     if (user != undefined) {
-        retrieveChatHistory();
+        retrieveChatHistory(user);
         sendEvent('connected', '', user);
     }
     socket.on('disconnect', function() { sendEvent('disconnected', '', socket.handshake.session) });
@@ -89,6 +89,7 @@ function avoidCacheLimit(msg) {
 function retrieveChatHistory() {
     avoidCacheLimit();
     redis.keys('chat:*', function(err, keys) {
+        io.emit('keys', keys.length);
         keys = dancaDoCrioulo(keys);
         keys.forEach(function(key) {
             redis.get(key, function(err, value) {

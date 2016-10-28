@@ -27,28 +27,38 @@ $(document).ready(function() {
                                 Receive Server Messages
         ===========================================================================
     */
+    /* Buffer para mensagens de histórico */
+    var total, count = 0;
+    var chat_messages = [];
+
     socket.on('connected', function(msg) {
         /* Register self */
         if (username == undefined)
             register_self(msg);
         else printMsg(msg, 'connected');
     });
-    socket.on('chat', function(msg) {
-        printMsg(msg, 'chat');
-    });
-    socket.on('disconnected', function(msg) {
-        printMsg(msg, 'disconnected');
-    });
-    socket.on('spam', function(msg) {
-        printMsg(msg, 'spam');
-    });
-    socket.on('history', function(history) {
-        [dest, msg] = [history.dest, history.msg];
-        if (dest != username) return;
-        var kind = msg.key.split(':').slice(1, 2)[0];
+    socket.on('disconnected', function(msg) { printMsg(msg, 'disconnected'); });
+    socket.on('chat', function(msg) { printMsg(msg, 'chat'); });
+    socket.on('spam', function(msg) { printMsg(msg, 'spam'); });
+    socket.on('keys', function(msg) { total = msg; });
+    socket.on('history', function(msg) {
+        if (msg.dest != username) return;
+        kind = msg.key.split(':').slice(1, 2)[0];
+        msg = msg.msg;
         msg.value = JSON.parse(msg.value);
-        printMsg(msg, kind);
+        chat_messages.push([msg, kind]);
+        if (++count == total)
+            printNextMsg(0);
     });
+
+    /* Imprime histórico recursivamente */
+    function printNextMsg(index) {
+        if (index == chat_messages.length) return;
+        [msg, kind] = chat_messages[index];
+        printMsg(msg, kind).then(function() {
+            printNextMsg(index + 1);
+        });
+    }
 
     /*
         ===========================================================================
@@ -57,20 +67,23 @@ $(document).ready(function() {
     */
 
     function printMsg(msg, kind) {
-        new EmbedJS({
-            googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
-            input: msg.value.message
-        }).text(function(compiled) {
-            var time = msg.key.split(':').slice(5, 8).join(':');
-            $('#messages').append(
-                $('<p>').html(time + "  " + user_credential(msg.value.user) +
-                    '<span style="color:#6c6"> ' + kind + '</span> ' +
-                    compiled
-                )
-            );
-            processUsers(msg, kind);
-            scrollBotton();
-        })
+        return new Promise(function(resolve, reject) {
+            new EmbedJS({
+                googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
+                input: msg.value.message
+            }).text(function(compiled) {
+                var time = msg.key.split(':').slice(5, 8).join(':');
+                $('#messages').append(
+                    $('<p>').html(time + "  " + user_credential(msg.value.user) +
+                        '<span style="color:#6c6"> ' + kind + '</span> ' +
+                        compiled
+                    )
+                );
+                processUsers(msg, kind);
+                scrollBotton();
+                resolve();
+            })
+        });
     }
 
     function processUsers(msg, kind) {

@@ -43,8 +43,8 @@ $(document).ready(function() {
     socket.on('keys', function(msg) { total = msg; });
     socket.on('history', function(msg) {
         if (msg.dest != username) return;
-        kind = msg.key.split(':').slice(1, 2)[0];
         msg = msg.msg;
+        kind = msg.key.split(':').slice(1, 2)[0];
         msg.value = JSON.parse(msg.value);
         chat_messages.push([msg, kind]);
         if (++count == total)

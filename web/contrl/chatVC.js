@@ -23,6 +23,51 @@ $(document).ready(function() {
     });
 
     /*
+           ===========================================================================
+                                   Manages Notifications
+           ===========================================================================
+    */
+
+    var Notify = window.Notify.default;
+
+    function showNotification(header, body, icon) {
+        if (!Notify.needsPermission)
+            new Notify(header, { body: body, icon: icon }).show();
+        else if (Notify.isSupported())
+            Notify.requestPermission(onPermissionGranted, onPermissionDenied);
+    }
+
+    function onPermissionGranted() {
+        console.log('Permission has been granted by the user');
+        doNotification();
+    }
+
+    function onPermissionDenied() {
+        console.warn('Permission has been denied by the user');
+    }
+
+    function playSound(filename) {
+        document.getElementById("sound").innerHTML =
+            '<audio autoplay="autoplay"><source src="public/assets/' + filename +
+            '.mp3" type="audio/mpeg" /><source src="public/assets/' + filename +
+            '.ogg" type="audio/ogg" /><embed hidden="true" autostart="true" loop="false" src="public/assets/' +
+            filename + '.mp3" /></audio>';
+    }
+
+    function manageNotification(msg, kind) {
+        /* Exibe Notificações */
+        if (kind == "connected") {
+            showNotification('User online', msg.value.user + " connected!", msg.value.img);
+            playSound('online');
+        }
+        if (kind == "chat") {
+            showNotification(msg.value.user, msg.value.message, msg.value.img);
+            if (msg.value.message.indexOf(username) != -1)
+                playSound('message');
+        }
+    }
+
+    /*
         ===========================================================================
                                 Receive Server Messages
         ===========================================================================
@@ -36,9 +81,13 @@ $(document).ready(function() {
         if (username == undefined)
             register_self(msg);
         else printMsg(msg, 'connected');
+        manageNotification(msg, 'connected');
     });
     socket.on('disconnected', function(msg) { printMsg(msg, 'disconnected'); });
-    socket.on('chat', function(msg) { printMsg(msg, 'chat'); });
+    socket.on('chat', function(msg) {
+        printMsg(msg, 'chat');
+        manageNotification(msg, 'chat');
+    });
     socket.on('spam', function(msg) { printMsg(msg, 'spam'); });
     socket.on('keys', function(msg) { total = msg; });
     socket.on('history', function(msg) {
@@ -112,7 +161,8 @@ $(document).ready(function() {
     }
 
     function user_credential(user) {
-        return '<b style="color:' + stringToColour(user) + '">@' + user + '</b>';
+        return '<b style="color:' + stringToColour(user) + '; cursor: pointer;"' +
+            ' onclick="fillUser(\'@' + user + '\')">@' + user + '</b>';
     }
 
     function scrollBotton() {
@@ -141,6 +191,11 @@ $(document).ready(function() {
     }
 
 });
+
+/* Preenche o nome do usuário */
+function fillUser(user) {
+    $('#text').val($('#text').val() + user);
+}
 
 /*
  * Google Analytics

@@ -14,11 +14,11 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.monthYear = new Date();
 
     // Variáveis de negócio
-    $scope.evento = $scope.events = $scope.groups = {};
+    $scope.evento = $scope.events = $scope.fb_events = $scope.groups = {};
 
     // Variáveis de semáforo
     $scope.busy = $scope.loader = true;
-    $scope.request = $scope.loaded = $scope.fbActive = false;
+    $scope.request = $scope.loaded = $scope.fbActive = $scope.fbCheck = false;
 
     // Varíaveis para definir Modal Form
     $scope.dateTime = $scope.create = $scope.edit = false;
@@ -270,6 +270,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         ===========================================================================
     */
 
+    /* Gerencia fila de eventos */
     $scope.requestFetch = function() {
         if ($scope.busy == false)
             $scope.fetch();
@@ -289,47 +290,43 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 if (group_checked == true) {
                     http_requests.push($http.get('/calendar/list' + j)
                         .then(function success(response) {
-                            var group = Number(response.data.group_id);
-                            $scope.events[group] = response.data.items;
+                            $scope.events[Number(
+                                response.data.group_id)] = response.data.items;
                         }));
                 }
             }
             $q.all(http_requests).then(function() {
-                for (group = 0; group < $scope.groups.length; group++) {
-                    var events = $scope.events[group];
-                    for (i = 0; i < events.length; i++) {
-                        $scope.events[group][i].status = 'NEW';
-                        $scope.events[group][i].statusColor = 'red';
-                        if (isValidEvent(events[i])) {
-                            var date = getDateProperty(events[i].start);
-                            var clazz = getTextSize(events[i].summary);
-                            var event_ref = group + '-' + i;
-                            var event_item =
-                                '<div class="row rowitens">' +
-                                '<a href="#" class="list-group-item' + clazz + '" id="task' +
-                                event_ref + '" ng-mouseover="flashFirebase(\'' +
-                                event_ref + '\', \'' + date + '\')" ng-click="openModals(\'' +
-                                event_ref + '\', \'' + date + '\'); $event.stopPropagation();"' +
-                                ' draggable="true" ondragstart="drag(event)">' +
-                                events[i].summary +
-                                '<span class="label label-info status Cstatus"' +
-                                ' style="background-color:{{events[' + group + '][' + i + '].statusColor}}"' +
-                                ' ng-bind="events[' + group + '][' + i + '].status"></span>' +
-                                '</a></div>';
-                            $("#" + date).append($compile(event_item)($scope));
-                            $("#task" + event_ref).css('color', getRandomColor());
-                        }
-                    }
-                }
-                if ($scope.request == true) {
-                    $scope.request = false;
-                    $scope.fetch();
-                } else $scope.busy = false;
-                $scope.firebaseFetch();
-                resolve();
+                $scope.displayEvents();
+                $scope.fbFetch().then(function() {
+                    if ($scope.request == true) {
+                        $scope.request = false;
+                        $scope.fetch();
+                    } else $scope.busy = false;
+                    $scope.firebaseFetch();
+                    resolve();
+                })
             });
         });
     };
+
+    /* Carrega os eventos do facebook */
+    $scope.fbFetch = function() {
+        return new Promise(function(resolve, reject) {
+            if (!$scope.fbCheck) resolve();
+            $scope.busy = true;
+            $http.get('/calendar/facebook')
+                .then(function success(response) {
+                    $scope.fb_events = response.data;
+                    $scope.displayFbEvents();
+                    $scope.busy = false;
+                    resolve();
+                }, function error(error) {
+                    showSnackBar("First login on Facebook");
+                    $scope.fbCheck = $scope.busy = false;
+                    reject();
+                });
+        });
+    }
 
     /* Inicialmente carrega lista de grupos */
     $http.get('/calendar/groups')
@@ -360,6 +357,69 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
         } else $scope.loader = $scope.busy;
     });
+
+    /*
+        ===========================================================================
+                                Display events on Calendar
+        ===========================================================================
+    */
+
+    $scope.displayEvents = function() {
+        var events = $scope.fb_events;
+        for (i = 0; i < events.length; i++) {
+            // $scope.events[i].status = 'NEW';
+            // $scope.events[i].statusColor = 'red';
+            // if (isValidEvent(events[i])) {
+            //     var date = getDateProperty(events[i].start);
+            //     var clazz = getTextSize(events[i].summary);
+            //     var group = "facebook";
+            //     var event_ref = group + '-' + i;
+            //     var event_item =
+            //         '<div class="row rowitens">' +
+            //         '<a href="#" class="list-group-item' + clazz + '" id="task' +
+            //         event_ref + '" ng-mouseover="flashFirebase(\'' +
+            //         event_ref + '\', \'' + date + '\')" ng-click="openModals(\'' +
+            //         event_ref + '\', \'' + date + '\'); $event.stopPropagation();"' +
+            //         ' draggable="true" ondragstart="drag(event)">' +
+            //         events[i].summary +
+            //         '<span class="label label-info status Cstatus"' +
+            //         ' style="background-color:{{events[' + group + '][' + i + '].statusColor}}"' +
+            //         ' ng-bind="events[' + group + '][' + i + '].status"></span>' +
+            //         '</a></div>';
+            //     $("#" + date).append($compile(event_item)($scope));
+            //     $("#task" + event_ref).css('color', getRandomColor());
+            // }
+        }
+    }
+
+    $scope.displayFbEvents = function() {
+        for (group = 0; group < $scope.groups.length; group++) {
+            var events = $scope.events[group];
+            for (i = 0; i < events.length; i++) {
+                $scope.events[group][i].status = 'NEW';
+                $scope.events[group][i].statusColor = 'red';
+                if (isValidEvent(events[i])) {
+                    var date = getDateProperty(events[i].start);
+                    var clazz = getTextSize(events[i].summary);
+                    var event_ref = group + '-' + i;
+                    var event_item =
+                        '<div class="row rowitens">' +
+                        '<a href="#" class="list-group-item' + clazz + '" id="task' +
+                        event_ref + '" ng-mouseover="flashFirebase(\'' +
+                        event_ref + '\', \'' + date + '\')" ng-click="openModals(\'' +
+                        event_ref + '\', \'' + date + '\'); $event.stopPropagation();"' +
+                        ' draggable="true" ondragstart="drag(event)">' +
+                        events[i].summary +
+                        '<span class="label label-info status Cstatus"' +
+                        ' style="background-color:{{events[' + group + '][' + i + '].statusColor}}"' +
+                        ' ng-bind="events[' + group + '][' + i + '].status"></span>' +
+                        '</a></div>';
+                    $("#" + date).append($compile(event_item)($scope));
+                    $("#task" + event_ref).css('color', getRandomColor());
+                }
+            }
+        }
+    }
 
     /*
         ===========================================================================

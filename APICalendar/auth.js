@@ -3,12 +3,13 @@ var express = require('express');
 var router = express.Router();
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var FacebookStrategy = require('passport-facebook');
 var google = require('googleapis');
 var gcal = require('google-calendar');
 var passport = require('passport');
 var mustache = require('mustache');
 var fs = require('fs');
-var imageUrl, user;
+var imageUrl, fb_imageUrl, user, facebook_user;
 
 /*
   ===========================================================================
@@ -26,11 +27,13 @@ fs.readFile('./APICalendar/client_secret.json',
         // Load the credentials
         credentials = JSON.parse(content);
 
+        // Google Strategy
         passport.use(new GoogleStrategy({
-                clientID: credentials.web.client_id,
-                clientSecret: credentials.web.client_secret,
-                callbackURL: credentials.web.callback_url,
-                scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
+                clientID: credentials.google.client_id,
+                clientSecret: credentials.google.client_secret,
+                callbackURL: credentials.google.callback_url,
+                scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar'],
+                enableProof: true
             },
             function(accessToken, refreshToken, profile, done) {
                 imageUrl = retrieveImageUrl(profile);
@@ -40,7 +43,31 @@ fs.readFile('./APICalendar/client_secret.json',
                 return done(null, profile);
             }
         ));
+
+        // Facebook Strategy
+        passport.use(new FacebookStrategy({
+                clientID: credentials.facebook.client_id,
+                clientSecret: credentials.facebook.client_secret,
+                callbackURL: credentials.facebook.callback_url,
+                scope: ['user_birthday ', 'user_events '],
+                profileFields: ['id', 'displayName', 'photos']
+            },
+            function(accessToken, refreshToken, profile, done) {
+                facebook_user = profile;
+                facebook_user.accessToken = accessToken;
+                console.log("Facebook %s logged in!", facebook_user.displayName);
+                console.log(accessToken);
+                console.log(profile);
+                return done(null, profile);
+            }
+        ));
     });
+
+/*
+  ===========================================================================
+                            Auxialliary methods
+  ===========================================================================
+*/
 
 function retrieveImageUrl(profile) {
     if (typeof profile._json['picture'] != "undefined")
@@ -61,6 +88,12 @@ passport.deserializeUser(function(obj, done) {
     done(null, obj);
 });
 
+
+/*
+  ===========================================================================
+                            Login com Google
+  ===========================================================================
+*/
 
 /* GET auth */
 router.get('/',
@@ -99,6 +132,24 @@ router.get('/callback',
         res.cookie('imageUrl', imageUrl);
         res.cookie('user', user);
         res.redirect('/calendar');
+    });
+
+/*
+  ===========================================================================
+                            Login com Facebook
+  ===========================================================================
+*/
+
+router.get('/facebook',
+    passport.authenticate('facebook'));
+
+router.get('/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/' }),
+    function(req, res) {
+        req.session.fb_access_token = facebook_user.accessToken;
+        res.cookie('fb_token', facebook_user.accessToken);
+        res.cookie('fb_user', facebook_user);
+        res.redirect('/calendarAuth');
     });
 
 module.exports = router;

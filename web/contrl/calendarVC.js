@@ -591,6 +591,29 @@ $(document).keyup(function(e) {
 });
 
 /*
+ * Facebook
+ */
+
+window.fbAsyncInit = function() {
+    FB.init({
+        appId: '1321278234570954',
+        xfbml: true,
+        version: 'v2.8'
+    });
+    // Facebook Analytics
+    FB.AppEvents.logEvent("calendar");
+};
+
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) { return; }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+/*
  * Google Analytics
  */
 (function(i, s, o, g, r, a, m) {

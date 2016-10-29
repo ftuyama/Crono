@@ -1,8 +1,7 @@
 # Crono
 [![Build Status](https://travis-ci.org/ftuyama/Crono.svg?branch=master)](https://travis-ci.org/ftuyama/Crono)
 
-
-![Crono Logo](https://github.com/ftuyama/Crono/blob/master/web/public/img/fancy.png)
+<img src="https://github.com/ftuyama/Crono/blob/master/web/public/img/fancy.png" height="200" />
 
 Projeto de um calendário virtual integrado com Google Calendar, gerenciador de projetos e eventos. Funcionalidade chat built-in.
 

@@ -277,6 +277,20 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         else $scope.request = true;
     }
 
+    /* Requisita fetch de facebook */
+    $scope.fbRequestFecth = function() {
+        if (!$scope.fbCheck) return;
+        $scope.busy = true;
+        $scope.fbFetch().then(function success(response) {
+            $scope.busy = false;
+            $scope.$apply();
+        }, function error(error) {
+            showSnackBar("First login on Facebook");
+            $scope.fbCheck = $scope.busy = false;
+            $scope.$apply();
+        });
+    }
+
     /* Carrega todos os eventos */
     $scope.fetch = function() {
         return new Promise(function(resolve, reject) {
@@ -313,18 +327,16 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.fbFetch = function() {
         return new Promise(function(resolve, reject) {
             if (!$scope.fbCheck) resolve();
-            $scope.busy = true;
-            $http.get('/calendar/facebook')
-                .then(function success(response) {
-                    $scope.fb_events = response.data;
-                    $scope.displayFbEvents();
-                    $scope.busy = false;
-                    resolve();
-                }, function error(error) {
-                    showSnackBar("First login on Facebook");
-                    $scope.fbCheck = $scope.busy = false;
-                    reject();
-                });
+            else {
+                $http.get('/calendar/facebook')
+                    .then(function success(response) {
+                        $scope.fb_events = response.data;
+                        $scope.displayFbEvents();
+                        resolve();
+                    }, function error(error) {
+                        reject();
+                    });
+            }
         });
     }
 

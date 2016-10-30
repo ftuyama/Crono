@@ -8,6 +8,7 @@ var google = require('googleapis');
 var gcal = require('google-calendar');
 var passport = require('passport');
 var mustache = require('mustache');
+var config = require("../config/config");
 var fs = require('fs');
 var imageUrl, fb_imageUrl, user, facebook_user;
 
@@ -44,6 +45,8 @@ fs.readFile('./APICalendar/client_secret.json',
             }
         ));
 
+        credentials.facebook = debug() ? credentials.facebook_dev : credentials.facebook;
+
         // Facebook Strategy
         passport.use(new FacebookStrategy({
                 clientID: credentials.facebook.client_id,
@@ -63,6 +66,9 @@ fs.readFile('./APICalendar/client_secret.json',
         ));
     });
 
+function debug() {
+    return config.web.port == 8080;
+}
 /*
   ===========================================================================
                             Auxialliary methods

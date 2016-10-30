@@ -82,6 +82,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     }
 
     var statusMap = {
+        "NEW": "red",
         "TODO": "#dac586",
         "DEV": "#160c76",
         "TEST": "#702898",

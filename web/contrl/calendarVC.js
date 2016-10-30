@@ -20,7 +20,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     // Variáveis de semáforo
     $scope.busy = $scope.loader = true;
-    $scope.request = $scope.loaded = $scope.fbActive = $scope.fbCheck = $scope.kanbanActive = false;
+    $scope.request = $scope.loaded = $scope.fbActive =
+        $scope.fbCheck = $scope.kanbanActive = false;
 
     // Varíaveis para definir Modal Form
     $scope.dateTime = $scope.create = $scope.edit = false;
@@ -81,9 +82,17 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                     var status = firebase[group_key][event_key][user_key][status_key];
                     $scope.events[group_id][event_id].status = status;
                     $scope.events[group_id][event_id].statusColor = statusMap[status];
-                } catch (err) {}
+                } catch (err) {
+                    $scope.events[group_id][event_id].status = "NEW";
+                    $scope.events[group_id][event_id].statusColor = "red";
+                }
             });
         });
+        if ($scope.busy) $scope.resolveFetch();
+        else if ($scope.kanbanActive) {
+            $scope.create_kanban();
+            $scope.displayKanbanEvents();
+        }
         $scope.$apply();
     }
 
@@ -274,7 +283,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     /* Gerencia fila de eventos */
     $scope.requestFetch = function() {
-        if ($scope.busy == false)
+        if (!$scope.busy)
             $scope.fetch();
         else $scope.request = true;
     }
@@ -297,7 +306,6 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.fetch = function() {
         return new Promise(function(resolve, reject) {
             $scope.busy = true;
-            $scope.refresh_calendar();
             $scope.events = http_requests = [];
             for (j = 0; j < $scope.groups.length; j++) {
                 var group_checked = $scope.groups[j].checked;
@@ -312,18 +320,22 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 }
             }
             $q.all(http_requests).then(function() {
-                $scope.displayEvents();
                 $scope.fbFetch().then(function() {
-                    if ($scope.request == true) {
-                        $scope.request = false;
-                        $scope.fetch();
-                    } else $scope.busy = false;
                     $scope.firebaseFetch();
                     resolve();
                 })
             });
         });
     };
+
+    /* Termina a carga de todos os eventos */
+    $scope.resolveFetch = function() {
+        if ($scope.request) {
+            $scope.request = false;
+            $scope.fetch();
+        } else $scope.busy = false;
+        $scope.display_events();
+    }
 
     /* Carrega os eventos do facebook */
     $scope.fbFetch = function() {
@@ -351,9 +363,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 $scope.groups[i].checked =
                     (cookie == undefined || cookie == "true");
             }
-            $scope.fetch().then(function() {
-                $scope.firebaseFetch();
-            });
+            $scope.busy = false;
+            $scope.display_calendar();
         });
 
     $scope.$watch("busy", function() {
@@ -377,6 +388,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                                 Display events on Calendar
         ===========================================================================
     */
+
+    $scope.display_events = function() {
+        if ($scope.kanbanActive)
+            $scope.displayKanbanEvents();
+        else $scope.displayEvents();
+    }
 
     $scope.displayFbEvents = function() {
         var events = $scope.fb_events;
@@ -410,8 +427,6 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         for (group = 0; group < $scope.groups.length; group++) {
             var events = $scope.events[group];
             for (i = 0; i < events.length; i++) {
-                $scope.events[group][i].status = 'NEW';
-                $scope.events[group][i].statusColor = 'red';
                 if (isValidEvent(events[i])) {
                     var date = getDateProperty(events[i].start);
                     var clazz = getTextSize(events[i].summary);
@@ -461,9 +476,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                             ' draggable="true" ondragstart="drag(event)">' + events[i].summary +
                             '<span class="label label-info status Cstatus"' +
                             ' style="background-color:{{events[' + group + '][' + i + '].statusColor}}">' +
-                            dateProp + '</span></a></div>';
-                        $("#" + events[i].status).append($compile(event_item)($scope));
-                        $("#" + events[i].status).append("<hr>");
+                            dateProp + '</span></a></div><hr>';
+                        if ($("#" + events[i].status).length)
+                            $("#" + events[i].status).append($compile(event_item)($scope));
+                        else $("#NEW").append($compile(event_item)($scope));
                         $("#task" + event_ref).css('color', getRandomColor());
                     }
                 }
@@ -559,7 +575,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     /*
         ===========================================================================
-                        Generating basic calendar structure
+                                Menu Button Functionalities
         ===========================================================================
     */
     $scope.stopPropagation = function() {
@@ -589,20 +605,31 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         else $scope.display_calendar();
     };
 
+    /*
+         ===========================================================================
+                           Display Structures Functions
+        ===========================================================================
+    */
+
     $scope.display_calendar = function() {
+        $scope.kanbanActive = false;
         $scope.create_calendar();
         $scope.requestFetch();
     }
 
-    $scope.refresh_calendar = function() {
-        $scope.kanbanActive = false;
-        if ($scope.calendarHTML == undefined)
-            $scope.create_calendar();
-        else $("#motherTable").html($compile($scope.calendarHTML)($scope));
+    $scope.display_kanban = function() {
+        $scope.kanbanActive = true;
+        $scope.create_kanban();
+        $scope.requestFetch();
     }
 
+    /*
+        ===========================================================================
+                        Generating basic calendar structure
+        ===========================================================================
+    */
+
     $scope.create_calendar = function() {
-        $scope.kanbanActive = false;
         // Hoje
         var date = $scope.monthYear;
         // Data do dia do calendário
@@ -617,12 +644,9 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         var lastDayOfLastMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
 
         var table = progressHTML(date, lastDay);
-        table += '<table class="table table-bordered">';
-        table += menuHTML(date, "calendar");
+        table += '<table class="table table-bordered">' + menuHTML(date, "calendar");
         table += "<tr>";
-        daysNames.forEach(function(dayName) {
-            table += "<td>" + dayName + "</td>";
-        });
+        daysNames.forEach(function(dayName) { table += "<td>" + dayName + "</td>"; });
         table += "</tr>";
         for (i = 0; i <= 5; i++) {
             var row = "<tr>";
@@ -676,14 +700,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         ===========================================================================
     */
 
-    $scope.display_kanban = function() {
-        $scope.create_kanban();
-        $scope.firebaseFetch();
-        $scope.displayKanbanEvents();
-    }
-
     $scope.create_kanban = function() {
-        $scope.kanbanActive = true;
         // Hoje
         var date = $scope.monthYear;
         // Último dia do mês
@@ -724,7 +741,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             '<button class="btn btn-info" style="float:left;" ng-click="fullscreen();' +
             ' $event.stopPropagation()">FullScreen</button>' +
             '<i class="fa fa-calendar fa-2x farefresh"  style="float:left;"' +
-            ' ng-click="requestFetch();  $event.stopPropagation()"></i>' +
+            ' ng-click="display_calendar();  $event.stopPropagation()"></i>' +
             '<i class="fa fa-trello fa-2x farefresh trellofarefresh" style="float:left;"' +
             ' ng-click="display_kanban();  $event.stopPropagation()"></i>' +
             monthNames[date.getMonth()] + " " + date.getFullYear() +

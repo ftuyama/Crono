@@ -121,6 +121,20 @@ Date.prototype.sameDay = function(d) {
         this.getMonth() === d.getMonth();
 }
 
+Date.prototype.sameMonthYear = function(d) {
+    return this.getFullYear() === d.getFullYear() &&
+        this.getMonth() === d.getMonth();
+}
+
+Date.prototype.sameWeekYear = function(d, w) {
+    return this.getFullYear() === d.getFullYear() &&
+        this.getWeek() === w;
+}
+
+Date.prototype.getWeek = function() {
+    var onejan = new Date(this.getFullYear(), 0, 1);
+    return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+}
 
 var userLang = navigator.language || navigator.userLanguage;
 

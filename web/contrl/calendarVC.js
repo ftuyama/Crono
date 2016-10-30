@@ -10,15 +10,17 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.event_form = { summary: '', description: '', group_id: -1, startDate: '', startHour: '', endDate: '', endHour: '' };
     $scope.event_id = $scope.event_group = "";
 
-    // Variável de calendário
+    // Variável de Calendário e Kanban
     $scope.monthYear = new Date();
+    $scope.filter_week = (new Date()).getWeek();
+    $scope.filter = "month";
 
     // Variáveis de negócio
     $scope.evento = $scope.events = $scope.fb_events = $scope.groups = {};
 
     // Variáveis de semáforo
     $scope.busy = $scope.loader = true;
-    $scope.request = $scope.loaded = $scope.fbActive = $scope.fbCheck = false;
+    $scope.request = $scope.loaded = $scope.fbActive = $scope.fbCheck = $scope.kanbanActive = false;
 
     // Varíaveis para definir Modal Form
     $scope.dateTime = $scope.create = $scope.edit = false;
@@ -435,6 +437,42 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     /*
         ===========================================================================
+                                Display events on Kanban
+        ===========================================================================
+    */
+    $scope.displayKanbanEvents = function() {
+        for (group = 0; group < $scope.groups.length; group++) {
+            var events = $scope.events[group];
+            for (i = 0; i < events.length; i++) {
+                if (isValidEvent(events[i])) {
+                    var date = getDate(events[i].start);
+                    var dateProp = toDateBR(getDateProperty(events[i].start));
+                    if ($scope.filter == "" ||
+                        $scope.filter == "month" && date.sameMonthYear($scope.monthYear) ||
+                        $scope.filter == "week" && date.sameWeekYear($scope.monthYear, $scope.filter_week)) {
+                        var clazz = getTextSize(events[i].summary);
+                        var event_ref = group + '-' + i;
+                        var event_item =
+                            '<div class="row rowitens">' +
+                            '<a href="#" class="list-group-item' + clazz + '" id="task' +
+                            event_ref + '" ng-mouseover="flashFirebase(\'' +
+                            event_ref + '\', \'' + dateProp + '\')" ng-click="openModals(\'' +
+                            event_ref + '\', \'' + dateProp + '\'); $event.stopPropagation();"' +
+                            ' draggable="true" ondragstart="drag(event)">' + events[i].summary +
+                            '<span class="label label-info status Cstatus"' +
+                            ' style="background-color:{{events[' + group + '][' + i + '].statusColor}}">' +
+                            dateProp + '</span></a></div>';
+                        $("#" + events[i].status).append($compile(event_item)($scope));
+                        $("#" + events[i].status).append("<hr>");
+                        $("#task" + event_ref).css('color', getRandomColor());
+                    }
+                }
+            }
+        }
+    }
+
+    /*
+        ===========================================================================
                         Auxialiary functions in javascript
         ===========================================================================
     */
@@ -497,6 +535,14 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         else return "";
     }
 
+    function getDate(eventDate) {
+        if (eventDate.date != undefined)
+            return new Date(eventDate.date);
+        else if (eventDate.dateTime != undefined)
+            return new Date(eventDate.dateTime);
+        return new Date();
+    }
+
     function getDateProperty(eventDate) {
         if (eventDate.date != undefined)
             return eventDate.date.split('T')[0];
@@ -538,17 +584,25 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.select_month = function() {
         [month, year] = $("#monthPicker").val().split(' ');
         $scope.monthYear = new Date(year, returnMonth(month), 1);
-        $scope.create_calendar();
-        $scope.requestFetch();
+        if ($scope.kanbanActive)
+            $scope.display_kanban();
+        else $scope.display_calendar();
     };
 
+    $scope.display_calendar = function() {
+        $scope.create_calendar();
+        $scope.requestFetch();
+    }
+
     $scope.refresh_calendar = function() {
+        $scope.kanbanActive = false;
         if ($scope.calendarHTML == undefined)
             $scope.create_calendar();
         else $("#motherTable").html($compile($scope.calendarHTML)($scope));
     }
 
     $scope.create_calendar = function() {
+        $scope.kanbanActive = false;
         // Hoje
         var date = $scope.monthYear;
         // Data do dia do calendário
@@ -562,25 +616,9 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         // Quantos dias teve último mês
         var lastDayOfLastMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
 
-        var progress = Math.round(1000 * date.getDate() / lastDay) / 10;
-        var progressHTML =
-            '<div class="progress progress-striped"><div class="progress-bar" ' +
-            'role="progressbar" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="100"' +
-            ' style="width:' + progress + '%">Month ' + progress + ' % Complete</div></div>';
-
-        var table = progressHTML + '<table class="table table-bordered">';
-        table += '<tr><td COLSPAN=7 ng-click="monthPicker()">' +
-            '<button class="btn btn-info" style="float:left;" ng-click="fullscreen();' +
-            ' $event.stopPropagation()">FullScreen</button>' +
-            monthNames[date.getMonth()] + " " + date.getFullYear() +
-            '<button class="btn btn-danger" style="float:right;">Change month</button>' +
-            '<i class="fa fa-refresh fa-2x farefresh"' +
-            ' ng-click="requestFetch();  $event.stopPropagation()"></i>' +
-            '<i class="fa fa-eye fa-2x farefresh eyefarefresh" ng-show="fbActive"' +
-            ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' +
-            '<i class="fa fa-eye-slash fa-2x farefresh eyeslashfarefresh" ng-hide="fbActive"' +
-            ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' +
-            "</td></tr>";
+        var table = progressHTML(date, lastDay);
+        table += '<table class="table table-bordered">';
+        table += menuHTML(date, "calendar");
         table += "<tr>";
         daysNames.forEach(function(dayName) {
             table += "<td>" + dayName + "</td>";
@@ -630,6 +668,79 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         table += "</table>";
         $scope.calendarHTML = table;
         $("#motherTable").html($compile(table)($scope));
+    }
+
+    /*
+        ===========================================================================
+                        Generating basic kanban structure
+        ===========================================================================
+    */
+
+    $scope.display_kanban = function() {
+        $scope.create_kanban();
+        $scope.firebaseFetch();
+        $scope.displayKanbanEvents();
+    }
+
+    $scope.create_kanban = function() {
+        $scope.kanbanActive = true;
+        // Hoje
+        var date = $scope.monthYear;
+        // Último dia do mês
+        var lastDay = new Date(date.getFullYear(), (date.getMonth() + 1) % 12, 0).getDate();
+
+        // Lista de Status do Kanban
+        var status_list = ["NEW", "TODO", "DEV", "TEST", "DONE"];
+
+        var kanban = progressHTML(date, lastDay) +
+            '<table id="kanban" class="table table-bordered">' +
+            menuHTML(date, "kanban");
+
+        status_list.forEach(function(status) { kanban += '<td>' + status + '</td>'; });
+        kanban += '</tr><tr>';
+        status_list.forEach(function(status) { kanban += '<td id="' + status + '"></td>'; });
+        kanban += '</tr></table>';
+
+        $scope.kanbanHTML = kanban;
+        $("#motherTable").html($compile(kanban)($scope));
+    }
+
+    /*
+         ===========================================================================
+                                Auxialliary Structures
+        ===========================================================================
+    */
+
+    function menuHTML(date, type) {
+        var kanbanFilter = "";
+        if (type == "kanban")
+            kanbanFilter = '<span style="float:right;"><label>Filter: </label>' +
+            '<select ng-model="filter" ng-change="display_kanban()" ng-click="$event.stopPropagation()">' +
+            '<option value="month">Month</option><option value="week">Week</option><option value="">All</option></select>' +
+            '<span ng-show="filter==\'week\'" style="display:block"><label>Week: </label><input type="number"' +
+            ' ng-model="filter_week" ng-change="display_kanban()" ng-click="$event.stopPropagation()"/></span></span>';
+
+        return '<tr><td COLSPAN=7 ng-click="monthPicker()">' +
+            '<button class="btn btn-info" style="float:left;" ng-click="fullscreen();' +
+            ' $event.stopPropagation()">FullScreen</button>' +
+            '<i class="fa fa-calendar fa-2x farefresh"  style="float:left;"' +
+            ' ng-click="requestFetch();  $event.stopPropagation()"></i>' +
+            '<i class="fa fa-trello fa-2x farefresh trellofarefresh" style="float:left;"' +
+            ' ng-click="display_kanban();  $event.stopPropagation()"></i>' +
+            monthNames[date.getMonth()] + " " + date.getFullYear() +
+            '<button class="btn btn-danger" style="float:right;">Change month</button>' +
+            '<i class="fa fa-eye fa-2x farefresh eyefarefresh" ng-show="fbActive"' +
+            ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' +
+            '<i class="fa fa-eye-slash fa-2x farefresh eyeslashfarefresh" ng-hide="fbActive"' +
+            ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' + kanbanFilter +
+            '</td></tr>';
+    }
+
+    function progressHTML(date, lastDay) {
+        var progress = Math.round(1000 * date.getDate() / lastDay) / 10;
+        return '<div class="progress progress-striped"><div class="progress-bar" ' +
+            'role="progressbar" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="100"' +
+            ' style="width:' + progress + '%">Month ' + progress + ' % Complete</div></div>';
     }
 });
 

@@ -195,10 +195,13 @@ a.list-group-item {
     cursor: pointer;
 }
 
-.farefresh:hover:after {
+.farefresh:hover {
     color: #33A8F6;
+}
+
+.farefresh:hover:after {
     cursor: pointer;
-    content: 'Refresh';
+    content: 'Calendar';
     border: 1px solid #cccccc;
     background-color: #efefef;
     position: absolute;
@@ -217,8 +220,11 @@ a.list-group-item {
     color: #c12e2a;
 }
 
-.eyefarefresh:hover:after {
+.eyefarefresh:hover {
     color: #f55f5a;
+}
+
+.eyefarefresh:hover:after {
     cursor: pointer;
     content: 'Hide info';
     border: 1px solid #cccccc;
@@ -236,8 +242,11 @@ a.list-group-item {
     color: #888;
 }
 
-.eyeslashfarefresh:hover:after {
+.eyeslashfarefresh:hover {
     color: #bbb;
+}
+
+.eyeslashfarefresh:hover:after {
     cursor: pointer;
     content: 'Flash info';
     border: 1px solid #cccccc;
@@ -250,6 +259,26 @@ a.list-group-item {
     margin-top: 30px;
     width: 100px;
 }
+
+
+/* Trello icon */
+
+.trellofarefresh {
+    color: #88d;
+    content: 'Kanban';
+}
+
+.trellofarefresh:hover {
+    color: #aae;
+}
+
+.trellofarefresh:hover:after {
+    color: #aae;
+    content: 'Kanban';
+}
+
+
+/* Round button */
 
 .round-button {
     float: right;

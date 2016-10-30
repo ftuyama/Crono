@@ -51,6 +51,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             .$emit('firebaseDelete', [$scope.event_form, $scope.groups, $scope.evento.id]);
     };
 
+    /* Comunica com FirebaseVC - atualizar evento */
+    $scope.updateStatusFirebase = function(status) {
+        angular.element('#firebaseVC').scope()
+            .$emit('firebaseUpdateStatus', [status, $scope.groups, $scope.evento]);
+    };
+
     /* Comunica com FirebaseVC - requisita informações */
     $scope.firebaseFetch = function() {
         angular.element('#firebaseVC').scope().$emit('firebaseFetch', []);
@@ -88,10 +94,14 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 }
             });
         });
-        if ($scope.busy) $scope.resolveFetch();
-        else if ($scope.kanbanActive) {
+        if ($scope.kanbanActive) {
             $scope.create_kanban();
-            $scope.displayKanbanEvents();
+            $scope.display_events();
+            if ($scope.busy)
+                $scope.resolveFetch();
+        } else if ($scope.busy) {
+            $scope.resolveFetch();
+            $scope.display_events();
         }
         $scope.$apply();
     }
@@ -172,7 +182,19 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         return true;
     };
 
+    /*
+        ===========================================================================
+                                Manages Move Events
+        ===========================================================================
+    */
+
     $scope.move = function(origin, destine) {
+        if ($scope.kanbanActive)
+            $scope.status_move(origin, destine);
+        else $scope.time_move(origin, destine);
+    };
+
+    $scope.time_move = function(origin, destine) {
         var group_and_id = origin.replace("task", "").split('-');
         $scope.event_group = Number(group_and_id[0]);
         $scope.event_id = Number(group_and_id[1]);
@@ -189,6 +211,16 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         };
         $scope.postMoveEvent();
         $scope.dateTime = false;
+    };
+
+    $scope.status_move = function(origin, destine) {
+        var group_and_id = origin.replace("task", "").split('-');
+        $scope.event_group = Number(group_and_id[0]);
+        $scope.event_id = Number(group_and_id[1]);
+        $scope.evento = $scope.events[$scope.event_group][$scope.event_id];
+        $scope.evento.group_id = $scope.event_group;
+        $scope.updateStatusFirebase(destine);
+        $scope.busy = true;
     };
 
     /*
@@ -231,7 +263,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $http.post('/calendar/create', JSON.stringify(post))
             .then(function success(response) {
                 showSnackBar("Evento criado com sucesso!");
-                $scope.fetch();
+                $scope.display();
             });
     }
 
@@ -244,7 +276,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $http.post('/calendar/edit', JSON.stringify(post))
             .then(function success(response) {
                 showSnackBar("Evento editado com sucesso!");
-                $scope.fetch();
+                $scope.display();
             });
     }
 
@@ -259,7 +291,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $http.get('/calendar/delete', { "params": param })
             .then(function success(response) {
                 showSnackBar("Evento deletado com sucesso!");
-                $scope.fetch();
+                $scope.display();
             });
     };
 
@@ -271,7 +303,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $http.post('/calendar/edit', JSON.stringify(post))
             .then(function success(response) {
                 showSnackBar("Evento movido com sucesso!");
-                $scope.fetch();
+                $scope.display();
             });
     }
 
@@ -334,7 +366,6 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             $scope.request = false;
             $scope.fetch();
         } else $scope.busy = false;
-        $scope.display_events();
     }
 
     /* Carrega os eventos do facebook */
@@ -611,6 +642,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         ===========================================================================
     */
 
+    $scope.display = function() {
+        if ($scope.kanbanActive)
+            $scope.display_kanban();
+        else $scope.display_calendar();
+    }
+
     $scope.display_calendar = function() {
         $scope.kanbanActive = false;
         $scope.create_calendar();
@@ -715,7 +752,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
         status_list.forEach(function(status) { kanban += '<td>' + status + '</td>'; });
         kanban += '</tr><tr>';
-        status_list.forEach(function(status) { kanban += '<td id="' + status + '"></td>'; });
+        status_list.forEach(function(status) {
+            kanban += '<td id="' + status + '" ng-click="newEvent(\'0-666\', \'' + date.toISOString().split('T')[0] +
+                '\')" ondrop="drop(event)" ondragover="allowDrop(event)"></td>';
+        });
         kanban += '</tr></table>';
 
         $scope.kanbanHTML = kanban;

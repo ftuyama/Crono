@@ -39,6 +39,15 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         $scope.deleteFirebase();
     });
 
+    /* Ouve CalendarVC para atualizar evento */
+    $scope.$on('firebaseUpdateStatus', function(event, data) {
+        [status, $scope.groups, $scope.event] = data;
+        $scope.fetch().then(function() {
+            $scope.change_status(status);
+            $scope.updateStatus();
+        });
+    });
+
     /* Ouve CalendarVC e comunica para enviar informações */
     $scope.$on('firebaseFetch', function(event, data) {
         $scope.getUser();
@@ -110,8 +119,9 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         ===========================================================================
     */
 
-    $scope.change_status = function() {
-        $scope.user_event.status = $scope.nextKey($scope.user_event.status);
+    $scope.change_status = function(status) {
+        $scope.user_event.status = (status != "") ?
+            status : $scope.nextKey($scope.user_event.status);
         $scope.save();
         $scope.statusColor();
     }
@@ -174,19 +184,22 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /* Carrega informações do evento */
     $scope.fetch = function() {
-        $scope.fetching = true;
-        $scope.getUser();
-        $http.post('/firebase/get', JSON.stringify({ 'url': $scope.fbUrl() }))
-            .then(function success(response) {
-                $scope.all_event = copy($scope.new_all_event);
-                $scope.user_event = copy($scope.new_user_event);
-                if (response.data != undefined && response.data != "") {
-                    $scope.all_event = $.extend({}, $scope.all_event, response.data['all']);
-                    $scope.user_event = $.extend({}, $scope.new_user_event, response.data[$scope.user.id]);
-                }
-                $scope.statusColor();
-                $scope.fetching = false;
-            });
+        return new Promise(function(resolve, reject) {
+            $scope.fetching = true;
+            $scope.getUser();
+            $http.post('/firebase/get', JSON.stringify({ 'url': $scope.fbUrl() }))
+                .then(function success(response) {
+                    $scope.all_event = copy($scope.new_all_event);
+                    $scope.user_event = copy($scope.new_user_event);
+                    if (response.data != undefined && response.data != "") {
+                        $scope.all_event = $.extend({}, $scope.all_event, response.data['all']);
+                        $scope.user_event = $.extend({}, $scope.new_user_event, response.data[$scope.user.id]);
+                    }
+                    $scope.statusColor();
+                    $scope.fetching = false;
+                    resolve();
+                });
+        });
     }
 
 });

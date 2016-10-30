@@ -364,7 +364,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         ===========================================================================
     */
 
-    $scope.displayEvents = function() {
+    $scope.displayFbEvents = function() {
         var events = $scope.fb_events;
         for (i = 0; i < events.length; i++) {
             // $scope.events[i].status = 'NEW';
@@ -392,7 +392,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         }
     }
 
-    $scope.displayFbEvents = function() {
+    $scope.displayEvents = function() {
         for (group = 0; group < $scope.groups.length; group++) {
             var events = $scope.events[group];
             for (i = 0; i < events.length; i++) {

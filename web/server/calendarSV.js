@@ -99,7 +99,6 @@ router.get('/delete', function(req, res) {
 */
 
 router.get('/facebook', function(req, res) {
-    res.status(404).send("Facebook auth");
     var fbAccessToken = req.session.fb_access_token;
     if (isNull(fbAccessToken)) res.status(404).send("Facebook auth");
     else {

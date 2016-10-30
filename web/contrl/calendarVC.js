@@ -525,10 +525,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             $("#motherTable").css("background-color", "#111");
             $("#motherTable").css("height", "100%");
             $("#motherTable").css("width", "100%");
+            $("#motherTable").css("overflow", "auto");
         } else {
             $("#motherTable").css("background-color", "#111");
             $("#motherTable").css("height", "");
             $("#motherTable").css("width", "");
+            $("#motherTable").css("overflow", "auto");
         }
         screenfull.toggle($("#motherTable")[0]);
     };
@@ -568,8 +570,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
         var table = progressHTML + '<table class="table table-bordered">';
         table += '<tr><td COLSPAN=7 ng-click="monthPicker()">' +
-            '<button class="btn btn-success" style="float:left;" ng-click="newEvent(\'0-666\', \'' +
-            date.toISOString().slice(0, 10) + '\'); $event.stopPropagation()">Add event</button>' +
+            '<button class="btn btn-info" style="float:left;" ng-click="fullscreen();' +
+            ' $event.stopPropagation()">FullScreen</button>' +
             monthNames[date.getMonth()] + " " + date.getFullYear() +
             '<button class="btn btn-danger" style="float:right;">Change month</button>' +
             '<i class="fa fa-refresh fa-2x farefresh"' +

@@ -462,6 +462,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                     var date = getDateProperty(events[i].start);
                     var clazz = getTextSize(events[i].summary);
                     var event_ref = group + '-' + i;
+                    if (events[i].summary.match(/feriado/i))
+                        $("#day-" + date).css('background-color', '#363');
                     var event_item =
                         '<div class="row rowitens">' +
                         '<a href="#" class="list-group-item' + clazz + '" id="task' +

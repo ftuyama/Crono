@@ -63,6 +63,9 @@
     <script src="/public/js/formatters/ampm.js"></script>
     <script src="/public/js/formatters/french.js"></script>
     <script src="/public/js/screenfull.js"></script>
+    <!-- Firebase -->
+    <script src="/public/js/firebase.js"></script>
+    <script src="/script/storage.js"></script>
     <!-- Include Style Css -->
     <link rel="stylesheet" href="/public/css/metro.min.css">
     <!-- ############################################################################ -->
@@ -366,10 +369,10 @@
                         <div class="row">
                             <label>Image: <i class="fa fa-paperclip"></i></label>
                             <div class="input-control modern text">
-                                <input class="magic" type="file" accept="image/*">
-                                <span class="label">Image</span>
-                                <span class="informer">Send an image to this event</span>
-                                <span class="placeholder">Send image</span>
+                                <input class="magic" type="file" accept="image/*" id="imgUpload">
+                                <a class="label labela" id="imgUploadLink" href={{all_event.img || "Upload de Imagem"}}>
+                                    {{all_event.img || "Upload de Imagem"}}</a>
+                                <span class="informer informera" id="imgUploadMsg">...</span>
                             </div>
                         </div>
                         <hr>

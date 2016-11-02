@@ -90,7 +90,7 @@ progress {
     -webkit-writing-mode: horizontal-tb;
 }
 
-.input-control.modern .informer {
+.input-control.modern . {
     opacity: 0;
     bottom: .75rem;
     color: #C8C8C8;
@@ -113,11 +113,25 @@ progress {
     border-bottom-color: #ddd;
 }
 
+.informera {
+    opacity: 1;
+    color: #ddd;
+    bottom: -0.75rem;
+    transition: all 0.3s linear;
+}
+
 .input-control.modern input:focus~.informer {
     opacity: 1;
     color: #ddd;
     bottom: -0.75rem;
     transition: all 0.3s linear;
+}
+
+.labela {
+    opacity: 1 !important;
+    -webkit-transform: translateY(-18px) !important;
+    transform: translateY(-18px) !important;
+    transition: all 0.3s linear !important;
 }
 
 .input-control.modern input:focus~.label {

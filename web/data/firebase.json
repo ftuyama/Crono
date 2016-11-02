@@ -3,6 +3,5 @@
     "authDomain": "crono-b0853.firebaseapp.com",
     "databaseURL": "https://crono-b0853.firebaseio.com",
     "storageBucket": "crono-b0853.appspot.com",
-    "messagingSenderId": "339785076837",
-    "serviceAccount": "APIFirebase/Crono.json"
+    "messagingSenderId": "339785076837"
 }

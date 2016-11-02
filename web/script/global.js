@@ -189,6 +189,10 @@ function showSnackBar(message) {
 function cleanGroup(group) {
     return group.replace(/\.|\#|\$|\[|\]|\@/g, "");
 }
+
+function removePath(path) {
+    return path.split('/').pop();
+}
 /*
     ===========================================================================
                         Exporta funções para testes unitários

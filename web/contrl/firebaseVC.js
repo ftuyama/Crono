@@ -7,7 +7,7 @@
 calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $compile) {
 
     /* Variáveis de negócio */
-    $scope.new_all_event = { link: '' };
+    $scope.new_all_event = { link: '', img: '' };
     $scope.new_user_event = { priority: '3', status: 'NEW', comment: '' };
     $scope.user = $scope.groups = $scope.event = {};
 
@@ -199,6 +199,35 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
                     $scope.fetching = false;
                     resolve();
                 });
+        });
+    }
+
+    /*
+        ===========================================================================
+                            Upload de arquivos para Storage
+        ===========================================================================
+    */
+
+    $("#imgUpload").on('change', function(evt) {
+        // Só realiza uploa de imagens com menos de 2MB
+        var files = $("#imgUpload")[0].files;
+        if (files[0].size / 1024 / 1024 < 2)
+            uploadImage(files[0], $("#imgUpload").val());
+    });
+
+    function uploadImage(file, name) {
+        var uploadTask = storageRef.child('images/' + removePath(name)).put(file);
+
+        uploadTask.on('state_changed', function(snapshot) {
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            $("imgUploadLink").html(progress);
+        }, function(error) {
+            $("#imgUploadMsg").html("O Upload deu errado.");
+        }, function() {
+            $("#imgUploadMsg").html("O Upload deu certo.");
+            $scope.all_event.img = uploadTask.snapshot.downloadURL;
+            $scope.save();
+            $scope.$apply();
         });
     }
 

@@ -216,16 +216,17 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     });
 
     function uploadImage(file, name) {
-        var uploadTask = storageRef.child('images/' + removePath(name)).put(file);
+        var uploadTask = storageRef.child('images/' + $scope.fbUrl() + removePath(name)).put(file);
 
         uploadTask.on('state_changed', function(snapshot) {
             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            $("imgUploadLink").html(progress);
+            $scope.all_event.img = (progress).toFixed(2) + " %";
+            $scope.$apply();
         }, function(error) {
             $("#imgUploadMsg").html("O Upload deu errado.");
         }, function() {
             $("#imgUploadMsg").html("O Upload deu certo.");
-            $scope.all_event.img = uploadTask.snapshot.downloadURL;
+            $scope.all_event.img = decodeURIComponent(uploadTask.snapshot.downloadURL);
             $scope.save();
             $scope.$apply();
         });

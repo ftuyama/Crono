@@ -7,8 +7,8 @@
 calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $compile) {
 
     /* Variáveis de negócio */
-    $scope.new_all_event = { link: '', img: '' };
-    $scope.new_user_event = { priority: '3', status: 'NEW', comment: '' };
+    $scope.new_all_event = { link: '', img: '', people: 0 };
+    $scope.new_user_event = { priority: '3', status: 'NEW', comment: '', presence: false };
     $scope.user = $scope.groups = $scope.event = {};
 
     /* Interface gráfica */
@@ -148,6 +148,12 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     $scope.fbUrl = function() {
         return '/' + cleanGroup($scope.groups[$scope.event.group_id].id) +
             '/' + $scope.event.id;
+    }
+
+    /* Marca presença no evento */
+    $scope.presence = function() {
+        $scope.all_event.people += ($scope.user_event.presence) ? 1 : -1;
+        $scope.save();
     }
 
     /* Post save */

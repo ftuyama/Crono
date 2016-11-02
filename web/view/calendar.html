@@ -356,7 +356,15 @@
             <div class="sidenav-body">
                 <div class="form-item">
                     <div class="form-item-content">
-                        <h3>Grupo</h3>
+                        <h3 style="margin-top: 0px;">Group</h3>
+                        <div class="row">
+                            <label>People: <i class="fa fa-user-o"></i></label>
+                            <div class="input-control modern text">
+                                <input class="magic" type="text" ng-model="all_event.people" readonly/>
+                                <span class="label">People</span>
+                                <span class="informer">People that are going</span>
+                            </div>
+                        </div>
                         <div class="row">
                             <label>Link: <i class="fa fa-link"></i></label>
                             <div class="input-control modern text">
@@ -376,7 +384,7 @@
                             </div>
                         </div>
                         <hr>
-                        <h3>Pessoal</h3>
+                        <h3>Personal</h3>
                         <div class="row">
                             <label>Words: <i class="fa fa-comment"></i></label>
                             <div class="input-control modern text">
@@ -393,13 +401,19 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label>Status: <i class="fa fa-check-circle"></i></label>
+                            <label>Status: <i class="fa fa-tasks"></i></label>
                             <div class="input-control modern text">
                                 <input class="magic" type="text" ng-model="user_event.status" ng-change="save(); updateStatus();" ng-model-options="{debounce: 1000}">
                                 <span class="label">Status</span>
                                 <span class="informer">Please, update the status</span>
                                 <span class="placeholder" ng-hide="user_event.status">Status</span>
                             </div>
+                        </div>
+                        <div class="row">
+                            <label>Going to: <i class="fa fa-check-circle"></i></label>
+                            <div class="squaredFour input-control modern">
+                                <input class="checkb" type="checkbox" value="None" id="squaredFour" name="check" ng-model="user_event.presence" ng-change="presence()" />
+                                <label class="checkb" for="squaredFour">Your presence</label> - </div>
                         </div>
                     </div>
                 </div>

@@ -482,7 +482,6 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.displayEvents = function() {
         for (group = 0; group < $scope.groups.length; group++) {
             var events = $scope.events[group];
-            alert(JSON.stringify(events));
             for (i = 0; i < events.length; i++) {
                 if (isValidEvent(events[i])) {
                     var date = getDateProperty(events[i].start);
@@ -642,18 +641,21 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     };
 
     $scope.fullscreen = function() {
-        if (!screenfull.isFullscreen) {
-            $("#motherTable").css("background-color", "#111");
-            $("#motherTable").css("height", "100%");
-            $("#motherTable").css("width", "100%");
-            $("#motherTable").css("overflow", "auto");
-        } else {
-            $("#motherTable").css("background-color", "#111");
-            $("#motherTable").css("height", "");
-            $("#motherTable").css("width", "");
-            $("#motherTable").css("overflow", "auto");
-        }
+        $("#motherTable").css({
+            "background-color": "#111",
+            "height": (screenfull.isFullscreen) ? "" : "100%",
+            "width": (screenfull.isFullscreen) ? "" : "100%",
+            "overflow": "auto"
+        });
         screenfull.toggle($("#motherTable")[0]);
+    };
+
+    $scope.fullscreenImg = function() {
+        $("#coverImg").css({
+            "top": (screenfull.isFullscreen) ? "0px" : "initial",
+            "height": (screenfull.isFullscreen) ? "20%" : "auto"
+        });
+        screenfull.toggle($("#coverImg")[0]);
     };
 
     $scope.select_month = function() {

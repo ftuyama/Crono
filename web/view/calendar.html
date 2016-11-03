@@ -332,6 +332,9 @@
 <!-- ############################################################################ -->
 <div id="firebaseVC" ng-controller="firebaseVC" hidden>
     <div id="firebaseNav" class="sidenav" role="dialog">
+        <!-- Imagem Cover -->
+        <i class="fa fa-file-photo-o" id="picCover"></i>
+        <img class="cover" id="coverImg" ng-src="{{all_event.img}}" ng-click="fullscreenImg()" ng-if="!!all_event.img" />
         <!-- Modal content-->
         <div class="sidenav-content">
             <!-- Modal Header -->

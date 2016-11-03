@@ -25,7 +25,7 @@
         width: 80%;
     }
     .sidenav-content {
-        height: 90%;
+        height: 100%;
     }
     .modal-dialog,
     .side-modal-dialog {
@@ -158,4 +158,24 @@
     cursor: pointer;
     border-radius: 15px;
     background: #6a6;
+}
+
+.cover {
+    top: 0px;
+    height: 20%;
+    position: absolute;
+    width: 100%;
+    -webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -o-filter: blur(1px);
+    -ms-filter: blur(1px);
+    filter: blur(1px);
+}
+
+.picCover {
+    color: wheat;
+    z-index: 100000000;
+    position: absolute;
+    top: 0px;
+    left: 5px;
 }

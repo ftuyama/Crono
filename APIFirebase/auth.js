@@ -10,14 +10,15 @@ fs.readFile('./APIFirebase/client_secret.json',
             console.log('Error loading client secret file: ' + err);
             return;
         }
-        // Load the credentials
         credentials = JSON.parse(content);
-
-        firebase.initializeApp({
-            databaseURL: credentials.web.database_url,
-            serviceAccount: credentials.web.service_account,
-        });
+        firebase.initializeApp(credentials);
     });
+
+/*
+    ===========================================================================
+                            CRUD Firebase Database
+    ===========================================================================
+*/
 
 router.post('/set', function(req, res) {
     console.log("setting: " + JSON.stringify(req.body));
@@ -27,9 +28,17 @@ router.post('/set', function(req, res) {
 
 router.post('/get', function(req, res) {
     console.log("getting: " + JSON.stringify(req.body));
-    firebase.database().ref(req.body.url).on("value", function(snapshot) {
+    firebase.database().ref(req.body.url).once("value", function(snapshot) {
         res.send(snapshot.val());
     });
+})
+
+router.get('/fetch', function(req, res) {
+    console.log("fetching");
+    firebase.database().ref('root').root
+        .orderByKey().once("value", function(snapshot) {
+            res.send(snapshot.val());
+        });
 })
 
 router.post('/upd', function(req, res) {

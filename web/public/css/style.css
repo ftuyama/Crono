@@ -227,49 +227,17 @@ button:focus {
     z-index: 99999;
 }
 
-.navbar-brand {
-    padding-top: 0px;
-}
-
-.navbar-default .navbar-nav>.active>a,
-.navbar-default .navbar-nav>.open>a,
-.navbar-default .navbar-nav>.active>a:hover,
-.navbar-default .navbar-nav>.open>a:hover {
-    background: transparent;
-    box-shadow: none;
-    color: #ffffff;
-}
-
-.navbar-default .navbar-nav>.active>a,
-.navbar-default .navbar-nav>.active>a:focus,
-.navbar-default .navbar-nav>.active>a:hover {
-    background: transparent;
-}
-
-.navbar-nav>li>a {
-    box-shadow: none;
-    color: #ffffff !important;
-    font-size: 1.2em;
-    font-weight: 400;
-    padding: 25px 20px;
-}
-
-@media (max-width: 1000px) {
-    .navbar-nav>li>a {
-        font-size: 1.0em;
+@media only screen and (max-width: 767px) {
+    .masthead {
+        margin-right: 0px;
+    }
+    .story {
+        padding-top: 20px;
     }
 }
 
 .bg-change {
     background: #333131;
-}
-
-.bg-change .navbar-brand {
-    padding-top: 8px;
-}
-
-.bg-change .navbar-nav>li>a {
-    padding: 15px 20px;
 }
 
 
@@ -409,6 +377,7 @@ button:focus {
 
 .know-about-us .description {
     font-size: .8125em;
+    color: white;
 }
 
 .about-top .btn {
@@ -453,6 +422,16 @@ button:focus {
     font-size: .8125em;
     padding-right: 15%;
     padding-bottom: 8px;
+}
+
+.about {
+    background: url(../../public/img/promo.jpg) no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff;
+}
+
+.bg-white-overlay {
+    background-color: rgba(122, 122, 122, 0.75);
 }
 
 

@@ -1,0 +1,187 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+span {
+    color: black;
+}
+
+.userIcon {
+    border-radius: 15px;
+    width: 30px;
+    height: 30px
+}
+
+body {
+    background-color: lightskyblue;
+    overflow: hidden;
+}
+
+.footer {
+    padding: 3px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.form-group {
+    width: 75%;
+    display: inline-flex;
+}
+
+#text {
+    padding: 8px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 100%;
+    margin-left: .5%;
+    margin-right: .5%;
+    top: 10px;
+}
+
+form button {
+    width: 10%;
+    border: none;
+    padding: 10px;
+    top: 10px;
+}
+
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 90%;
+}
+
+#messages p {
+    text-align: left;
+    padding: 5px 10px;
+    transition: 0.5s;
+}
+
+#messages p:nth-child(odd) {
+    background: #448;
+}
+
+.title {
+    display: flex;
+}
+
+.title-text {
+    left: 50%;
+}
+
+.row-message {
+    height: 80%;
+}
+
+.wdt-emoji-popup.open {
+    top: 30% !important;
+}
+
+.ejs-video-preview {
+    overflow: hidden;
+}
+
+.round-button {
+    float: right;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border: 2px solid #f5f5f5;
+    border-radius: 50%;
+    color: #f5f5f5;
+    text-align: center;
+    text-decoration: none;
+    background: #c12e2a;
+    box-shadow: 0 0 3px gray;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.round-button:hover {
+    background: #f55f5a;
+}
+
+#start_img {
+    height: 50px;
+    width: 50px;
+    transition: 0.5s;
+}
+
+#start_button {
+    padding: 0px;
+    transition: 0.5s;
+}
+
+#start_button:hover {
+    background-color: #a3a;
+}
+
+#start_img:hover {
+    transform: scale(1.5, 1.5);
+}
+
+@media only screen and (max-width: 1200px) {
+    #melar {
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 600px) {
+    .row-message {
+        height: 75%;
+    }
+}
+
+@media only screen and (max-height: 550px) {
+    .row-message {
+        height: 70%;
+    }
+}
+
+@media only screen and (max-height: 500px) {
+    .row-message {
+        height: 65%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .form-group {
+        width: 99%;
+        display: block;
+    }
+    #text {
+        display: block;
+        width: 100%;
+    }
+    #send {
+        display: inline;
+        width: 90%;
+    }
+    #melar,
+    .mobile,
+    .title-side,
+    .title {
+        display: none;
+    }
+    form button {
+        top: 0px;
+    }
+    #users p {
+        display: inline;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    #send {
+        display: inline;
+        width: 80%;
+    }
+}

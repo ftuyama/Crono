@@ -15,4 +15,11 @@ router.get('/', function(req, res) {
     res.send(mustache.to_html(page));
 })
 
+/* GET sitemap */
+router.get('/sitemap', function(req, res) {
+    var sitemap = fs.readFileSync("config/sitemap.txt", "utf8");
+    res.send(sitemap);
+})
+
+
 module.exports = router;

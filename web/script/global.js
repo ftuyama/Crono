@@ -71,6 +71,26 @@ function colorInRange(col) {
     return col;
 }
 
+function djb2(str) {
+    var hash = 5381;
+    for (var i = 0; i < str.length; i++) {
+        hash = ((hash << 5) + hash) + str.charCodeAt(i); /* hash * 33 + c */
+    }
+    return hash;
+}
+
+var stringToColour = function(str) {
+    var hash = djb2(str);
+    var r = (hash & 0xFF0000) >> 16;
+    var g = (hash & 0x00FF00) >> 8;
+    var b = hash & 0x0000FF;
+    return "#" +
+        ("0" + r.toString(16)).substr(-2) +
+        ("0" + g.toString(16)).substr(-2) +
+        ("0" + b.toString(16)).substr(-2);
+
+}
+
 /*
     ===========================================================================
                         Global functions to manage Dates
@@ -101,6 +121,20 @@ Date.prototype.sameDay = function(d) {
         this.getMonth() === d.getMonth();
 }
 
+Date.prototype.sameMonthYear = function(d) {
+    return this.getFullYear() === d.getFullYear() &&
+        this.getMonth() === d.getMonth();
+}
+
+Date.prototype.sameWeekYear = function(d, w) {
+    return this.getFullYear() === d.getFullYear() &&
+        this.getWeek() === w;
+}
+
+Date.prototype.getWeek = function() {
+    var onejan = new Date(this.getFullYear(), 0, 1);
+    return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+}
 
 var userLang = navigator.language || navigator.userLanguage;
 
@@ -152,6 +186,13 @@ function showSnackBar(message) {
     setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
 }
 
+function cleanGroup(group) {
+    return group.replace(/\.|\#|\$|\[|\]|\@/g, "");
+}
+
+function removePath(path) {
+    return path.split('/').pop();
+}
 /*
     ===========================================================================
                         Exporta funções para testes unitários

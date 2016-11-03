@@ -1,0 +1,4 @@
+http://crono.herokuapp.com/about
+http://crono.herokuapp.com/calendar
+http://crono.herokuapp.com/calendar/list-events
+http://crono.herokuapp.com/chat

@@ -63,6 +63,12 @@
     <script src="/public/js/formatters/ampm.js"></script>
     <script src="/public/js/formatters/french.js"></script>
     <script src="/public/js/screenfull.js"></script>
+    <!-- Firebase -->
+    <script src="/public/js/firebase.js"></script>
+    <script src="/script/storage.js"></script>
+    <!-- Include Style Css -->
+    <link rel="stylesheet" href="/public/css/metro.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARo-nc5XnbNsdaPQ87iXCRaNV9q5P1zZI"></script>
     <!-- ############################################################################ -->
     <!--                              Imports particulares                            -->
     <!-- ############################################################################ -->
@@ -78,6 +84,7 @@
     <script src="/public/js/speechkitt.min.js"></script>
     <script src="/script/calendarVoice.js"></script>
     <script src="/script/speech.js"></script>
+    <link href='/calendar.css' rel='stylesheet' type='text/css'>
     <div id="navbar"></div>
 </head>
 
@@ -107,7 +114,7 @@
                     </div>
                     <div>
                         <label class="switch" style="float:right;">
-                        <input ng-model="group.checked" ng-change="requestFetch()" type="checkbox"/>
+                        <input ng-model="group.checked" ng-change="display_calendar()" type="checkbox"/>
                         <div class="slider round"></div>
                         </label>
                     </div>
@@ -117,13 +124,13 @@
             <!-- Botões diversos do site  -->
             <div align="center">
                 <form action="calendar/list-events">
-                    <button type="submit" class="btn btn-success btn-block">See events</button>
+                    <button type="submit" class="btn btn-success btn-block">List events</button>
                 </form><br>
                 <form action="calendarAuth/">
-                    <button type="submit" class="btn btn-danger btn-block">Login Google</button>
+                    <button type="submit" class="btn btn-danger btn-block">Google</button>
                 </form><br>
-                <form>
-                    <button class="btn btn-info btn-block" ng-click="fullscreen()">FullScreen</button>
+                <form action="calendarAuth/facebook">
+                    <button class="btn btn-primary btn-block">Facebook</button>
                 </form><br>
             </div>
         </div>
@@ -224,7 +231,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" ng-show="create" style="display: inline;">Create Event</h4>
                     <h4 class="modal-title" ng-show="edit" style="display: inline;">Edit Event</h4>
-                    <a href="#" class="round-button">
+                    <h4 class="modal-title" ng-show="!edit && !create" style="display: inline;">Facebook Event</h4>
+                    <a href="#" class="round-button" ng-show="edit">
                         <i class="fa fa-navicon" ng-click="invokeFirebase(); $event.stopPropagation()"></i>
                     </a>
                 </div>
@@ -232,11 +240,11 @@
                 <div class="modal-body">
                     <div class="form-item">
                         <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Name:</label>
-                            <div class="col-sm-8">
+                            <label class="control-label col-xs-2" for="text">Name:</label>
+                            <div class="col-xs-8">
                                 <input id="summary_form" type="text" class="form-control input-sm" ng-model="event_form.summary" />
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-xs-2">
                                 <button id="start_button" class="mic-btn" onclick='startButton(event,"summary_form" ,"start_img1")'>
                                 <img id="start_img1" class="mic-img" src="/speech/mic.gif" alt="Start"></button>
                             </div>
@@ -244,11 +252,11 @@
                     </div>
                     <div class="form-item">
                         <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Description:</label>
-                            <div class="col-sm-8">
+                            <label class="control-label col-xs-2" for="text">Description:</label>
+                            <div class="col-xs-8">
                                 <input id="description_form" type="text" class="form-control input-sm" ng-model="event_form.description" />
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-xs-2">
                                 <button id="start_button" class="mic-btn" onclick='startButton(event,"description_form" ,"start_img2")'>
                                 <img id="start_img2" class="mic-img" src="/speech/mic.gif" alt="Start"></button>
                             </div>
@@ -256,35 +264,36 @@
                     </div>
                     <div class="form-item">
                         <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Start:</label>
-                            <div class="col-sm-5">
+                            <label class="control-label col-xs-2" for="text">Start:</label>
+                            <div class="col-xs-5">
                                 <input type='text' id="startDate" class="form-control input-sm datepickera" data-language='pt' ng-model="event_form.startDate" />
                             </div>
-                            <label class="control-label col-sm-1" for="text">at:</label>
-                            <div class="col-sm-4">
+                            <label class="control-label col-xs-1" for="text">at:</label>
+                            <div class="col-xs-4">
                                 <input type='text' id="startHour" class="form-control input-sm" ng-model="event_form.startHour" />
                             </div>
                         </div>
                     </div>
                     <div class="form-item">
                         <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">End:</label>
-                            <div class="col-sm-5">
+                            <label class="control-label col-xs-2" for="text">End:</label>
+                            <div class="col-xs-5">
                                 <input type='text' id="endDate" class="form-control input-sm datepickera" data-language='pt' ng-model="event_form.endDate" />
                             </div>
-                            <label class="control-label col-sm-1" for="text">at:</label>
-                            <div class="col-sm-4">
+                            <label class="control-label col-xs-1" for="text">at:</label>
+                            <div class="col-xs-4">
                                 <input type='text' id="endHour" class="form-control input-sm" ng-model="event_form.endHour" />
                             </div>
                         </div>
                     </div>
                     <div class="form-item">
                         <div class="form-item-content">
-                            <label class="control-label col-sm-2" for="text">Group:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-xs-2" for="text">Group:</label>
+                            <div class="col-xs-10">
                                 <span class="input-group-addon" style="width:0px; padding:0px; border:none;"></span>
                                 <select class="form-control" ng-model="event_form.group_id">
-                                    <option ng-repeat="group in groups" value={{$index}} ng-model="event_form.group_id">{{group.summary}}</option>
+                                    <option ng-repeat="group in groups" value={{$index}} ng-model="event_form.group_id" ng-selected="$index == event_form.group_id">
+                                        {{group.summary}}</option>
                                 </select>
                             </div>
                         </div>
@@ -322,14 +331,22 @@
 <!-- ############################################################################ -->
 <!--                         Modal com dados Firebase                             -->
 <!-- ############################################################################ -->
-<div id="firebaseVC" ng-controller="firebaseVC">
+<div id="firebaseVC" ng-controller="firebaseVC" hidden>
     <div id="firebaseNav" class="sidenav" role="dialog">
+        <!-- Imagem Cover -->
+        <i class="fa fa-file-photo-o picCover"></i>
+        <img class="cover" id="coverImg" ng-src="{{all_event.img}}" ng-click="fullscreenImg()" ng-if="!!all_event.img" />
         <!-- Modal content-->
         <div class="sidenav-content">
             <!-- Modal Header -->
             <div class="sidenav-header">
                 <button type="button" class="close" ng-click="closefirebaseNav()">&times;</button>
-                <h3 class="modal-title" style="display: inline;">Firebase Event</h3>
+                <h3 class="modal-title" style="display: inline;">
+                    <button class="btn btn-default" ng-bind="user_event.priority"></button>
+                    <span>Firebase Event</span>
+                    <span class="small-loader" ng-show="fetching"></span>
+                    <span class="label label-info status" style="background-color:{{user_event.statusColor}}" ng-bind="user_event.status" ng-click="change_status(''); updateStatus();"></span>
+                </h3>
                 <h1>{{event.summary || "Evento"}}</h1>
                 <hr>
             </div>
@@ -337,12 +354,75 @@
             <div class="sidenav-body">
                 <div class="form-item">
                     <div class="form-item-content">
-                        <p>{{event.description || "Descrição"}}</p>
-                        <p>
-                            <span>{{event.startDate}} {{event.startHour? ":" : ""}}  {{event.startHour}} -</span>
-                            <span>{{event.endDate}} {{event.endHour? ":" : ""}} {{event.endHour}}</span>
-                        </p>
-                        <p>{{groups[event.group_id].id}}</p>
+                        <h3 style="margin-top: 0px;">Group</h3>
+                        <div class="row">
+                            <label>People: <i class="fa fa-user-o"></i></label>
+                            <div class="input-control modern text">
+                                <input class="magic" type="text" ng-model="all_event.people" readonly/>
+                                <span class="label">People</span>
+                                <span class="informer">People that are going</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label>Link: <i class="fa fa-link"></i></label>
+                            <div class="input-control modern text">
+                                <input class="magic" type="text" ng-model="all_event.link" ng-change="save()" ng-model-options="{debounce: 1000}" />
+                                <span class="label">Link</span>
+                                <span class="informer">Please, fill Event link</span>
+                                <span class="placeholder" ng-hide="all_event.link">Event link</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label>Image: <i class="fa fa-paperclip"></i></label>
+                            <div class="input-control modern text">
+                                <input class="magic" type="file" accept="image/*" id="imgUpload">
+                                <a class="label labela" id="imgUploadLink" href={{all_event.img}}>
+                                    {{all_event.img || "Upload de Imagem"}}</a>
+                                <span class="informer informera" id="imgUploadMsg">...</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="map"></div>
+                            <label>Location: <i class="fa fa-map"></i></label>
+                            <div class="input-control modern text">
+                                <input class="magic" type="text" ng-model="all_event.address" ng-change="locate_address()" ng-model-options="{debounce: 1000}" />
+                                <span class="label">Address</span>
+                                <span class="informer">Please, fill the address</span>
+                                <span class="placeholder" ng-hide="all_event.address">Event address</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <h3>Personal</h3>
+                        <div class="row">
+                            <label>Words: <i class="fa fa-comment"></i></label>
+                            <div class="input-control modern text">
+                                <input class="magic" type="text" ng-model="user_event.comment" ng-change="save()" ng-model-options="{debounce: 1000}">
+                                <span class="label">Personal comment</span>
+                                <span class="informer">Comment something</span>
+                                <span class="placeholder" ng-hide="user_event.comment">Comment</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label>Priority: <i class="fa fa-warning"></i></label>
+                            <div class="input-control modern">
+                                <input type="range" min="1" max="5" step="1" style="top: 0px" ng-model="user_event.priority" ng-change="save()" ng-model-options="{debounce: 1000}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label>Status: <i class="fa fa-tasks"></i></label>
+                            <div class="input-control modern text">
+                                <input class="magic" type="text" ng-model="user_event.status" ng-change="save(); updateStatus();" ng-model-options="{debounce: 1000}">
+                                <span class="label">Status</span>
+                                <span class="informer">Please, update the status</span>
+                                <span class="placeholder" ng-hide="user_event.status">Status</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label>Going to: <i class="fa fa-check-circle"></i></label>
+                            <div class="squaredFour input-control modern">
+                                <input class="checkb" type="checkbox" value="None" id="squaredFour" name="check" ng-model="user_event.presence" ng-change="presence()" />
+                                <label class="checkb" for="squaredFour">Your presence</label> - </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Crono chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Chat">
+    <!-- ############################################################################ -->
+    <!--                       Imports e barra de navegação                           -->
+    <!-- ############################################################################ -->
+    <link rel="icon" href="/public/img/favicon.ico">
+    <!-- Include Jquery Js -->
+    <script src="/public/js/jquery-2.1.4.min.js"></script>
+    <script src="/public/js/jquery-ui-1.10.2.custom.min.js"></script>
+    <link rel="stylesheet" href="/public/css/jquery-ui-1.10.2.custom.min.css">
+    <!-- Include Bootstrap Css -->
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <!-- Include Bootstrap Min Css -->
+    <link rel="stylesheet" href="/public/css/bootstrap-theme.min.css">
+    <!-- Include Bootstrap Js -->
+    <script src="/public/js/bootstrap.min.js"></script>
+    <!-- Include Responsive Css -->
+    <link rel="stylesheet" href="/public/css/responsive.min.css">
+    <!-- Include Fontawesome Min Css -->
+    <link rel="stylesheet" href="/public/css/font-awesome.min.css">
+    <!-- Include Extra Css -->
+    <link rel="stylesheet" href="/public/css/style2.css">
+    <!-- Include Style Css -->
+    <link rel="stylesheet" href="/public/css/style.css">
+    <!-- Include Responsive Css -->
+    <link rel="stylesheet" href="/public/css/responsive.min.css">
+    <!-- Include Modernizer Js -->
+    <script src="/public/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <!-- Include Shiny Icon Css -->
+    <link rel="stylesheet" href="/public/css/shiny-icon.css">
+    <!-- Include emojify -->
+    <link rel="stylesheet" href="/public/css/embed.min.css" />
+    <script src="/public/js/embed.min.js"></script>
+    <!-- Include emoticons -->
+    <link rel="stylesheet" href="/public/css/wdt-emoji-bundle.css" />
+    <script src="/public/js/wdt-emoji-bundle.min.js"></script>
+    <script src="/public/js/emoji.min.js"></script>
+    <!-- Speech Lib -->
+    <script src="/script/speech.js"></script>
+    <!-- Notifications -->
+    <script src="/public/js/notify.js"></script>
+
+    <!-- Include Socket.io -->
+    <script src="/public/js/socket.io-1.4.5.js"></script>
+
+
+    <!-- Include Initialization script Js -->
+    <script src="/components/components.js"></script>
+    <script src="/script/global.js"></script>
+    <script src="/script/theme.js"></script>
+
+    <!-- ############################################################################ -->
+    <!--                              Imports particulares                            -->
+    <!-- ############################################################################ -->
+    <!-- Personal Css and Js -->
+    <link href='/light-default.css' rel='stylesheet' type='text/css'>
+    <link href='/light-chat.css' rel='stylesheet' type='text/css'>
+    <script src="/chatVC.js"></script>
+
+    <div id="navbar"></div>
+    <div id="sound"></div>
+</head>
+
+<body>
+    <br>
+    <br>
+    <br>
+    <!-- Header -->
+    <br class="mobile">
+    <div class="title">
+        <div class="title-text">
+            <h1>Chat</h1>
+        </div>
+        <div class="title-side">
+            <h3>Contact:
+                <a class="btn btn-danger" href="https://github.com/ftuyama/Crono">
+                    <i class="fa fa-bug"></i>Crono
+                </a>
+            </h3>
+        </div>
+    </div>
+    <!-- Body -->
+    <hr class="mobile">
+    <div class="row row-message">
+        <div class="col-sm-2">
+            <div class="container">
+                <h3>Online:</h3>
+                <hr>
+                <ul id="users"></ul>
+            </div>
+        </div>
+        <div class="col-sm-10 row-message">
+            <ul id="messages"></ul>
+        </div>
+    </div>
+    <!-- Footer -->
+    <form class="footer" action="javascript:void(0);">
+        <div class="form-group">
+            <input id="text" class="form-control wdt-emoji-bundle-enabled w3-input" />
+        </div>
+        <button id="send" class="btn btn-success">Send</button>
+        <button id="melar" class="btn btn-danger">Melar</button>
+        <button id="start_button" class="mic-btn round-button" onclick='startButton(event,"text" ,"start_img")'>
+            <img id="start_img" class="mic-img" src="speech/mic.gif" alt="Start">
+        </button>
+    </form>
+    <!-- Emoticons -->
+    <div class="wdt-emoji-popup">
+        <a href="#" class="wdt-emoji-popup-mobile-closer"> &times; </a>
+        <div class="wdt-emoji-menu-content">
+            <div id="wdt-emoji-menu-header">
+                <a class="wdt-emoji-tab active" data-group-name="Recent"></a>
+                <a class="wdt-emoji-tab" data-group-name="People"></a>
+                <a class="wdt-emoji-tab" data-group-name="Nature"></a>
+                <a class="wdt-emoji-tab" data-group-name="Foods"></a>
+                <a class="wdt-emoji-tab" data-group-name="Activity"></a>
+                <a class="wdt-emoji-tab" data-group-name="Places"></a>
+                <a class="wdt-emoji-tab" data-group-name="Objects"></a>
+                <a class="wdt-emoji-tab" data-group-name="Symbols"></a>
+                <a class="wdt-emoji-tab" data-group-name="Flags"></a>
+                <a class="wdt-emoji-tab" data-group-name="Custom"></a>
+            </div>
+            <div class="wdt-emoji-scroll-wrapper">
+                <div id="wdt-emoji-menu-items">
+                    <input id="wdt-emoji-search" type="text" placeholder="Search">
+                    <h3 id="wdt-emoji-search-result-title">Search Results</h3>
+                    <div class="wdt-emoji-sections"></div>
+                    <div id="wdt-emoji-no-result">No emoji found</div>
+                </div>
+            </div>
+            <div id="wdt-emoji-footer">
+                <div id="wdt-emoji-preview">
+                    <span id="wdt-emoji-preview-img"></span>
+                    <div id="wdt-emoji-preview-text">
+                        <span id="wdt-emoji-preview-name"></span>
+                        <br>
+                        <span id="wdt-emoji-preview-aliases"></span>
+                    </div>
+                </div>
+
+                <div id="wdt-emoji-preview-bundle">
+                    <span>WDT Emoji Bundle</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

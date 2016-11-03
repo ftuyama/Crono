@@ -7,6 +7,7 @@
 var express = require('express');
 var router = express.Router();
 var gcal = require('google-calendar');
+var fbcal = require('fbgraphapi');
 var fs = require('fs');
 
 /* GET home page */
@@ -25,7 +26,7 @@ router.get('/list-events', function(req, res) {
 
 /*
   ===========================================================================
-            Setup API used by Angular for the application
+                        Setup Google Calendar API
   ===========================================================================
 */
 
@@ -90,5 +91,27 @@ router.get('/delete', function(req, res) {
         res.json(data);
     });
 });
+
+/*
+  ===========================================================================
+                        Setup Facebook Calendar API
+  ===========================================================================
+*/
+
+router.get('/facebook', function(req, res) {
+    var fbAccessToken = req.session.fb_access_token;
+    if (isNull(fbAccessToken)) res.status(400).send("Facebook auth");
+    else {
+        var fb = new fbcal.Facebook(fbAccessToken, 'v2.8');
+        fb.my.events(function(err, data) {
+            res.send(data)
+        });
+    }
+});
+
+function isNull(token) {
+    return token == undefined || token == null ||
+        token == "undefined" || token == "";
+}
 
 module.exports = router;

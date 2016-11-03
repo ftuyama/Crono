@@ -8,30 +8,6 @@ table table-bordered {
     color: #114;
 }
 
-@media only screen and (max-width: 767px) {
-    .calendar-content {
-        width: 80%;
-    }
-    .modal-dialog {
-        height: 80%;
-        width: 100%;
-    }
-    .modal-body {
-        width: 100%;
-        height: 70%;
-    }
-    .modal-content {
-        width: 80%;
-        height: 90%;
-        top: 10%;
-        left: 10%;
-    }
-    .form-item-content,
-    .form-item {
-        width: 100%;
-    }
-}
-
 tr {
     color: #225;
     background-color: #aad;
@@ -106,18 +82,6 @@ a.list-group-item {
     padding: 1px 1px;
     border: 0px;
     max-width: 140px;
-}
-
-.list-group-item-micro {
-    font-size: 10px;
-}
-
-.list-group-item-tiny {
-    font-size: 12px;
-}
-
-.list-group-item-esp {
-    display: inline;
 }
 
 .spc-btn {
@@ -227,6 +191,86 @@ a.list-group-item {
     color: #33A8F6;
 }
 
+.farefresh:hover:after {
+    cursor: pointer;
+    content: 'Calendar';
+    border: 1px solid #cccccc;
+    background-color: #efefef;
+    position: absolute;
+    padding: 3px 8px;
+    font-size: 12px;
+    z-index: 9999;
+    margin-left: -80px;
+    margin-top: 30px;
+    width: 100px;
+}
+
+
+/* Eye icon */
+
+.eyefarefresh {
+    color: #c12e2a;
+}
+
+.eyefarefresh:hover {
+    color: #f55f5a;
+}
+
+.eyefarefresh:hover:after {
+    cursor: pointer;
+    content: 'Hide info';
+    border: 1px solid #cccccc;
+    background-color: #efefef;
+    position: absolute;
+    padding: 3px 8px;
+    font-size: 12px;
+    z-index: 9999;
+    margin-left: -80px;
+    margin-top: 30px;
+    width: 100px;
+}
+
+.eyeslashfarefresh {
+    color: #888;
+}
+
+.eyeslashfarefresh:hover {
+    color: #bbb;
+}
+
+.eyeslashfarefresh:hover:after {
+    cursor: pointer;
+    content: 'Flash info';
+    border: 1px solid #cccccc;
+    background-color: #efefef;
+    position: absolute;
+    padding: 3px 8px;
+    font-size: 12px;
+    z-index: 9999;
+    margin-left: -80px;
+    margin-top: 30px;
+    width: 100px;
+}
+
+
+/* Trello icon */
+
+.trellofarefresh {
+    color: #444488;
+    content: 'Kanban';
+}
+
+.trellofarefresh:hover {
+    color: #66a;
+}
+
+.trellofarefresh:hover:after {
+    content: 'Kanban';
+}
+
+
+/* Round button */
+
 .round-button {
     float: right;
     display: inline-block;
@@ -242,6 +286,7 @@ a.list-group-item {
     box-shadow: 0 0 3px gray;
     font-size: 20px;
     font-weight: bold;
+    transition: 0.5s;
 }
 
 .fa-navicon:before,
@@ -252,6 +297,15 @@ a.list-group-item {
 
 .round-button:hover {
     background: #f55f5a;
+}
+
+#start_button {
+    transition: 0.5s;
+}
+
+#start_img1,
+#start_img2 {
+    transition: 0.5s;
 }
 
 #start_button:hover {
@@ -284,11 +338,11 @@ a.list-group-item {
 
 .sidenav {
     height: 90%;
-    width: 30%;
+    width: 0%;
     position: fixed;
-    z-index: 201;
+    z-index: 1000000;
     top: 10%;
-    left: 0;
+    left: -5px;
     background-color: #a66;
     overflow: auto;
     overflow-x: hidden;
@@ -298,7 +352,7 @@ a.list-group-item {
 }
 
 .sidenav-content {
-    height: 100%;
+    height: 90%;
 }
 
 .sidenav-header .close:hover,
@@ -322,4 +376,8 @@ a.list-group-item {
 
 .sidenav-footer {
     text-align: center;
+}
+
+label {
+    color: #ddd;
 }

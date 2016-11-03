@@ -100,7 +100,7 @@ router.get('/delete', function(req, res) {
 
 router.get('/facebook', function(req, res) {
     var fbAccessToken = req.session.fb_access_token;
-    if (isNull(fbAccessToken)) res.status(404).send("Facebook auth");
+    if (isNull(fbAccessToken)) res.status(400).send("Facebook auth");
     else {
         var fb = new fbcal.Facebook(fbAccessToken, 'v2.8');
         fb.my.events(function(err, data) {

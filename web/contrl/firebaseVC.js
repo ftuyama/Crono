@@ -49,8 +49,12 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     });
 
     /* Fetching IP and Address */
-    $.get("http://ipinfo.io", function(response) {
-        $scope.all_event.location = response.loc;
+    $http.get("https://ipinfo.io").then(function(response) {
+        var location = response.data.loc;
+        $scope.all_event.location = {
+            lat: parseFloat(location.split(",")[0]),
+            lng: parseFloat(location.split(",")[1])
+        }
         $scope.address_locate();
     });
 

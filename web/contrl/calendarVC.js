@@ -16,12 +16,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.filter = "month";
 
     // Variáveis de negócio
-    $scope.evento = $scope.events = $scope.fb_events = $scope.groups = {};
+    $scope.evento = $scope.events = $scope.faceEvents = $scope.groups = {};
 
     // Variáveis de semáforo
     $scope.busy = $scope.loader = true;
     $scope.request = $scope.loaded = $scope.fbActive =
-        $scope.fbCheck = $scope.kanbanActive = false;
+        $scope.faceCheck = $scope.kanbanActive = false;
 
     // Varíaveis para definir Modal Form
     $scope.dateTime = $scope.create = $scope.edit = false;
@@ -77,6 +77,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $scope.firebaseFetch();
     });
 
+    /*
+        ===========================================================================
+                                Tradução de eventos
+        ===========================================================================
+    */
+
     $scope.translate = function(firebase, user, statusMap) {
         $.each($scope.events, function(group_id, events) {
             $.each(events, function(event_id, event) {
@@ -104,6 +110,19 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             $scope.display_events();
         }
         $scope.$apply();
+    }
+
+    $scope.translateFace = function(faceEvents) {
+        var events = [];
+        faceEvents.forEach(function(event) {
+            events.push({
+                'id': event.id,
+                'name': event.name,
+                'summary': event.description,
+                'start': { 'dateTime': event.start_time }
+            });
+        });
+        return events;
     }
 
     /*
@@ -321,15 +340,15 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     }
 
     /* Requisita fetch de facebook */
-    $scope.fbRequestFecth = function() {
-        if (!$scope.fbCheck) return;
+    $scope.requestFaceFetch = function() {
+        if (!$scope.faceCheck) return;
         $scope.busy = true;
-        $scope.fbFetch().then(function success(response) {
+        $scope.faceFetch().then(function success(response) {
             $scope.busy = false;
             $scope.$apply();
         }, function error(error) {
             showSnackBar("First login on Facebook");
-            $scope.fbCheck = $scope.busy = false;
+            $scope.faceCheck = $scope.busy = false;
             $scope.$apply();
         });
     }
@@ -352,7 +371,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 }
             }
             $q.all(http_requests).then(function() {
-                $scope.fbFetch().then(function() {
+                $scope.faceFetch().then(function() {
                     $scope.firebaseFetch();
                     resolve();
                 })
@@ -369,14 +388,15 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     }
 
     /* Carrega os eventos do facebook */
-    $scope.fbFetch = function() {
+    $scope.faceFetch = function() {
         return new Promise(function(resolve, reject) {
-            if (!$scope.fbCheck) resolve();
+            if (!$scope.faceCheck) resolve();
             else {
                 $http.get('/calendar/facebook')
                     .then(function success(response) {
-                        $scope.fb_events = response.data;
-                        $scope.displayFbEvents();
+                        $scope.events['facebook'] =
+                            $scope.translateFace(response.data);
+                        $scope.displayFaceEvents();
                         resolve();
                     }, function error(error) {
                         reject();
@@ -426,31 +446,30 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         else $scope.displayEvents();
     }
 
-    $scope.displayFbEvents = function() {
-        var events = $scope.fb_events;
+    $scope.displayFaceEvents = function() {
+        var events = $scope.faceEvents;
         for (i = 0; i < events.length; i++) {
-            // $scope.events[i].status = 'NEW';
-            // $scope.events[i].statusColor = 'red';
-            // if (isValidEvent(events[i])) {
-            //     var date = getDateProperty(events[i].start);
-            //     var clazz = getTextSize(events[i].summary);
-            //     var group = "facebook";
-            //     var event_ref = group + '-' + i;
-            //     var event_item =
-            //         '<div class="row rowitens">' +
-            //         '<a href="#" class="list-group-item' + clazz + '" id="task' +
-            //         event_ref + '" ng-mouseover="flashFirebase(\'' +
-            //         event_ref + '\', \'' + date + '\')" ng-click="openModals(\'' +
-            //         event_ref + '\', \'' + date + '\'); $event.stopPropagation();"' +
-            //         ' draggable="true" ondragstart="drag(event)">' +
-            //         events[i].summary +
-            //         '<span class="label label-info status Cstatus"' +
-            //         ' style="background-color:{{events[' + group + '][' + i + '].statusColor}}"' +
-            //         ' ng-bind="events[' + group + '][' + i + '].status"></span>' +
-            //         '</a></div>';
-            //     $("#" + date).append($compile(event_item)($scope));
-            //     $("#task" + event_ref).css('color', getRandomColor());
-            // }
+            $scope.events[i].status = 'NEW';
+            $scope.events[i].statusColor = 'red';
+            if (isValidEvent(events[i])) {
+                var date = getDateProperty(events[i].start);
+                var clazz = getTextSize(events[i].summary);
+                var group = "facebook";
+                var event_ref = group + '-' + i;
+                var event_item =
+                    '<div class="row rowitens">' +
+                    '<a href="#" class="list-group-item' + clazz + '" id="task' +
+                    event_ref + '" ng-mouseover="flashFirebase(\'' +
+                    event_ref + '\', \'' + date + '\')" ng-click="openModals(\'' +
+                    event_ref + '\', \'' + date + '\'); $event.stopPropagation();">' +
+                    events[i].summary +
+                    '<span class="label label-info status Cstatus"' +
+                    ' style="background-color:{{events[' + group + '][' + i + '].statusColor}}"' +
+                    ' ng-bind="events[' + group + '][' + i + '].status"></span>' +
+                    '</a></div>';
+                $("#" + date).append($compile(event_item)($scope));
+                $("#task" + event_ref).css('color', getRandomColor());
+            }
         }
     }
 
@@ -557,9 +576,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     };
 
     function isValidEvent(event) {
-        return event != undefined &&
-            event.summary != undefined &&
-            event.start != undefined;
+        return event != undefined && event.summary != undefined && event.start != undefined;
     }
 
     function toDateISO(date, hour) {

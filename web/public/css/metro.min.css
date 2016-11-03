@@ -44,6 +44,7 @@
 
 .input-control.modern .label,
 .input-control.modern .informer {
+    color: #422;
     position: absolute;
     display: block;
     z-index: 1;

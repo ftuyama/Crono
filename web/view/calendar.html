@@ -68,6 +68,7 @@
     <script src="/script/storage.js"></script>
     <!-- Include Style Css -->
     <link rel="stylesheet" href="/public/css/metro.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARo-nc5XnbNsdaPQ87iXCRaNV9q5P1zZI"></script>
     <!-- ############################################################################ -->
     <!--                              Imports particulares                            -->
     <!-- ############################################################################ -->
@@ -333,7 +334,7 @@
 <div id="firebaseVC" ng-controller="firebaseVC" hidden>
     <div id="firebaseNav" class="sidenav" role="dialog">
         <!-- Imagem Cover -->
-        <i class="fa fa-file-photo-o" id="picCover"></i>
+        <i class="fa fa-file-photo-o picCover"></i>
         <img class="cover" id="coverImg" ng-src="{{all_event.img}}" ng-click="fullscreenImg()" ng-if="!!all_event.img" />
         <!-- Modal content-->
         <div class="sidenav-content">
@@ -378,6 +379,16 @@
                                 <a class="label labela" id="imgUploadLink" href={{all_event.img}}>
                                     {{all_event.img || "Upload de Imagem"}}</a>
                                 <span class="informer informera" id="imgUploadMsg">...</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="map"></div>
+                            <label>Location: <i class="fa fa-map"></i></label>
+                            <div class="input-control modern text">
+                                <input class="magic" type="text" ng-model="all_event.address" ng-change="locate_address()" ng-model-options="{debounce: 1000}" />
+                                <span class="label">Address</span>
+                                <span class="informer">Please, fill the address</span>
+                                <span class="placeholder" ng-hide="all_event.address">Event address</span>
                             </div>
                         </div>
                         <hr>

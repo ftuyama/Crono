@@ -7,13 +7,70 @@
 calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $compile) {
 
     /* Variáveis de negócio */
-    $scope.new_all_event = { link: '', img: '', people: 0 };
-    $scope.new_user_event = { priority: '3', status: 'NEW', comment: '', presence: false };
+    $scope.new_all_event = $scope.all_event = { link: '', img: '', people: 0, location: { lat: 0, lng: 0 }, address: '' };
+    $scope.new_user_event = $scope.user_event = { priority: '3', status: 'NEW', comment: '', presence: false };
     $scope.user = $scope.groups = $scope.event = {};
 
     /* Interface gráfica */
     $scope.fetching = true;
     $("#firebaseVC").show();
+
+    /*
+        ===========================================================================
+                                    Google Maps API
+        ===========================================================================
+    */
+
+    /* Google Maps API */
+
+    $scope.map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: $scope.all_event.location
+    });
+    google.maps.event.addListener($scope.map, 'click', function(event) {
+        $scope.all_event.location = event.latLng;
+        $scope.address_locate();
+    });
+
+    $scope.geocoder = new google.maps.Geocoder();
+
+    $scope.marker = new google.maps.Marker({
+        position: $scope.all_event.location,
+        map: $scope.map,
+        draggable: true,
+        icon: {
+            path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+            fillColor: "red",
+            fillOpacity: 1,
+            strokeColor: '#000',
+            strokeWeight: 2,
+            scale: 1,
+        }
+    });
+
+    /* Fetching IP and Address */
+    $.get("http://ipinfo.io", function(response) {
+        $scope.all_event.location = response.loc;
+        $scope.address_locate();
+    });
+
+    /* Converte endereço para posição */
+    $scope.locate_address = function() {
+        $scope.geocoder.geocode({ 'address': $scope.all_event.address }, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK)
+                $scope.all_event.location = results[0].geometry.location;
+        });
+        $scope.persistMap();
+    }
+
+    /* Converte posição para endereço */
+    $scope.address_locate = function() {
+        $scope.geocoder.geocode({ 'location': $scope.all_event.location }, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK && results[1])
+                $scope.all_event.address = results[1].formatted_address;
+        });
+        $scope.persistMap();
+    }
 
     /*
         ===========================================================================
@@ -68,8 +125,6 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         angular.element('#calendarVC').scope().$emit('updateStatus', []);
     };
 
-
-
     /*
         ===========================================================================
                                     Auxiliary functions
@@ -119,6 +174,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         ===========================================================================
     */
 
+    /* Muda status do evento */
     $scope.change_status = function(status) {
         $scope.user_event.status = (status != "") ?
             status : $scope.nextKey($scope.user_event.status);
@@ -126,6 +182,24 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         $scope.statusColor();
     }
 
+    /* Marca presença no evento */
+    $scope.presence = function() {
+        $scope.all_event.people += ($scope.user_event.presence) ? 1 : -1;
+        $scope.save();
+    }
+
+    /* Persiste localização no mapa */
+    $scope.persistMap = function() {
+        $scope.map.setCenter($scope.all_event.location);
+        $scope.marker.position = $scope.all_event.location;
+        $scope.save();
+    }
+
+    /*
+        ===========================================================================
+                            Managing modal Firebase Events
+        ===========================================================================
+    */
     $scope.saveFirebase = function() {
         $scope.save();
         showSnackBar("Informação salva com sucesso!");
@@ -138,6 +212,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         $scope.closefirebaseNav();
     }
 
+
     /*
         ===========================================================================
                         Connection with NodeJS and Firebase database
@@ -146,14 +221,9 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /* Get Firebase Url for event */
     $scope.fbUrl = function() {
-        return '/' + cleanGroup($scope.groups[$scope.event.group_id].id) +
+        var group = $scope.groups[$scope.event.group_id] || { id: 'facebook' };
+        return '/' + cleanGroup(group.id) +
             '/' + $scope.event.id;
-    }
-
-    /* Marca presença no evento */
-    $scope.presence = function() {
-        $scope.all_event.people += ($scope.user_event.presence) ? 1 : -1;
-        $scope.save();
     }
 
     /* Post save */

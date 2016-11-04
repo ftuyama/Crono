@@ -180,6 +180,15 @@
     left: 5px;
 }
 
+.mapIcon {
+    color: wheat;
+}
+
+#mapVC {
+    margin-left: 8px;
+}
+
 #map {
-    height: 200px
+    height: 200px;
+    width: 400px;
 }

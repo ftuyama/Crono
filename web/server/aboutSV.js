@@ -21,5 +21,10 @@ router.get('/sitemap', function(req, res) {
     res.send(sitemap);
 })
 
+/* GET privacy politics */
+router.get('/politics', function(req, res) {
+    var sitemap = fs.readFileSync("config/privacy_politics.html", "utf8");
+    res.send(sitemap);
+})
 
 module.exports = router;

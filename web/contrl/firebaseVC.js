@@ -347,6 +347,7 @@ $(document).keyup(function(e) {
     if (e.keyCode == 27) {
         $("#map").css({ "height": "200px", "width": "400px" });
         $("#mapVC").css({ "height": "", "width": "" });
+        google.maps.event.trigger(map, 'resize');
         screenfull.exit($("#mapVC")[0]);
     }
 });

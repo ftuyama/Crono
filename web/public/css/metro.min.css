@@ -1,6 +1,6 @@
 .input-control.modern {
     position: relative;
-    width: 12.25rem;
+    width: 17rem;
     height: 3rem;
     display: inline-block;
     margin: .625rem 0;
@@ -44,6 +44,7 @@
 
 .input-control.modern .label,
 .input-control.modern .informer {
+    color: #422;
     position: absolute;
     display: block;
     z-index: 1;

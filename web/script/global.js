@@ -186,6 +186,10 @@ function showSnackBar(message) {
     setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
 }
 
+function isFunction(v) {
+    return typeof v === "function";
+}
+
 function cleanGroup(group) {
     return group.replace(/\.|\#|\$|\[|\]|\@/g, "");
 }

@@ -856,10 +856,24 @@ function drop(ev) {
     angular.element(document.getElementById('calendarVC')).scope().move(origin, destine);
 }
 
-/* Esc pressed */
+/* Detecta Esc para sair de FullScreen*/
 $(document).keyup(function(e) {
-    if (e.keyCode == 27)
-        angular.element(document.getElementById('calendarVC')).scope().closeModal();
+    if (e.keyCode == 27) {
+        $("#motherTable").css({
+            "background-color": "#111",
+            "height": "100%",
+            "width": "100%",
+            "overflow": "auto"
+        });
+        $("#coverImg").css({
+            "top": "0px",
+            "height": "20%"
+        });
+        screenfull.exit($("#motherTable")[0]);
+        screenfull.exit($("#coverImg")[0]);
+        angular.element(document.getElementById('calendarVC'))
+            .scope().closeModal();
+    }
 });
 
 /*

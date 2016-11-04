@@ -333,7 +333,7 @@
 <div id="firebaseVC" ng-controller="firebaseVC" hidden>
     <div id="firebaseNav" class="sidenav" role="dialog">
         <!-- Imagem Cover -->
-        <i class="fa fa-file-photo-o" id="picCover"></i>
+        <i class="fa fa-file-photo-o picCover" ng-click="fullscreenImg()"> Click</i>
         <img class="cover" id="coverImg" ng-src="{{all_event.img}}" ng-click="fullscreenImg()" ng-if="!!all_event.img" />
         <!-- Modal content-->
         <div class="sidenav-content">
@@ -355,11 +355,25 @@
                     <div class="form-item-content">
                         <h3 style="margin-top: 0px;">Group</h3>
                         <div class="row">
-                            <label>People: <i class="fa fa-user-o"></i></label>
+                            <label>Location: <i class="fa fa-map"></i></label>
                             <div class="input-control modern text">
-                                <input class="magic" type="text" ng-model="all_event.people" readonly/>
-                                <span class="label">People</span>
-                                <span class="informer">People that are going</span>
+                                <input class="magic" type="text" ng-model="all_event.address" ng-change="locate_address()" ng-model-options="{debounce: 1000}" />
+                                <span class="label">Address</span>
+                                <span class="informer">Please, fill the address</span>
+                                <span class="placeholder" ng-hide="all_event.address">Event address</span>
+                            </div>
+                        </div>
+                        <div id="mapVC">
+                            <div id="map"></div>
+                            <i class="fa fa-map mapIcon" ng-click="fullscreenMap()"> Fullscreen</i>
+                        </div>
+                        <div class="row">
+                            <label>Image: <i class="fa fa-paperclip"></i></label>
+                            <div class="input-control modern text">
+                                <input class="magic" type="file" accept="image/*" id="imgUpload">
+                                <a class="label labela" id="imgUploadLink" href={{all_event.img}}>
+                                    {{all_event.img || "Upload de Imagem"}}</a>
+                                <span class="informer informera" id="imgUploadMsg">...</span>
                             </div>
                         </div>
                         <div class="row">
@@ -372,12 +386,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label>Image: <i class="fa fa-paperclip"></i></label>
+                            <label>People: <i class="fa fa-user-o"></i></label>
                             <div class="input-control modern text">
-                                <input class="magic" type="file" accept="image/*" id="imgUpload">
-                                <a class="label labela" id="imgUploadLink" href={{all_event.img}}>
-                                    {{all_event.img || "Upload de Imagem"}}</a>
-                                <span class="informer informera" id="imgUploadMsg">...</span>
+                                <input class="magic" type="text" ng-model="all_event.people" readonly/>
+                                <span class="label">People</span>
+                                <span class="informer">People that are going</span>
                             </div>
                         </div>
                         <hr>
@@ -425,5 +438,9 @@
         </div>
     </div>
 </div>
+<script>
+    function loadMap() {}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARo-nc5XnbNsdaPQ87iXCRaNV9q5P1zZI&libraries=visualization&callback=loadMap"></script>
 
 </html>

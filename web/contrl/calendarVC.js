@@ -83,6 +83,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         ===========================================================================
     */
 
+    /* Traduz os eventos do Firebase */
     $scope.translate = function(firebase, user, statusMap) {
         $.each($scope.events, function(group_id, events) {
             $.each(events, function(event_id, event) {
@@ -100,6 +101,11 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 }
             });
         });
+        $scope.resolveFirebase();
+    }
+
+    /* Concluí processo de Fetch */
+    $scope.resolveFirebase = function() {
         if ($scope.kanbanActive) {
             $scope.create_kanban();
             $scope.display_events();
@@ -112,17 +118,24 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $scope.$apply();
     }
 
+    /* Traduz os eventos do Facebook */
     $scope.translateFace = function(faceEvents) {
         var events = [];
         var now = (new Date()).toISOString()
         faceEvents.forEach(function(event) {
-            events.push({
+            new_event = {
                 'id': event.id || 1,
                 'summary': event.name || 'facebook',
                 'description': event.description || '',
                 'start': { 'dateTime': event.start_time || now },
                 'end': { 'dateTime': event.end_time || now }
-            });
+            };
+            if (event.place != undefined)
+                $.extend(new_event, new_event, {
+                    'location': { lat: event.place.location.latitude, lng: event.place.location.longitude },
+                    'address': event.place.location.street + ', ' + event.place.location.city
+                });
+            events.push(new_event);
         });
         return events;
     }
@@ -189,8 +202,14 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 group_id: $scope.event_group
             };
         }
-        if ($scope.groupIsFace($scope.event_group))
+        if ($scope.groupIsFace($scope.event_group)) {
             $scope.edit = false;
+            if (evento.location != undefined)
+                $.extend($scope.event_form, $scope.event_form, {
+                    'location': evento.location,
+                    'address': evento.address
+                });
+        }
         if (!$scope.fbActive)
             $("#formModal").modal('show');
     };

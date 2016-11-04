@@ -17,6 +17,59 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
 
     /*
         ===========================================================================
+                        Communication between ViewControllers
+        ===========================================================================
+    */
+
+    /* Ouve CalendarVC para abrir firebaseNav */
+    $scope.$on('firebaseNav', function(event, data) {
+        [$scope.event, $scope.groups, $scope.event.id] = data;
+        $scope.fetch();
+        expandSideBar();
+    });
+
+    /* Ouve CalendarVC para fechar firebaseNav */
+    $scope.$on('firebaseNavClose', function(event, data) {
+        $scope.closefirebaseNav();
+    });
+
+    /* Ouve CalendarVC para deletar evento */
+    $scope.$on('firebaseDelete', function(event, data) {
+        [$scope.event, $scope.groups, $scope.event.id] = data;
+        $scope.deleteFirebase();
+    });
+
+    /* Ouve CalendarVC para atualizar evento */
+    $scope.$on('firebaseUpdateStatus', function(event, data) {
+        [status, $scope.groups, $scope.event] = data;
+        $scope.fetch().then(function() {
+            $scope.change_status(status);
+            $scope.updateStatus();
+        });
+    });
+
+    /* Ouve CalendarVC e salva dados do facebook */
+    $scope.$on('firebaseFetch', function(event, data) {
+        $scope.getUser();
+        $scope.fetchHard().then(function(response) {
+            angular.element('#calendarVC').scope()
+                .$emit('firebaseFetched', [response.data, $scope.user, statusMap]);
+        });
+    });
+
+    /* Comunica com CalendarVC para fechar sideBar */
+    $scope.closefirebaseNav = function() {
+        angular.element('#calendarVC').scope().$emit('eventModal', []);
+        contractSideBar();
+    };
+
+    /* Comunica com CalendarVC para atualizar os status */
+    $scope.updateStatus = function() {
+        angular.element('#calendarVC').scope().$emit('updateStatus', []);
+    };
+
+    /*
+        ===========================================================================
                                     Google Maps Components
         ===========================================================================
     */
@@ -108,59 +161,6 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
             $("#mapVC").css({ "height": "", "width": "" });
         }
         screenfull.toggle($("#mapVC")[0]);
-    };
-
-    /*
-        ===========================================================================
-                        Communication between ViewControllers
-        ===========================================================================
-    */
-
-    /* Ouve CalendarVC para abrir firebaseNav */
-    $scope.$on('firebaseNav', function(event, data) {
-        [$scope.event, $scope.groups, $scope.event.id] = data;
-        $scope.fetch();
-        expandSideBar();
-    });
-
-    /* Ouve CalendarVC para fechar firebaseNav */
-    $scope.$on('firebaseNavClose', function(event, data) {
-        $scope.closefirebaseNav();
-    });
-
-    /* Ouve CalendarVC para deletar evento */
-    $scope.$on('firebaseDelete', function(event, data) {
-        [$scope.event, $scope.groups, $scope.event.id] = data;
-        $scope.deleteFirebase();
-    });
-
-    /* Ouve CalendarVC para atualizar evento */
-    $scope.$on('firebaseUpdateStatus', function(event, data) {
-        [status, $scope.groups, $scope.event] = data;
-        $scope.fetch().then(function() {
-            $scope.change_status(status);
-            $scope.updateStatus();
-        });
-    });
-
-    /* Ouve CalendarVC e comunica para enviar informações */
-    $scope.$on('firebaseFetch', function(event, data) {
-        $scope.getUser();
-        $scope.fetchHard().then(function(response) {
-            angular.element('#calendarVC').scope()
-                .$emit('firebaseFetched', [response.data, $scope.user, statusMap]);
-        });
-    });
-
-    /* Comunica com CalendarVC para fechar sideBar */
-    $scope.closefirebaseNav = function() {
-        angular.element('#calendarVC').scope().$emit('eventModal', []);
-        contractSideBar();
-    };
-
-    /* Comunica com CalendarVC para atualizar os status */
-    $scope.updateStatus = function() {
-        angular.element('#calendarVC').scope().$emit('updateStatus', []);
     };
 
     /*
@@ -298,6 +298,11 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
                 .then(function success(response) {
                     $scope.all_event = copy($scope.new_all_event);
                     $scope.user_event = copy($scope.new_user_event);
+                    if ($scope.fbUrl().indexOf('facebook') != -1 && $scope.event.location != undefined)
+                        $.extend($scope.all_event, $scope.all_event, {
+                            'location': $scope.event.location,
+                            'address': $scope.event.address
+                        });
                     if (response.data != undefined && response.data != "") {
                         $scope.all_event = $.extend({}, $scope.all_event, response.data['all']);
                         $scope.user_event = $.extend({}, $scope.new_user_event, response.data[$scope.user.id]);

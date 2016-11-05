@@ -16,7 +16,7 @@ var redis = appl.redis;
 var io = require('socket.io')(server, { path: '/chat-socket' });
 var config = require("../../config/config");
 var cacheLimit = 1000;
-var user;
+var client;
 
 /*
   ===========================================================================
@@ -28,19 +28,19 @@ router.get('/', function(req, res) {
     if (req.session == null || req.session == undefined ||
         req.session.access_token == null || req.session.access_token == undefined)
         return res.redirect('/calendarAuth');
-    user = req.session.passport.user;
+    client = req.session.passport.user;
     var page = fs.readFileSync("web/view/chat.html", "utf8");
-    res.send(mustache.to_html(page, { client: JSON.stringify(user) }));
+    res.send(mustache.to_html(page, { client: JSON.stringify(client) }));
 });
 
 io.on('connection', function(socket) {
     try {
         if (socket.handshake.query.user != undefined) {
-            var user = JSON.parse(socket.handshake.query.user);
+            client = user = JSON.parse(socket.handshake.query.user);
             retrieveChatHistory(user);
             sendEvent('connected', '', user);
         }
-        socket.on('disconnect', function() { sendEvent('disconnected', '', msg.client) });
+        socket.on('disconnect', function(msg) { sendEvent('disconnected', '', user) });
         socket.on('chat message', function(msg) { sendEvent('chat', msg.text, msg.client) });
         socket.on('spam', function(msg) { sendSpam(msg.text) });
     } catch (e) {
@@ -56,6 +56,7 @@ io.on('connection', function(socket) {
 
 function sendEvent(kind, msg, user) {
     if (user == undefined) return;
+    client = user;
     try {
         if (avoidCacheLimit(msg)) return;
         var event = getEvent(kind, msg, user, timeStamp());

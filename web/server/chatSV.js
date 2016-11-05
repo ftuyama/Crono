@@ -6,6 +6,7 @@
 // Importing packages
 var app = require('express')();
 var express = require('express');
+var mustache = require('mustache');
 var router = express.Router();
 var fs = require('fs');
 // Setting socket.io application
@@ -15,7 +16,6 @@ var redis = appl.redis;
 var io = require('socket.io')(server, { path: '/chat-socket' });
 var config = require("../../config/config");
 var cacheLimit = 1000;
-var user;
 
 /*
   ===========================================================================
@@ -27,19 +27,24 @@ router.get('/', function(req, res) {
     if (req.session == null || req.session == undefined ||
         req.session.access_token == null || req.session.access_token == undefined)
         return res.redirect('/calendarAuth');
-    user = req.session.passport.user;
-    res.send(fs.readFileSync("web/view/chat.html", "utf8"));
+    var page = fs.readFileSync("web/view/chat.html", "utf8");
+    res.send(mustache.to_html(page, { client: JSON.stringify(req.session.passport.user) }));
 });
 
 io.on('connection', function(socket) {
-    socket.handshake.session = user;
-    if (user != undefined) {
-        retrieveChatHistory(user);
-        sendEvent('connected', '', user);
+    try {
+        if (socket.handshake.query.user != undefined) {
+            var client = JSON.parse(socket.handshake.query.user);
+            socket.handshake.session = client;
+            retrieveChatHistory(client);
+            sendEvent('connected', '', client);
+        }
+        socket.on('disconnect', function(msg) { sendEvent('disconnected', '', socket.handshake.session) });
+        socket.on('chat message', function(msg) { sendEvent('chat', msg.text, socket.handshake.session) });
+        socket.on('spam', function(msg) { sendSpam(msg.text) });
+    } catch (e) {
+        console.log(e);
     }
-    socket.on('disconnect', function() { sendEvent('disconnected', '', socket.handshake.session) });
-    socket.on('chat message', function(msg) { sendEvent('chat', msg, socket.handshake.session) });
-    socket.on('spam', function(msg) { sendSpam(msg) });
 });
 
 /*
@@ -49,6 +54,7 @@ io.on('connection', function(socket) {
 */
 
 function sendEvent(kind, msg, user) {
+    if (user == undefined) return;
     try {
         if (avoidCacheLimit(msg)) return;
         var event = getEvent(kind, msg, user, timeStamp());
@@ -86,16 +92,16 @@ function avoidCacheLimit(msg) {
     return false;
 }
 
-function retrieveChatHistory() {
+function retrieveChatHistory(client) {
     avoidCacheLimit();
     redis.keys('chat:*', function(err, keys) {
         io.emit('keys', keys.length);
         keys = dancaDoCrioulo(keys);
         keys.forEach(function(key) {
             redis.get(key, function(err, value) {
-                if (user != undefined) {
+                if (client != undefined) {
                     io.emit('history', {
-                        'dest': user.displayName,
+                        'dest': client.displayName,
                         'msg': { key, value }
                     });
                 }

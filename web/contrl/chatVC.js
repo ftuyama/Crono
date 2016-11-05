@@ -6,8 +6,23 @@ $(document).ready(function() {
         ===========================================================================
     */
     var username;
+    var profile = JSON.parse($("#client").html());
+    var client = {
+        "id": profile.id,
+        "displayName": profile.displayName,
+        "_json": {
+            "id": profile.id,
+            "displayName": profile.displayName,
+            "picture": profile._json.picture,
+            "image": {
+                "url": profile._json.picture
+            }
+        },
+        "accessToken": profile.accessToken
+    };
     var socket = io.connect('/', {
-        path: '/chat-socket'
+        path: '/chat-socket',
+        query: 'user=' + JSON.stringify(client)
     });
 
     $('form').submit(function() {});

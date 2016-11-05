@@ -2,7 +2,7 @@
     "name": "Crono",
     "version": "1.0.0",
     "description": "Node",
-    "main": "cluster.js",
+    "main": "server.js",
     "dependencies": {
         "angular": "^1.5.8",
         "async": "^2.0.1",

@@ -7,8 +7,10 @@ $(document).ready(function() {
     */
     var username;
     var socket = io.connect('/', {
-        path: '/chat-socket'
+        path: '/chat-socket',
+        query: 'user=' + $("#client").html()
     });
+
 
     $('form').submit(function() {});
 

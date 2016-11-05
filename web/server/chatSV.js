@@ -40,8 +40,8 @@ io.on('connection', function(socket) {
             sendEvent('connected', '', client);
         }
         socket.on('disconnect', function(msg) { sendEvent('disconnected', '', socket.handshake.session) });
-        socket.on('chat message', function(msg) { sendEvent('chat', msg.text, socket.handshake.session) });
-        socket.on('spam', function(msg) { sendSpam(msg.text) });
+        socket.on('chat message', function(msg) { sendEvent('chat', msg, socket.handshake.session) });
+        socket.on('spam', function(msg) { sendSpam(msg) });
     } catch (e) {
         console.log(e);
     }

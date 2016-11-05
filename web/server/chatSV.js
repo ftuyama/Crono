@@ -16,7 +16,6 @@ var redis = appl.redis;
 var io = require('socket.io')(server, { path: '/chat-socket' });
 var config = require("../../config/config");
 var cacheLimit = 1000;
-var client;
 
 /*
   ===========================================================================
@@ -28,20 +27,20 @@ router.get('/', function(req, res) {
     if (req.session == null || req.session == undefined ||
         req.session.access_token == null || req.session.access_token == undefined)
         return res.redirect('/calendarAuth');
-    client = req.session.passport.user;
     var page = fs.readFileSync("web/view/chat.html", "utf8");
-    res.send(mustache.to_html(page, { client: JSON.stringify(client) }));
+    res.send(mustache.to_html(page, { client: JSON.stringify(req.session.passport.user) }));
 });
 
 io.on('connection', function(socket) {
     try {
         if (socket.handshake.query.user != undefined) {
-            client = user = JSON.parse(socket.handshake.query.user);
-            retrieveChatHistory(user);
-            sendEvent('connected', '', user);
+            var client = JSON.parse(socket.handshake.query.user);
+            socket.handshake.session = client;
+            retrieveChatHistory(client);
+            sendEvent('connected', '', client);
         }
-        socket.on('disconnect', function(msg) { sendEvent('disconnected', '', user) });
-        socket.on('chat message', function(msg) { sendEvent('chat', msg.text, msg.client) });
+        socket.on('disconnect', function(msg) { sendEvent('disconnected', '', socket.handshake.session) });
+        socket.on('chat message', function(msg) { sendEvent('chat', msg.text, socket.handshake.session) });
         socket.on('spam', function(msg) { sendSpam(msg.text) });
     } catch (e) {
         console.log(e);
@@ -56,7 +55,6 @@ io.on('connection', function(socket) {
 
 function sendEvent(kind, msg, user) {
     if (user == undefined) return;
-    client = user;
     try {
         if (avoidCacheLimit(msg)) return;
         var event = getEvent(kind, msg, user, timeStamp());

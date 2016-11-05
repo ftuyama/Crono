@@ -25,7 +25,6 @@ $(document).ready(function() {
         query: 'user=' + JSON.stringify(client)
     });
 
-
     $('form').submit(function() {});
 
     $('#send').click(function() {

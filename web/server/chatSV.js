@@ -92,16 +92,16 @@ function avoidCacheLimit(msg) {
     return false;
 }
 
-function retrieveChatHistory() {
+function retrieveChatHistory(client) {
     avoidCacheLimit();
     redis.keys('chat:*', function(err, keys) {
         io.emit('keys', keys.length);
         keys = dancaDoCrioulo(keys);
         keys.forEach(function(key) {
             redis.get(key, function(err, value) {
-                if (user != undefined) {
+                if (client != undefined) {
                     io.emit('history', {
-                        'dest': user.displayName,
+                        'dest': client.displayName,
                         'msg': { key, value }
                     });
                 }

@@ -34,16 +34,20 @@ router.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
-    socket.handshake.session = user;
-    if (socket.handshake.query.user != undefined) {
-        var user = JSON.parse(socket.handshake.query.user);
+    try {
         socket.handshake.session = user;
-        retrieveChatHistory(user);
-        sendEvent('connected', '', user);
+        if (socket.handshake.query.user != undefined) {
+            var user = JSON.parse(socket.handshake.query.user);
+            socket.handshake.session = user;
+            retrieveChatHistory(user);
+            sendEvent('connected', '', user);
+        }
+        socket.on('disconnect', function() { sendEvent('disconnected', '', socket.handshake.session) });
+        socket.on('chat message', function(msg) { sendEvent('chat', msg, socket.handshake.session) });
+        socket.on('spam', function(msg) { sendSpam(msg) });
+    } catch (e) {
+        console.log(e);
     }
-    socket.on('disconnect', function() { sendEvent('disconnected', '', socket.handshake.session) });
-    socket.on('chat message', function(msg) { sendEvent('chat', msg, socket.handshake.session) });
-    socket.on('spam', function(msg) { sendSpam(msg) });
 });
 
 /*

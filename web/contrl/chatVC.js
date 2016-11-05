@@ -117,6 +117,8 @@ $(document).ready(function() {
 
     function printMsg(msg, kind) {
         return new Promise(function(resolve, reject) {
+            if (msg == undefined || msg.value == undefined || msg.value.message == undefined)
+                resolve();
             new EmbedJS({
                 googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
                 input: msg.value.message

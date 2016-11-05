@@ -20,7 +20,7 @@ $(document).ready(function() {
         },
         "accessToken": profile.accessToken
     };
-    var socket = io.connect('https://crono-chat.herokuapp.com/chat', {
+    var socket = io.connect('/', {
         path: '/chat-socket',
         query: 'user=' + JSON.stringify(client)
     });

@@ -14,6 +14,9 @@ $(document).ready(function() {
             "id": profile.id,
             "displayName": profile.displayName,
             "picture": profile._json.picture,
+            "image": {
+                "url": profile._json.picture
+            }
         },
         "accessToken": profile.accessToken
     };

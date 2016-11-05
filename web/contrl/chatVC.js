@@ -29,13 +29,13 @@ $(document).ready(function() {
     $('form').submit(function() {});
 
     $('#send').click(function() {
-        socket.emit('chat message', $('#text').val());
+        socket.emit('chat message', { 'text': $('#text').val(), 'client': client });
         $('#text').val('');
         return false;
     });
 
     $('#melar').click(function() {
-        socket.emit('spam', "melar");
+        socket.emit('spam', { 'text': "melar", 'client': client });
     });
 
     /*

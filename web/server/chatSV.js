@@ -35,16 +35,14 @@ router.get('/', function(req, res) {
 
 io.on('connection', function(socket) {
     try {
-        socket.handshake.session = user;
         if (socket.handshake.query.user != undefined) {
             var user = JSON.parse(socket.handshake.query.user);
-            socket.handshake.session = user;
             retrieveChatHistory(user);
             sendEvent('connected', '', user);
         }
-        socket.on('disconnect', function() { sendEvent('disconnected', '', socket.handshake.session) });
-        socket.on('chat message', function(msg) { sendEvent('chat', msg, socket.handshake.session) });
-        socket.on('spam', function(msg) { sendSpam(msg) });
+        socket.on('disconnect', function() { sendEvent('disconnected', '', msg.client) });
+        socket.on('chat message', function(msg) { sendEvent('chat', msg.text, msg.client) });
+        socket.on('spam', function(msg) { sendSpam(msg.text) });
     } catch (e) {
         console.log(e);
     }

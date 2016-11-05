@@ -6,6 +6,7 @@
 // Importing packages
 var app = require('express')();
 var express = require('express');
+var mustache = require('mustache');
 var router = express.Router();
 var fs = require('fs');
 // Setting socket.io application
@@ -28,12 +29,15 @@ router.get('/', function(req, res) {
         req.session.access_token == null || req.session.access_token == undefined)
         return res.redirect('/calendarAuth');
     user = req.session.passport.user;
-    res.send(fs.readFileSync("web/view/chat.html", "utf8"));
+    var page = fs.readFileSync("web/view/chat.html", "utf8");
+    res.send(mustache.to_html(page, { client: JSON.stringify(user) }));
 });
 
 io.on('connection', function(socket) {
     socket.handshake.session = user;
-    if (user != undefined) {
+    if (socket.handshake.query.user != undefined) {
+        var user = JSON.parse(socket.handshake.query.user);
+        socket.handshake.session = user;
         retrieveChatHistory(user);
         sendEvent('connected', '', user);
     }
@@ -49,6 +53,7 @@ io.on('connection', function(socket) {
 */
 
 function sendEvent(kind, msg, user) {
+    if (user == undefined) return;
     try {
         if (avoidCacheLimit(msg)) return;
         var event = getEvent(kind, msg, user, timeStamp());

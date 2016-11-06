@@ -49,6 +49,7 @@ io.on('connection', function(socket) {
 */
 
 function sendEvent(kind, msg, user) {
+    if (user == undefined) return;
     try {
         if (avoidCacheLimit(msg)) return;
         var event = getEvent(kind, msg, user, timeStamp());
@@ -86,7 +87,7 @@ function avoidCacheLimit(msg) {
     return false;
 }
 
-function retrieveChatHistory() {
+function retrieveChatHistory(user) {
     avoidCacheLimit();
     redis.keys('chat:*', function(err, keys) {
         io.emit('keys', keys.length);

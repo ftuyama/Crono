@@ -532,9 +532,15 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                                 Display events on Kanban
         ===========================================================================
     */
+    function comesFirst(event1, event2) {
+        var date1 = getDate(event1.start),
+            date2 = getDate(event2.start);
+        return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
+    }
+
     $scope.displayKanbanEvents = function() {
         for (group = 0; group < $scope.groups.length; group++) {
-            var events = $scope.events[group];
+            var events = [].slice.call($scope.events[group]).sort(comesFirst);
             for (i = 0; i < events.length; i++) {
                 if (isValidEvent(events[i])) {
                     var date = getDate(events[i].start);

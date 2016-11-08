@@ -132,10 +132,11 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 'end': { 'dateTime': event.end_time || now }
             };
             if (event.place != undefined)
-                $.extend(new_event, new_event, {
-                    'location': { lat: event.place.location.latitude, lng: event.place.location.longitude },
-                    'address': event.place.location.street + ', ' + event.place.location.city
-                });
+                if (event.place.location != undefined)
+                    $.extend(new_event, new_event, {
+                        'location': { lat: event.place.location.latitude, lng: event.place.location.longitude },
+                        'address': event.place.location.street + ', ' + event.place.location.city
+                    });
             events.push(new_event);
         });
         return events;

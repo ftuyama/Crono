@@ -21,7 +21,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     // Variáveis de semáforo
     $scope.busy = $scope.loader = true;
-    $scope.request = $scope.loaded = $scope.fbActive = $scope.kanbanActive = false;
+    $scope.request = $scope.loaded = $scope.fbActive =
+        $scope.hidePastEvents = $scope.kanbanActive = false;
 
     // Varíaveis para definir Modal Form
     $scope.dateTime = $scope.create = $scope.edit = $scope.face = false;
@@ -532,15 +533,28 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                                 Display events on Kanban
         ===========================================================================
     */
+
+    $scope.hidePast = function() {
+        $scope.hidePastEvents = !$scope.hidePastEvents;
+        $scope.display();
+    }
+
     function comesFirst(event1, event2) {
         var date1 = getDate(event1.start),
             date2 = getDate(event2.start);
         return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
     }
 
+    function notOutdated(event) {
+        return !$scope.hidePastEvents || getDate(event.start) > Date.now();
+    }
+
     $scope.displayKanbanEvents = function() {
         for (group = 0; group < $scope.groups.length; group++) {
-            var events = [].slice.call($scope.events[group]).sort(comesFirst);
+            var events = [].slice
+                .call($scope.events[group])
+                .filter(notOutdated)
+                .sort(comesFirst);
             for (i = 0; i < events.length; i++) {
                 if (isValidEvent(events[i])) {
                     var date = getDate(events[i].start);
@@ -830,7 +844,9 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             '<select ng-model="filter" ng-change="display_kanban()" ng-click="$event.stopPropagation()">' +
             '<option value="month">Month</option><option value="week">Week</option><option value="">All</option></select>' +
             '<span ng-show="filter==\'week\'" style="display:block"><label>Week: </label><input type="number"' +
-            ' ng-model="filterWeek" ng-change="display_kanban()" ng-click="$event.stopPropagation()"/></span></span>';
+            ' ng-model="filterWeek" ng-change="display_kanban()" ng-click="$event.stopPropagation()"/></span></span>' +
+
+            '<span style="float:right; cursor:pointer;" ng-click="hidePast(); $event.stopPropagation()">Hide past</span>';
 
         return '<tr><td COLSPAN=7 ng-click="monthPicker()">' +
             '<button class="btn btn-info" style="float:left;" ng-click="fullscreen();' +

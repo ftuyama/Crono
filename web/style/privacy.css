@@ -27,7 +27,12 @@
         .c1 {
             padding-bottom: 11pt;
             orphans: 2;
-            widows: 2
+            widows: 2;
+            text-align: justify;
+            text-justify: inter-word;
+            color: black;
+            display: inline-block;
+            width: 100%;
         }
         
         .c3 {
@@ -43,9 +48,9 @@
         }
         
         .c7 {
-            background-color: #ffffff;
-            max-width: 451.4pt;
-            padding: 72pt 72pt 72pt 72pt
+            background-color: white;
+            max-width: 100%;
+            padding: 72pt 72pt 72pt 72pt;
         }
         
         .c5 {
@@ -112,7 +117,7 @@
             margin: 0;
             color: #000000;
             font-size: 11pt;
-            font-family: "Arial"
+            font-family: "Arial";
         }
         
         h1 {

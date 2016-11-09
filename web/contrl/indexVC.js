@@ -10,7 +10,7 @@ indexApp.controller("indexVC", function($scope, $http, $cookies, $compile) {
     $scope.commits = [];
     $scope.languages = {}
     $scope.tags = ["calendar", "angularjs", "css3", "nodejs", "github", "google", "firebase"];
-    $scope.links = { "Home": "/", "Calendar": "/calendar", "Contact": "https://github.com/ftuyama/Crono", "About": "/about" };
+    $scope.links = { "Home": "/", "Calendar": "/calendar", "Contact": "https://github.com/ftuyama/Crono", "Politics": "/about/politics", "About": "/about" };
 
     /* Fetching Crono languages */
     $.getJSON("https://api.github.com/repos/ftuyama/Crono/languages", function(data) {

@@ -133,11 +133,12 @@ router.get('/user', function(req, res) {
 router.get('/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     function(req, res) {
+        var page = req.session.origin ? req.session.origin : 'calendar';
         req.session.access_token = req.user.accessToken;
         res.cookie('token', req.user.accessToken);
         res.cookie('imageUrl', imageUrl);
         res.cookie('user', user);
-        res.redirect('/calendar');
+        res.redirect('/' + page);
     });
 
 /*

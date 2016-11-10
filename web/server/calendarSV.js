@@ -12,6 +12,7 @@ var fs = require('fs');
 
 /* GET home page */
 router.get('/', function(req, res) {
+    req.session.origin = 'calendar';
     var accessToken = req.session.access_token;
     if (accessToken == null) return res.redirect('/calendarAuth');
     res.send(fs.readFileSync("web/view/calendar.html", "utf8"));

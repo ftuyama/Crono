@@ -24,6 +24,7 @@ var user;
 */
 
 router.get('/', function(req, res) {
+    req.session.origin = 'chat';
     if (req.session == null || req.session == undefined ||
         req.session.access_token == null || req.session.access_token == undefined)
         return res.redirect('/calendarAuth');

@@ -11,12 +11,6 @@
         "event": ""
     },
     {
-        "name": "Chat",
-        "icon": "fa fa-comment-o",
-        "url": "/chat",
-        "event": ""
-    },
-    {
         "name": "About",
         "icon": "fa fa-info",
         "url": "/about",

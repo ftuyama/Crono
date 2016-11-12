@@ -92,7 +92,6 @@ var projectAuth = require('./APIGit/auth');
 var index = require('./web/server/indexSV');
 var calendar = require('./web/server/calendarSV');
 var about = require('./web/server/aboutSV');
-var chat = require('./web/server/chatSV');
 
 // Define routes
 app.use('/calendarAuth', calendarAuth);
@@ -100,5 +99,4 @@ app.use('/projectAuth', projectAuth);
 app.use('/firebase', firebaseAuth);
 app.use('/calendar', calendar);
 app.use('/about', about);
-app.use('/chat', chat);
 app.use('/', index);

@@ -21,6 +21,10 @@ Aplicação com design responsivo e minimalista, otimizando experência de usuá
 
 ![Tela Firebase & Chat](https://github.com/ftuyama/Crono/blob/master/web/public/img/promo.jpg)
 
+## Melhor desempenho - Aplicativo clusterizado
+
+![Crono Cluster](https://github.com/ftuyama/Crono/blob/master/web/public/img/cluster.jpg)
+
 ## Developers:
 
 Felipe Tuyama

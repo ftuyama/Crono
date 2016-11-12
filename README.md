@@ -23,7 +23,7 @@ Aplicação com design responsivo e minimalista, otimizando experência de usuá
 
 ## Melhor desempenho - Aplicativo clusterizado
 
-![Crono Cluster](https://github.com/ftuyama/Crono/blob/master/web/public/img/cluster.png)
+![Crono Cluster](https://github.com/ftuyama/Crono/blob/master/web/public/img/cluster.PNG)
 
 ## Developers:
 

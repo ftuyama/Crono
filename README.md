@@ -25,6 +25,8 @@ Aplicação com design responsivo e minimalista, otimizando experência de usuá
 
 ![Crono Cluster](https://github.com/ftuyama/Crono/blob/master/web/public/img/cluster.PNG)
 
+[Crono Clusterizado](http://cronox.herokuapp.com/)  
+
 ## Developers:
 
 Felipe Tuyama

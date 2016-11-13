@@ -4,7 +4,6 @@
 ===========================================================================
 */
 var indexApp = angular.module("indexApp", ['ngCookies', 'pascalprecht.translate']);
-window.indexApp = indexApp;
 
 indexApp.controller("indexVC", function($scope, $http, $cookies, $compile, $translate) {
 

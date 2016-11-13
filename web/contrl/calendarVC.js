@@ -3,9 +3,14 @@
             Calendar View Controller using Angular
 ===========================================================================
 */
-var calendarApp = angular.module("calendarApp", ['ngCookies']);
+var calendarApp = angular.module("calendarApp", ['ngCookies', 'pascalprecht.translate']);
 
-calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $compile, $timeout) {
+calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $compile, $timeout, $translate) {
+
+    // Sets Lang to use
+    var userLang = navigator.language || navigator.userLanguage;
+    $translate.use(userLang);
+
     // Variável do form
     $scope.event_form = { summary: '', description: '', group_id: -1, startDate: '', startHour: '', endDate: '', endHour: '' };
     $scope.event_id = $scope.event_group = "";

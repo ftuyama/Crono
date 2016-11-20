@@ -3,9 +3,14 @@
             Calendar View Controller using Angular
 ===========================================================================
 */
-var calendarApp = angular.module("calendarApp", ['ngCookies']);
+var calendarApp = angular.module("calendarApp", ['ngCookies', 'pascalprecht.translate']);
 
-calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $compile, $timeout) {
+calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $compile, $timeout, $translate) {
+
+    // Sets Lang to use
+    var userLang = navigator.language || navigator.userLanguage;
+    $translate.use(userLang);
+
     // Variável do form
     $scope.event_form = { summary: '', description: '', group_id: -1, startDate: '', startHour: '', endDate: '', endHour: '' };
     $scope.event_id = $scope.event_group = "";
@@ -303,10 +308,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     $scope.postCreateEvent = function() {
         if (!$scope.closeModal()) return;
         var post = $scope.generatePost();
-        showSnackBar("Criando novo evento...");
+        showSnackBar($translate.instant('label.snackbar.event.create.doing'));
         $http.post('/calendar/create', JSON.stringify(post))
             .then(function success(response) {
-                showSnackBar("Evento criado com sucesso!");
+                showSnackBar($translate.instant('label.snackbar.event.create.done'));
                 $scope.display();
             });
     }
@@ -316,10 +321,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         var post = $scope.generatePost();
         post["group_id"] = $scope.groups[$scope.event_group].id;
         post["event_id"] = $scope.events[$scope.event_group][$scope.event_id].id;
-        showSnackBar("Editando o evento...");
+        showSnackBar($translate.instant('label.snackbar.event.edit.doing'));
         $http.post('/calendar/edit', JSON.stringify(post))
             .then(function success(response) {
-                showSnackBar("Evento editado com sucesso!");
+                showSnackBar($translate.instant('label.snackbar.event.edit.done'));
                 $scope.display();
             });
     }
@@ -331,10 +336,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             group_id: $scope.groups[$scope.event_group].id,
             event_id: $scope.events[$scope.event_group][$scope.event_id].id
         };
-        showSnackBar("Deletando o evento...");
+        showSnackBar($translate.instant('label.snackbar.event.delete.doing'));
         $http.get('/calendar/delete', { "params": param })
             .then(function success(response) {
-                showSnackBar("Evento deletado com sucesso!");
+                showSnackBar($translate.instant('label.snackbar.event.delete.done'));
                 $scope.display();
             });
     };
@@ -343,10 +348,10 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         var post = $scope.generatePost();
         post["group_id"] = $scope.groups[$scope.event_group].id;
         post["event_id"] = $scope.events[$scope.event_group][$scope.event_id].id;
-        showSnackBar("Movendo o evento...");
+        showSnackBar($translate.instant('label.snackbar.event.move.doing'));
         $http.post('/calendar/edit', JSON.stringify(post))
             .then(function success(response) {
-                showSnackBar("Evento movido com sucesso!");
+                showSnackBar($translate.instant('label.snackbar.event.move.done'));
                 $scope.display();
             });
     }
@@ -400,7 +405,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             $scope.busy = false;
             $scope.$apply();
         }, function error(error) {
-            showSnackBar("First login on Facebook");
+            showSnackBar($translate.instant('label.snackbar.facebook.login'));
             $scope.faceCheck = $scope.busy = false;
             $scope.$apply();
         });
@@ -435,7 +440,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                                     resolve();
                                 }, function error(error) {
                                     $scope.groups[$scope.faceNumber].checked = false;
-                                    showSnackBar("Login with Facebook first!");
+                                    showSnackBar($translate.instant('label.snackbar.facebook.login'));
                                     resolve();
                                 })
                         }));
@@ -508,7 +513,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                     var date = getDateProperty(events[i].start);
                     var clazz = getTextSize(events[i].summary);
                     var event_ref = group + '-' + i;
-                    if (events[i].summary.match(/feriado/i))
+                    if (events[i].summary.match(/feriado/i) || events[i].summary.match(/holiday/i))
                         $("#day-" + date).css('background-color', '#363');
                     var event_item =
                         '<div class="row rowitens">' +
@@ -841,23 +846,23 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     function menuHTML(date, type) {
         var kanbanFilter = "";
         if (type == "kanban")
-            kanbanFilter = '<span style="float:right;"><label>Filter: </label>' +
+            kanbanFilter = '<span style="float:right;"><label translate="label.option.filter"></label>' +
             '<select ng-model="filter" ng-change="display_kanban()" ng-click="$event.stopPropagation()">' +
-            '<option value="month">Month</option><option value="week">Week</option><option value="">All</option></select>' +
-            '<span ng-show="filter==\'week\'" style="display:block"><label>Week: </label><input type="number"' +
+            '<option value="month" translate="label.option.month"></option><option value="week" translate="label.option.week"></option><option value="" translate="label.option.all"></option></select>' +
+            '<span ng-show="filter==\'week\'" style="display:block"><label translate="label.input.week"></label><input type="number"' +
             ' ng-model="filterWeek" ng-change="display_kanban()" ng-click="$event.stopPropagation()"/></span></span>' +
 
-            '<span style="float:right; cursor:pointer;" ng-click="hidePast(); $event.stopPropagation()">Hide past</span>';
+            '<span style="float:right; cursor:pointer;" ng-click="hidePast(); $event.stopPropagation()" translate="label.button.hide.past"></span>';
 
         return '<tr><td COLSPAN=7 ng-click="monthPicker()">' +
             '<button class="btn btn-info" style="float:left;" ng-click="fullscreen();' +
-            ' $event.stopPropagation()">FullScreen</button>' +
+            ' $event.stopPropagation()" translate="label.button.fullscreen"></button>' +
             '<i class="fa fa-calendar fa-2x farefresh"  style="float:left;"' +
             ' ng-click="display_calendar();  $event.stopPropagation()"></i>' +
             '<i class="fa fa-trello fa-2x farefresh trellofarefresh" style="float:left;"' +
             ' ng-click="display_kanban();  $event.stopPropagation()"></i>' +
             monthNames[date.getMonth()] + " " + date.getFullYear() +
-            '<button class="btn btn-danger" style="float:right;">Change month</button>' +
+            '<button class="btn btn-danger" style="float:right;" translate="label.button.month"></button>' +
             '<i class="fa fa-eye fa-2x farefresh eyefarefresh" ng-show="fbActive"' +
             ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' +
             '<i class="fa fa-eye-slash fa-2x farefresh eyeslashfarefresh" ng-hide="fbActive"' +
@@ -869,7 +874,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         var progress = Math.round(1000 * date.getDate() / lastDay) / 10;
         return '<div class="progress progress-striped"><div class="progress-bar" ' +
             'role="progressbar" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="100"' +
-            ' style="width:' + progress + '%">Month ' + progress + ' % Complete</div></div>';
+            ' style="width:' + progress + '%"><span translate="label.option.month"></span> ' + progress +
+            ' % <span translate="label.option.complete"></span></div></div>';
     }
 });
 

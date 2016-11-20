@@ -8,6 +8,7 @@ var express = require('express');
 var router = express.Router();
 var gcal = require('google-calendar');
 var fbcal = require('fbgraphapi');
+var request = require('request');
 var fs = require('fs');
 
 /* GET home page */
@@ -115,4 +116,31 @@ function isNull(token) {
         token == "undefined" || token == "";
 }
 
+/*
+  ===========================================================================
+                        Setup Athena Calendar API
+  ===========================================================================
+*/
+var ATHENA_URL = 'http://athena-t17.herokuapp.com';
+
+router.get('/athena', function(req, res) {
+    request.get(ATHENA_URL + '/login/', function(error, response, body) {
+        if (!error && response.statusCode == 200)
+            res.send(body);
+        else res.send(error);
+    });
+});
+
+router.get('/login-athena', function(req, res) {
+    var params = "username=" + req.query.username + "&password=" + req.query.password;
+    request.get(ATHENA_URL + '/Mlogin/?' + params, function(error, response, body) {
+        res.send(body);
+    });
+});
+
+router.get('/events-athena', function(req, res) {
+    request.get(ATHENA_URL + '/Mcalendario/?id=' + req.query.id, function(error, response, body) {
+        res.send(body);
+    });
+});
 module.exports = router;

@@ -1,11 +1,17 @@
 [{
-        "name": "Home",
+        "name": {
+            "en-US": "Home",
+            "pt-BR": "Início"
+        },
         "icon": "fa fa-home",
         "url": "/",
         "event": ""
     },
     {
-        "name": "Calendar",
+        "name": {
+            "en-US": "Calendar",
+            "pt-BR": "Calendário"
+        },
         "icon": "fa fa-calendar",
         "url": "/calendar",
         "event": ""
@@ -17,7 +23,10 @@
         "event": ""
     },
     {
-        "name": "Theme",
+        "name": {
+            "en-US": "Theme",
+            "pt-BR": "Tema"
+        },
         "icon": "fa fa-paint-brush",
         "url": "#",
         "event": "changeTheme()"

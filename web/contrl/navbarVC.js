@@ -2,12 +2,14 @@
  *   Carrega os links da navbar e determina sua cor
  */
 $(document).ready(function() {
+    var userLang = navigator.language || navigator.userLanguage;
+
     $.getJSON("/data/navigation.json", function(data) {
         data.forEach(function(nav) {
             var item = '<li><a href="' + nav.url +
                 '" onclick="' + nav.event + '">' +
                 '<i class="' + nav.icon + '"></i> ' +
-                nav.name + '</a></li>';
+                nav.name[userLang] + '</a></li>';
             $("#navlinks").append(item);
         });
     });
@@ -19,6 +21,6 @@ $(document).ready(function() {
         });
     $.get("/calendarAuth/user", function(user) {
         if (user != undefined && user != "undefined" && user != "null" && user != "")
-            $('#username').text(user.displayName);
+            $('#crono_username').text(user.displayName);
     });
 });

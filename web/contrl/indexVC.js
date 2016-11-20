@@ -3,9 +3,13 @@
                 Index View Controller using Angular
 ===========================================================================
 */
-var indexApp = angular.module("indexApp", ['ngCookies']);
+var indexApp = angular.module("indexApp", ['ngCookies', 'pascalprecht.translate']);
 
-indexApp.controller("indexVC", function($scope, $http, $cookies, $compile) {
+indexApp.controller("indexVC", function($scope, $http, $cookies, $compile, $translate) {
+
+    // Sets Lang to use
+    var userLang = navigator.language || navigator.userLanguage;
+    $translate.use(userLang);
 
     $scope.commits = [];
     $scope.languages = {}

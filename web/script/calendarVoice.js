@@ -11,23 +11,55 @@
 
 var userLang = navigator.language || navigator.userLanguage;
 
+var translator = {
+    'pt-BR': {
+        'create-event': "Criando evento...",
+        'update': "Atualizando",
+        'login': "Fazendo login...",
+        'calendar': "Mostrando calendário...",
+        'kanban': "Mostrando kanban...",
+        'commands': 'Alguns comandos úteis…',
+        'samples': ['Criar evento', 'Atualizar', 'Login']
+    },
+    'en-US': {
+        'create-event': "Creating event...",
+        'update': "Updating",
+        'login': "Signing in...",
+        'calendar': "Displaying calendar...",
+        'kanban': "Displaying kanban...",
+        'commands': 'Some cool tips…',
+        'samples': ['create event', 'update', 'login']
+
+    }
+}
+
 $(document).ready(function() {
     if (annyang) {
         // Add our commands to annyang
         annyang.addCommands({
             'criar (evento)': function() {
-                showSnackBar("Criando evento...");
+                showSnackBar(translator[userLang].create + "-" + event);
                 angular.element(document.getElementById('calendarVC'))
                     .scope().newEvent("0-666", (new Date()).toISOString().split('T')[0]);
             },
             'atualizar': function() {
-                showSnackBar("Atualizando...");
+                showSnackBar(translator[userLang].update);
                 angular.element(document.getElementById('calendarVC'))
-                    .scope().fetch();
+                    .scope().display();
             },
             'login': function() {
-                showSnackBar("Fazendo login...");
+                showSnackBar(translator[userLang].login);
                 $(location).attr('href', 'calendarAuth/');
+            },
+            'calendário': function() {
+                showSnackBar(translator[userLang].calendar);
+                angular.element(document.getElementById('calendarVC'))
+                    .scope().display_calendar();
+            },
+            'kanban': function() {
+                showSnackBar(translator[userLang].kanban);
+                angular.element(document.getElementById('calendarVC'))
+                    .scope().display_kanban();
             }
         });
         annyang.setLanguage(userLang);
@@ -38,8 +70,8 @@ $(document).ready(function() {
         SpeechKITT.setStylesheet('/script/speech/flat.css');
 
         // Add instructional texts
-        SpeechKITT.setInstructionsText('Alguns comandos úteis…');
-        SpeechKITT.setSampleCommands(['Criar evento', 'Atualizar', 'Login']);
+        SpeechKITT.setInstructionsText(translator[userLang].commands);
+        SpeechKITT.setSampleCommands(translator[userLang].samples);
 
         // If user clicks start button, remember his choice for 1 minute
         SpeechKITT.rememberStatus(1);

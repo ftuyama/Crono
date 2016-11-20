@@ -55,8 +55,10 @@ function sendEvent(kind, msg, user) {
         if (avoidCacheLimit(msg)) return;
         var event = getEvent(kind, msg, user, timeStamp());
         console.log(user.displayName + ' ' + kind + ': ' + msg);
-        if (!debug(kind))
+        if (!debug(kind)) {
             redis.set(event.key, JSON.stringify(event.value));
+            redis.expire(event.key, 86400);
+        }
         io.emit(kind, event);
     } catch (err) {
         console.log('error: ' + err);

@@ -21,6 +21,6 @@ $(document).ready(function() {
         });
     $.get("/calendarAuth/user", function(user) {
         if (user != undefined && user != "undefined" && user != "null" && user != "")
-            $('#username').text(user.displayName);
+            $('#crono_username').text(user.displayName);
     });
 });

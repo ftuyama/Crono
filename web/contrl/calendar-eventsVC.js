@@ -3,14 +3,14 @@
             Calendar View Controller using Angular
 ===========================================================================
 */
+var ATHENA_URL = 'http://athena-t17.herokuapp.com';
 
 angular.module("calendarEventsApp", ['ngCookies'])
     .controller("calendarEventsVC", function($scope, $http, $cookies, $compile) {
 
         // Variáveis de negócio
-        $scope.events = {};
-        $scope.groups = {};
-        $scope.selected = '';
+        $scope.events = $scope.groups = {};
+        $scope.selected = $scope.athena_json = '';
 
         // Varíavel de semáforo
         $scope.loader = true;
@@ -20,9 +20,16 @@ angular.module("calendarEventsApp", ['ngCookies'])
             $("#descriptionModal").modal('show');
         }
 
-        $scope.closeModal = function() {
-            $("#descriptionModal").modal('hide');
-        };
+        $scope.athena = function(selected) {
+            if ($scope.athenaId == undefined)
+                $scope.fetchAthena();
+            else $scope.eventsAthena();
+            $("#athenaModal").modal('show');
+        }
+
+        $scope.closeModal = function() { $("#descriptionModal").modal('hide'); };
+
+        $scope.closeAthenaModal = function() { $("#athenaModal").modal('hide'); };
 
         $scope.deleteEvent = function(event, group_index) {
             var param = {
@@ -39,9 +46,45 @@ angular.module("calendarEventsApp", ['ngCookies'])
 
         /*
         ===========================================================================
+                                    Athena Events
+        ===========================================================================
+        */
+
+        $scope.fetchAthena = function() {
+            $http.get('/calendar/athena')
+                .then(function success(response) {
+                    var athenaHTML = response.data;
+                    athenaHTML = athenaHTML.replace("/cadastro/", ATHENA_URL + "/cadastro/");
+                    athenaHTML = athenaHTML.replace("type=\"submit\">Login", "type=\"button\" ng-click='loginAthena()'>Login");
+                    $("#athena").html($compile(athenaHTML)($scope));
+                });
+        };
+
+        $scope.loginAthena = function() {
+            var params = { 'username': $("#username").val(), 'password': $("#password").val() };
+            $http.get('/calendar/login-athena', { params: params })
+                .then(function success(response) {
+                    if (response.data.valido == true) {
+                        $scope.athenaId = response.data.id;
+                        $scope.eventsAthena();
+                    }
+                });
+        };
+
+        $scope.eventsAthena = function() {
+            $http.get('/calendar/events-athena', { params: { 'id': $scope.athenaId } })
+                .then(function success(response) {
+                    $scope.athena_json = response.data;
+                    $("#athenaEvents").show();
+                    $("#athena").html("");
+                });
+        };
+
+        /*
+        ===========================================================================
                         Fetching Data from the Server
         ===========================================================================
-    */
+        */
 
         $scope.fetch = function() {
             $scope.events = [];

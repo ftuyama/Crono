@@ -10,7 +10,7 @@
     width: 50px;
 }
 
-#username {
+#crono_username {
     transition: .25s all linear;
     color: #e4e6e5;
     top: 25px;
@@ -70,7 +70,7 @@
     .navbar-nav>li>a {
         font-size: 1.0em;
     }
-    .navbar #username {
+    .navbar #crono_username {
         font-size: 1.0em;
     }
 }
@@ -187,7 +187,7 @@
         height: 60px;
         width: 120px;
     }
-    .navbar #username {
+    .navbar #crono_username {
         float: left;
         padding-right: 20px;
         font-size: 1.4em;

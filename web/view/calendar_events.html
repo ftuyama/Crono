@@ -113,10 +113,38 @@
                 <form action="/../calendarAuth">
                     <button type="submit" class="btn btn-danger btn-block">Login Google</button>
                 </form><br>
+                <form action="javascript:void(0)">
+                    <button type="submit" class="btn btn-warning btn-block" ng-click="athena()">Login Athena</button>
+                </form><br>
             </div>
         </div>
     </div>
     <hr>
+    <!-- ############################################################################ -->
+    <!--                            Login com o Athena                                -->
+    <!-- ############################################################################ -->
+    <div id="athenaModal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="width: 800px;  margin-left: -412px;">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Athena Events</h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div id="athena" style="margin-left: -200px;"></div>
+                    <pre id="athenaEvents" class="console" hidden>{{athena_json| json}}</pre>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-danger" ng-click="closeAthenaModal()">Exit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- ############################################################################ -->
     <!--                       Lista principal de eventos                             -->
     <!-- ############################################################################ -->

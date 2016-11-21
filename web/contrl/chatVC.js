@@ -123,18 +123,24 @@ $(document).ready(function() {
                 googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
                 input: msg.value.message
             }).text(function(compiled) {
-                var time = msg.key.split(':').slice(5, 8).join(':');
+                var hour = getZonedHour(msg.key);
                 $('#messages').append(
-                    $('<p>').html(time + "  " + user_credential(msg.value.user) +
-                        '<span style="color:#6c6"> ' + kind + '</span> ' +
-                        compiled
+                    $('<p>').html(hour + "  " + user_credential(msg.value.user) +
+                        '<span style="color:#6c6"> ' + kind + '</span> ' + compiled
                     )
                 );
                 processUsers(msg, kind);
-                scrollBotton();
+                scrollBottom();
                 resolve();
             })
         });
+    }
+
+    function getZonedHour(key) {
+        var time = msg.key.split(':');
+        var diff = (new Date()).getTimezoneOffset() / 60;
+        time[5] = (24 + parseInt(time[5]) - diff) % 24;
+        return time.slice(5, 8).join(':');
     }
 
     function processUsers(msg, kind) {
@@ -167,7 +173,7 @@ $(document).ready(function() {
             ' onclick="fillUser(\'@' + user + '\')">@' + user + '</b>';
     }
 
-    function scrollBotton() {
+    function scrollBottom() {
         var scroll = document.getElementById('messages');
         scroll.scrollTop = scroll.scrollHeight
     }

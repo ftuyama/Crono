@@ -48,7 +48,6 @@ app.use(express.static(__dirname + '/web/view'));
 app.use(express.static(__dirname + '/web/server'));
 app.use(express.static(__dirname + '/web/contrl'));
 app.use(express.static(__dirname + '/web/script'));
-app.use(express.static(__dirname + '/web/react'));
 //Store all CSS in style folder.
 app.use(express.static(__dirname + '/web/style'));
 //Store all public in web folder

@@ -88,7 +88,7 @@ $(document).ready(function() {
         printMsg(msg, 'chat');
         manageNotification(msg, 'chat');
     });
-    socket.on('spam', function(msg) { printMsg(msg, 'spam'); });
+    socket.on('spam', function(msg) { printMsg(msg, 'whisper'); });
     socket.on('keys', function(msg) { total = msg; });
     socket.on('history', function(msg) {
         if (msg.dest != username) return;

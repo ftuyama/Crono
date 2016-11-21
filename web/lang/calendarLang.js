@@ -60,6 +60,11 @@ calendarApp.config(['$translateProvider', function($translateProvider) {
         'label.firebase.link.fill': 'Please, fill the event link',
         'label.firebase.link.place': 'Event link',
 
+        'label.firebase.annex.title': 'Attachment: ',
+        'label.firebase.annex': 'File',
+        'label.firebase.annex.fill': 'Please, submit a file',
+        'label.firebase.annex.place': 'Event attachment',
+
         'label.firebase.people.title': 'People: ',
         'label.firebase.people': 'People',
         'label.firebase.people.fill': 'People that are going',
@@ -140,6 +145,11 @@ calendarApp.config(['$translateProvider', function($translateProvider) {
         'label.firebase.link': 'Link',
         'label.firebase.link.fill': 'Por favor, preencha o link',
         'label.firebase.link.place': 'Link do Evento',
+
+        'label.firebase.annex.title': 'Anexo: ',
+        'label.firebase.annex': 'Anexo',
+        'label.firebase.annex.fill': 'Por favor, envie um arquivo',
+        'label.firebase.annex.place': 'Arquivo do evento',
 
         'label.firebase.people.title': 'Pessoas: ',
         'label.firebase.people': 'Pessoas',

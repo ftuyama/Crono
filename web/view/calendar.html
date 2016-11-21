@@ -358,7 +358,7 @@
                     <div class="form-item-content">
                         <h3 style="margin-top: 0px;" translate="label.firebase.group"></h3>
                         <div class="row">
-                            <label translate="label.firebase.address.title"><i class="fa fa-map"></i></label>
+                            <label translate="label.firebase.address.title"></label><i class="fa fa-map faw"></i>
                             <div class="input-control modern text">
                                 <input class="magic" type="text" ng-model="all_event.address" ng-change="locate_address()" ng-model-options="{debounce: 1000}" />
                                 <span class="label" translate="label.firebase.address"></span>
@@ -371,16 +371,16 @@
                             <i class="fa fa-map mapIcon" ng-click="fullscreenMap()" translate="label.firebase.fullscreen"></i>
                         </div>
                         <div class="row">
-                            <label translate="label.firebase.image"><i class="fa fa-paperclip"></i></label>
+                            <label translate="label.firebase.image"></label><i class="fa fa-file-image-o faw"></i>
                             <div class="input-control modern text">
                                 <input class="magic" type="file" accept="image/*" id="imgUpload">
-                                <a class="label labela" id="imgUploadLink" href={{all_event.img}}>
+                                <a class="label labela" href={{all_event.img}}>
                                     {{all_event.img || "Upload de Imagem"}}</a>
                                 <span class="informer informera" id="imgUploadMsg">...</span>
                             </div>
                         </div>
                         <div class="row">
-                            <label translate="label.firebase.link.title"><i class="fa fa-link"></i></label>
+                            <label translate="label.firebase.link.title"></label><i class="fa fa-link faw"></i>
                             <div class="input-control modern text">
                                 <input class="magic" type="text" ng-model="all_event.link" ng-change="save()" ng-model-options="{debounce: 1000}" />
                                 <span class="label" translate="label.firebase.link"></span>
@@ -389,7 +389,16 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label translate="label.firebase.people.title"><i class="fa fa-user-o"></i></label>
+                            <label translate="label.firebase.annex.title"></label><i class="fa fa-paperclip faw"></i>
+                            <div class="input-control modern text">
+                                <input class="magic" type="file" id="fileUpload">
+                                <a class="label labela" href={{all_event.file}}>Link - 
+                                    {{all_event.fileName || "Upload de arquivo"}}</a>
+                                <span class="informer informera" id="fileUploadMsg">...</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label translate="label.firebase.people.title"></label><i class="fa fa-user-o faw"></i>
                             <div class="input-control modern text">
                                 <input class="magic" type="text" ng-model="all_event.people" readonly/>
                                 <span class="label" translate="label.firebase.people"></span>
@@ -399,7 +408,7 @@
                         <hr>
                         <h3 translate="label.firebase.personal"></h3>
                         <div class="row">
-                            <label translate="label.firebase.words.title"><i class="fa fa-comment"></i></label>
+                            <label translate="label.firebase.words.title"></label><i class="fa fa-comment faw"></i>
                             <div class="input-control modern text">
                                 <input class="magic" type="text" ng-model="user_event.comment" ng-change="save()" ng-model-options="{debounce: 1000}">
                                 <span class="label" translate="label.firebase.words"></span>
@@ -408,13 +417,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label translate="label.firebase.priority.title"><i class="fa fa-warning"></i></label>
+                            <label translate="label.firebase.priority.title"></label><i class="fa fa-warning faw"></i>
                             <div class="input-control modern">
                                 <input type="range" min="1" max="5" step="1" style="top: 0px" ng-model="user_event.priority" ng-change="save()" ng-model-options="{debounce: 1000}">
                             </div>
                         </div>
                         <div class="row">
-                            <label translate="label.firebase.status.title"><i class="fa fa-tasks"></i></label>
+                            <label translate="label.firebase.status.title"></label><i class="fa fa-tasks faw"></i>
                             <div class="input-control modern text">
                                 <input class="magic" type="text" ng-model="user_event.status" ng-change="save(); updateStatus();" ng-model-options="{debounce: 1000}">
                                 <span class="label" translate="label.firebase.status.title"></span>
@@ -423,7 +432,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label translate="label.firebase.going.title"><i class="fa fa-check-circle"></i></label>
+                            <label translate="label.firebase.going.title"></label><i class="fa fa-check-circle faw"></i>
                             <div class="squaredFour input-control modern">
                                 <input class="checkb" type="checkbox" value="None" id="squaredFour" name="check" ng-model="user_event.presence" ng-change="presence()" />
                                 <label class="checkb" for="squaredFour" translate="label.firebase.going"></label> - </div>

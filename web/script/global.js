@@ -195,7 +195,7 @@ function cleanGroup(group) {
 }
 
 function removePath(path) {
-    return path.split('/').pop();
+    return path.split('\\').pop();
 }
 /*
     ===========================================================================

@@ -7,7 +7,7 @@
 calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $compile) {
 
     /* Variáveis de negócio */
-    $scope.new_all_event = $scope.all_event = { link: '', img: '', people: 0, location: { lat: 0, lng: 0 }, address: '' };
+    $scope.new_all_event = $scope.all_event = { link: '', img: '', file: '', fileName: '', people: 0, location: { lat: 0, lng: 0 }, address: '' };
     $scope.new_user_event = $scope.user_event = { priority: '3', status: 'NEW', comment: '', presence: false };
     $scope.user = $scope.groups = $scope.event = {};
 
@@ -253,8 +253,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     /* Get Firebase Url for event */
     $scope.fbUrl = function() {
         var group = $scope.groups[$scope.event.group_id] || { id: 'facebook' };
-        return '/' + cleanGroup(group.id) +
-            '/' + $scope.event.id;
+        return '/' + cleanGroup(group.id) + '/' + $scope.event.id;
     }
 
     /* Post save */
@@ -322,14 +321,15 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     */
 
     $("#imgUpload").on('change', function(evt) {
-        // Só realiza uploa de imagens com menos de 2MB
+        // Só realiza upload de imagens com menos de 2MB
         var files = $("#imgUpload")[0].files;
         if (files[0].size / 1024 / 1024 < 2)
             uploadImage(files[0], $("#imgUpload").val());
     });
 
     function uploadImage(file, name) {
-        var uploadTask = storageRef.child('images/' + $scope.fbUrl() + removePath(name)).put(file);
+        var filePath = 'images/' + $scope.fbUrl() + removePath(name);
+        var uploadTask = storageRef.child(filePath).put(file);
 
         uploadTask.on('state_changed', function(snapshot) {
             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -339,9 +339,40 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
             $("#imgUploadMsg").html("O Upload deu errado.");
         }, function() {
             $("#imgUploadMsg").html("O Upload deu certo.");
-            $scope.all_event.img = decodeURIComponent(uploadTask.snapshot.downloadURL);
-            $scope.save();
+            storageRef.child(filePath).getDownloadURL().then(function(url) {
+                $scope.all_event.img = url;
+                $scope.save();
+                $scope.$apply();
+            });
+        });
+    }
+
+    $("#fileUpload").on('change', function(evt) {
+        // Só realiza upload de arquivos com menos de 2MB
+        var files = $("#fileUpload")[0].files;
+        if (files[0].size / 1024 / 1024 < 2)
+            uploadFile(files[0], $("#fileUpload").val());
+    });
+
+    function uploadFile(file, name) {
+        var fileName = removePath(name);
+        var filePath = 'files/' + $scope.fbUrl() + fileName;
+        var uploadTask = storageRef.child(filePath).put(file);
+
+        uploadTask.on('state_changed', function(snapshot) {
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            $scope.all_event.file = (progress).toFixed(2) + " %";
             $scope.$apply();
+        }, function(error) {
+            $("#fileUploadMsg").html("O Upload deu errado.");
+        }, function() {
+            $("#fileUploadMsg").html("O Upload deu certo.");
+            storageRef.child(filePath).getDownloadURL().then(function(url) {
+                $scope.all_event.file = url;
+                $scope.all_event.fileName = fileName;
+                $scope.save();
+                $scope.$apply();
+            });
         });
     }
 

@@ -18,8 +18,8 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#melar').click(function() {
-        socket.emit('spam', "melar");
+    $('#confess').click(function() {
+        socket.emit('spam', $('#text').val());
     });
 
     /*

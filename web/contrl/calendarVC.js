@@ -879,15 +879,15 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             ' % <span translate="label.option.complete"></span></div></div>';
     }
 
-    /*
-        ===========================================================================
-                                Keyboard events
-        ===========================================================================
+    /* 
+        =========================================================================== 
+                                Keyboard events 
+        =========================================================================== 
     */
     /* Closes modal forcing default action */
     $scope.enterKey = function() {
         if (!$("#formModal").hasClass('in'))
-            $("#formModal").modal('show');
+            $scope.newEvent("0-666", ($scope.monthYear).toISOString());
         else {
             if ($scope.create) $scope.postCreateEvent();
             if ($scope.edit) $scope.postEditEvent();

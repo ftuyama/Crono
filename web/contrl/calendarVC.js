@@ -272,6 +272,15 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $scope.busy = true;
     };
 
+    $scope.changeStatus = function(task) {
+        var group_and_id = task.split('-'),
+            group_id = Number(group_and_id[0]),
+            event_id = Number(group_and_id[1]);
+        $scope.evento = $scope.events[group_id][event_id];
+        $scope.evento.group_id = group_id;
+        $scope.updateStatusFirebase('');
+    };
+
     /*
         ===========================================================================
                       Generate the POST body for API communication
@@ -525,8 +534,9 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                         events[i].summary +
                         '<span class="label label-info status Cstatus"' +
                         ' style="background-color:{{events[' + group + '][' + i + '].statusColor}}"' +
-                        ' ng-bind="events[' + group + '][' + i + '].status"></span>' +
-                        '</a></div>';
+                        ' ng-bind="events[' + group + '][' + i + '].status"' +
+                        ' ng-click="changeStatus(\'' + event_ref + '\'); $event.stopPropagation();">' +
+                        '</span></a></div>';
                     $("#" + date).append($compile(event_item)($scope));
                     $("#task" + event_ref).css('color', getRandomColor());
                 }

@@ -136,6 +136,21 @@ Date.prototype.getWeek = function() {
     return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
 }
 
+var hourTimezoneDiff = function() {
+    var hourDiff = ("0" + timezoneDiff().toString()).slice(-2);
+    return ":00-" + hourDiff + ":00";
+}
+
+var timezoneDiff = function() {
+    return (new Date().getTimezoneOffset()) / 60;
+}
+
+/*
+    ===========================================================================
+                        Functions to manage months names
+    ===========================================================================
+*/
+
 var userLang = navigator.language || navigator.userLanguage;
 
 /* Generating Months' names list */

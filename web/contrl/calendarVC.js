@@ -198,6 +198,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             };
         } else {
             $scope.edit = true;
+            $scope.checkDate();
             $scope.evento = evento = $scope.events[$scope.event_group][$scope.event_id];
             $scope.event_form = {
                 summary: evento.summary,
@@ -208,6 +209,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 endHour: getHourProperty(evento.end),
                 group_id: $scope.event_group
             };
+            $scope.fixGoogleBug();
         }
         if ($scope.groupIsFace($scope.event_group)) {
             $scope.edit = false;
@@ -219,6 +221,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         }
         if (!$scope.fbActive)
             $("#formModal").modal('show');
+    };
+
+    $scope.fixGoogleBug = function() {
+        // Evento de um dia inteiro bugado no Google
+        if (getDate($scope.evento.end) - getDate($scope.evento.start) == 1000 * 3600 * 24)
+            $scope.event_form.endDate = $scope.event_form.startDate;
     };
 
     $scope.closeModal = function() {
@@ -269,7 +277,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         $scope.evento = $scope.events[$scope.event_group][$scope.event_id];
         $scope.evento.group_id = $scope.event_group;
         $scope.updateStatusFirebase(destine);
-        $scope.busy = true;
+        if (destine != '') $scope.busy = true;
     };
 
     /*
@@ -526,7 +534,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                         '<span class="label label-info status Cstatus"' +
                         ' style="background-color:{{events[' + group + '][' + i + '].statusColor}}"' +
                         ' ng-bind="events[' + group + '][' + i + '].status"' +
-                        ' ng-click="status_move(task\'' + event_ref + '\', \'\'); $event.stopPropagation();">' +
+                        ' ng-click="status_move(\'task' + event_ref + '\', \'\'); $event.stopPropagation();">' +
                         '</span></a></div>';
                     $("#" + date).append($compile(event_item)($scope));
                     $("#task" + event_ref).css('color', getRandomColor());
@@ -637,7 +645,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         var dateISO = date.slice(6, 10) + '-' + date.slice(3, 5) + '-' + date.slice(0, 2);
         if (hour.length < 5)
             return dateISO;
-        return dateISO + 'T' + hour.slice(0, 5) + ":00-03:00";
+        return dateISO + 'T' + hour.slice(0, 5) + hourTimezoneDiff();
     }
 
     function toDateBR(date) {
@@ -674,7 +682,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     function getHourProperty(eventDate) {
         if (eventDate != undefined && eventDate.dateTime != undefined)
             return eventDate.dateTime.slice(11, 16);
-        return "00:00";
+        return "";
     }
 
     /*

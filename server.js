@@ -44,6 +44,7 @@ module.exports = app;
 
 //Store all HTML files in view folder.
 app.use(express.static(__dirname + '/web/view'));
+app.use(express.static(__dirname + '/web/view/components'));
 //Store all JS in Scripts folder.
 app.use(express.static(__dirname + '/web/server'));
 app.use(express.static(__dirname + '/web/contrl'));

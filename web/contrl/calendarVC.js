@@ -5,6 +5,18 @@
 */
 var calendarApp = angular.module("calendarApp", ['ngCookies', 'pascalprecht.translate']);
 
+
+calendarApp.directive('progressbar', function() {
+    return { restrict: "E", templateUrl: "progressBar.html" };
+});
+
+calendarApp.directive('eventsmenu', function() {
+    return {
+        restrict: "E",
+        templateUrl: "eventsMenu.html",
+    };
+});
+
 calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $compile, $timeout, $translate) {
 
     // Sets Lang to use
@@ -764,9 +776,8 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         // Quantos dias teve último mês
         var lastDayOfLastMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
 
-        var table = progressHTML(date, lastDay);
-        table += '<table class="table table-bordered">' + menuHTML(date, "calendar");
-        table += "<tr>";
+        var table = menuHTML(date, lastDay, "calendar") + "<tr>";
+
         daysNames.forEach(function(dayName) { table += "<td>" + dayName + "</td>"; });
         table += "</tr>";
         for (i = 0; i <= 5; i++) {
@@ -830,9 +841,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         // Lista de Status do Kanban
         var status_list = ["NEW", "TODO", "DEV", "TEST", "DONE"];
 
-        var kanban = progressHTML(date, lastDay) +
-            '<table id="kanban" class="table table-bordered">' +
-            menuHTML(date, "kanban");
+        var kanban = menuHTML(date, lastDay, "kanban");
 
         status_list.forEach(function(status) { kanban += '<td>' + status + '</td>'; });
         kanban += '</tr><tr>';
@@ -852,39 +861,21 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         ===========================================================================
     */
 
-    function menuHTML(date, type) {
-        var kanbanFilter = "";
-        if (type == "kanban")
-            kanbanFilter = '<span style="float:right;"><label translate="label.option.filter"></label>' +
-            '<select ng-model="filter" ng-change="display_kanban()" ng-click="$event.stopPropagation()">' +
-            '<option value="month" translate="label.option.month"></option><option value="week" translate="label.option.week"></option><option value="" translate="label.option.all"></option></select>' +
-            '<span ng-show="filter==\'week\'" style="display:block"><label translate="label.input.week"></label><input type="number"' +
-            ' ng-model="filterWeek" ng-change="display_kanban()" ng-click="$event.stopPropagation()"/></span></span>' +
+    function menuHTML(date, lastDay, type) {
+        $scope.kanbanFilter = (type == "kanban");
+        $scope.monthYearLabel = monthNames[date.getMonth()] + " " + date.getFullYear();
+        $scope.progress = Math.round(1000 * date.getDate() / lastDay) / 10;
 
-            '<span style="float:right; cursor:pointer;" ng-click="hidePast(); $event.stopPropagation()" translate="label.button.hide.past"></span>';
-
-        return '<tr><td COLSPAN=7 ng-click="monthPicker()">' +
-            '<button class="btn btn-info" style="float:left;" ng-click="fullscreen();' +
-            ' $event.stopPropagation()" translate="label.button.fullscreen"></button>' +
-            '<i class="fa fa-calendar fa-2x farefresh"  style="float:left;"' +
-            ' ng-click="display_calendar();  $event.stopPropagation()"></i>' +
-            '<i class="fa fa-trello fa-2x farefresh trellofarefresh" style="float:left;"' +
-            ' ng-click="display_kanban();  $event.stopPropagation()"></i>' +
-            monthNames[date.getMonth()] + " " + date.getFullYear() +
-            '<button class="btn btn-danger" style="float:right;" translate="label.button.month"></button>' +
-            '<i class="fa fa-eye fa-2x farefresh eyefarefresh" ng-show="fbActive"' +
-            ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' +
-            '<i class="fa fa-eye-slash fa-2x farefresh eyeslashfarefresh" ng-hide="fbActive"' +
-            ' ng-click="firebaseActive();  $event.stopPropagation()"></i>' + kanbanFilter +
-            '</td></tr>';
+        return '<progressbar/>' +
+            '<table id="' + type + '" class="table table-bordered">' +
+            '<tr><td COLSPAN=7 ng-click="monthPicker()"><eventsmenu/></td></tr>';
     }
 
-    function progressHTML(date, lastDay) {
-        var progress = Math.round(1000 * date.getDate() / lastDay) / 10;
-        return '<div class="progress progress-striped"><div class="progress-bar" ' +
-            'role="progressbar" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="100"' +
-            ' style="width:' + progress + '%"><span translate="label.option.month"></span> ' + progress +
-            ' % <span translate="label.option.complete"></span></div></div>';
+    // Because Jquery never fails, angular does. 
+    $scope.change_filter = function() {
+        $scope.filter = $("#filterSelect").val();
+        $scope.filterWeek = Number($("#filterWeekSelect").val());
+        $scope.display_kanban();
     }
 
     /* 

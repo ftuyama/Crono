@@ -14,7 +14,10 @@ indexApp.controller("indexVC", function($scope, $http, $cookies, $compile, $tran
     $scope.commits = [];
     $scope.languages = {}
     $scope.tags = ["calendar", "angularjs", "css3", "nodejs", "github", "google", "firebase"];
-    $scope.links = { "Home": "/", "Calendar": "/calendar", "Contact": "https://github.com/ftuyama/Crono", "Politics": "/about/politics", "About": "/about" };
+    $scope.links = {
+        'en-US': { "Home": "/", "Calendar": "/calendar", "Contact": "https://github.com/ftuyama/Crono", "Politics": "/about/politics", "About": "/about" },
+        'pt-BR': { "Início": "/", "Calendário": "/calendar", "Contato": "https://github.com/ftuyama/Crono", "Política": "/about/politics", "Sobre": "/about" },
+    }[userLang];
 
     /* Fetching Crono languages */
     $.getJSON("https://api.github.com/repos/ftuyama/Crono/languages", function(data) {

@@ -7,7 +7,7 @@
 <html class="no-js" lang="en-US" ng-app="indexApp" id="indexVC" ng-controller="indexVC">
 
 <head>
-    <title>Crono Calendar</title>
+    <title>Crono</title>
     <meta name="google-site-verification" content="Fbh5mkhR9laZ0CtMUrYc1wzVjI9qOIRjAXzIXrQv8Yg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Crono">
@@ -72,7 +72,7 @@
             <div id="home-row-1" class="row clearfix">
                 <br>
                 <div class="col-12">
-                    <h1 class="font-semibold">Crono <span class="font-thin" translate="label.service"></span></h1>
+                    <h1 class="font-semibold" translate="label.crono"><span class="font-thin" translate="label.service"></span></h1>
                     <h4 class="font-thin" translate="label.subtitle"></h4>
                     <br>
                     <br>
@@ -113,7 +113,7 @@
             <div class="container">
                 <div class="row">
                     <div class="section-top wow animated fadeInUp" data-wow-delay=".5s">
-                        <h2 class="section-title"><span>Crono </span><span translate="label.section.core-services"></span></h2>
+                        <h2 class="section-title"><span translate="label.crono"></span> <span translate="label.section.core-services"></span></h2>
                         <p class="section-description" translate="label.section.core-services.description"></p>
                         <!-- /.section-description -->
                     </div>
@@ -216,12 +216,12 @@
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="know-about-us wow animated fadeInLeft" data-wow-delay=".5s">
-                                    <h2 class="section-title"><span>We</span> are <span>Crono</span> Unlimited Creative Web Agency</h2>
+                                    <h2 class="section-title" translate="label.item.agency"></h2>
                                     <!-- /.section-title -->
                                     <p class="description" translate="label.item.agency.description"></p>
                                     <!-- /.description -->
                                     <div class="btn-container">
-                                        <a href="#" class="btn read-more" translate="label.item.agency.leanmore"></a>
+                                        <a href="#" class="btn read-more" translate="label.item.agency.learnmore"></a>
                                     </div>
                                     <!-- /.btn-container -->
                                 </div>
@@ -230,7 +230,7 @@
 
                             <div class="col-md-5">
                                 <div class="our-skills wow animated fadeInRight" data-wow-delay=".5s">
-                                    <h2 class="section-title"><span>Our</span> areas of expertise</h2>
+                                    <h2 class="section-title" translate="label.item.expertise"></h2>
                                     <!-- /.section-title -->
                                     <div class="skill-bars" ng-repeat="(language, value) in languages">
                                         <div class="progress">
@@ -373,16 +373,10 @@
             </div>
             <div class="col-sm-4">
                 <div class="about-work wow animated fadeInRight" data-wow-delay=".5s">
-                    <h2 class="section-title"><span>Why</span> Use Our Service</h2>
+                    <h2 class="section-title" translate="label.item.why"></h2>
                     <!-- /.section-title -->
-                    <p class="description">
-                        Crono has an unique calendar event system, capable of integrating <b>Google Calendar</b>,
-                        <b>Facebook Events</b> and its own system to provide you the best planning tool ever created.
-                    </p>
-                    <p class="description">
-                        We also have a chat system so that members can discuss planning meetings and events ideas. You have freely store your files, audios and pictures with us, easilly planning your life.
-                        <br><br> We have also compatibility with mobile devices and tablets, with a friendly user responsive design. I'm glad to meet you, my dear user!
-                    </p>
+                    <p class="description" translate="label.item.why.description"></p>
+                    <p class="description" translate="label.item.why.description2"></p>
                     <!-- /.description -->
                 </div>
                 <!-- /.about-work -->
@@ -404,11 +398,9 @@
             <div class="section-padding">
                 <div class="container">
                     <div class="wow animated fadeInUp" data-wow-delay=".5s">
-                        <h2 class="section-title">A brand new Crono Version Is Cooming Soon!</h2>
+                        <h2 class="section-title" translate="label.item.version"></h2>
                         <!-- /.section-title -->
-                        <p class="section-description">
-                            To get new Crono version subscribe now. Crono service is absolutely free for your business or personal use.
-                        </p>
+                        <p class="section-description" translate="label.item.version.description"></p>
                         <!-- /.section-description -->
 
                         <form class="subscribe" method="post">
@@ -417,7 +409,7 @@
 
                             <div class="subscribe-hide">
                                 <input class="subscribe-email" type="email" id="subscribe-email" name="subscribe-email" required>
-                                <button type="submit" id="subscribe-submit" class="btn">Subscribe Now</button>
+                                <button type="submit" id="subscribe-submit" class="btn" translate="label.widget.subscribe"></button>
                                 <span id="subscribe-loading" class="btn"> <i class="fa fa-refresh fa-spin"></i> </span>
                                 <div class="subscribe-error"></div>
                             </div>
@@ -447,14 +439,14 @@
             <!-- /#google-map -->
 
             <div class="form-area text-center wow animated fadeInRight" data-wow-delay=".75s">
-                <h2 class="section-title"><span>Contact</span> With Us</h2>
+                <h2 class="section-title" translate="label.item.contact"></h2>
                 <!-- /.section-title -->
                 <form action="/mail" method="post" id="contactform" class="contactform">
                     <input id="name" class="form-control" name="name" type="text" placeholder="Name" value="" required>
                     <input id="email" class="form-control pull-right" name="email" type="email" placeholder="Email" value="" required>
                     <textarea id="message" class="form-control" name="message" placeholder="Your Message" rows="5" required></textarea>
-                    <button name="submit" class="btn btn-success" type="submit" id="submit">Send Message</button>
-                    <a class="btn btn-danger" href="https://github.com/ftuyama/Crono">Visit Us</a>
+                    <button name="submit" class="btn btn-success" type="submit" id="submit" translate="label.item.contact.message"></button>
+                    <a class="btn btn-danger" href="https://github.com/ftuyama/Crono" translate="label.item.contact.visit"></a>
                 </form>
                 <!-- /#contactform -->
             </div>

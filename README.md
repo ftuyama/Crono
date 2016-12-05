@@ -9,6 +9,8 @@ Desenvolvido utilizando metodologias AJAX, usando linguagem javascript e platafo
 
 Aplicação com design responsivo e minimalista, otimizando experência de usuário.
 
+Para mais detalhes das funcionalidades: [Features](FEATURES.md)  
+
 ## Preview - Tela Inicial
 
 ![Tela inicial](https://github.com/ftuyama/Crono/blob/master/web/public/img/background/1.jpg)

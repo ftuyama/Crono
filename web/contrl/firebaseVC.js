@@ -4,7 +4,7 @@
 ===========================================================================
 */
 
-calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $compile) {
+calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $compile, $translate) {
 
     /* Variáveis de negócio */
     $scope.new_all_event = $scope.all_event = { link: '', img: '', file: '', fileName: '', people: 0, location: { lat: 0, lng: 0 }, address: '' };
@@ -233,13 +233,13 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
     */
     $scope.saveFirebase = function() {
         $scope.save();
-        showSnackBar("Informação salva com sucesso!");
+        showSnackBar($translate.instant('label.snackbar.firebase.save'));
         $scope.closefirebaseNav();
     }
 
     $scope.deleteFirebase = function() {
         $scope.delet();
-        showSnackBar("Informação deletada com sucesso!");
+        showSnackBar($translate.instant('label.snackbar.firebase.delete'));
         $scope.closefirebaseNav();
     }
 
@@ -325,6 +325,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         var files = $("#imgUpload")[0].files;
         if (files[0].size / 1024 / 1024 < 2)
             uploadImage(files[0], $("#imgUpload").val());
+        else alert($translate.instant('label.snackbar.firebase.imgtoobig'));
     });
 
     function uploadImage(file, name) {
@@ -336,9 +337,9 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
             $scope.all_event.img = (progress).toFixed(2) + " %";
             $scope.$apply();
         }, function(error) {
-            $("#imgUploadMsg").html("O Upload deu errado.");
+            $("#imgUploadMsg").html($translate.instant('label.snackbar.firebase.upload.wrong'));
         }, function() {
-            $("#imgUploadMsg").html("O Upload deu certo.");
+            $("#imgUploadMsg").html($translate.instant('label.snackbar.firebase.upload.right'));
             storageRef.child(filePath).getDownloadURL().then(function(url) {
                 $scope.all_event.img = url;
                 $scope.save();
@@ -352,6 +353,7 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
         var files = $("#fileUpload")[0].files;
         if (files[0].size / 1024 / 1024 < 2)
             uploadFile(files[0], $("#fileUpload").val());
+        else alert($translate.instant('label.snackbar.firebase.filetoobig'));
     });
 
     function uploadFile(file, name) {
@@ -364,9 +366,9 @@ calendarApp.controller("firebaseVC", function($scope, $http, $q, $cookies, $comp
             $scope.all_event.file = (progress).toFixed(2) + " %";
             $scope.$apply();
         }, function(error) {
-            $("#fileUploadMsg").html("O Upload deu errado.");
+            $("#fileUploadMsg").html($translate.instant('label.snackbar.firebase.upload.wrong'));
         }, function() {
-            $("#fileUploadMsg").html("O Upload deu certo.");
+            $("#fileUploadMsg").html($translate.instant('label.snackbar.firebase.upload.right'));
             storageRef.child(filePath).getDownloadURL().then(function(url) {
                 $scope.all_event.file = url;
                 $scope.all_event.fileName = fileName;

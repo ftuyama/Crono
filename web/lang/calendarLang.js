@@ -21,6 +21,13 @@ calendarApp.config(['$translateProvider', function($translateProvider) {
         'label.snackbar.event.move.done': 'Event moved with success!',
         'label.snackbar.facebook.login': 'First login on Facebook',
 
+        'label.snackbar.firebase.save': 'Information successfully saved!',
+        'label.snackbar.firebase.delete': 'Information successfully deleted!',
+        'label.snackbar.firebase.imgtoobig': 'Image too big!',
+        'label.snackbar.firebase.filetoobig': 'File too big!',
+        'label.snackbar.firebase.upload.wrong': 'Upload went wrong.',
+        'label.snackbar.firebase.upload.right': 'Upload successfull.',
+
         'label.option.filter': 'Filter: ',
         'label.option.all': 'All',
         'label.option.month': 'Month',
@@ -68,6 +75,7 @@ calendarApp.config(['$translateProvider', function($translateProvider) {
         'label.firebase.people.title': 'People: ',
         'label.firebase.people': 'People',
         'label.firebase.people.fill': 'People that are going',
+        'label.firebase.people.place': 'How many people going',
 
         'label.firebase.words.title': 'Words: ',
         'label.firebase.words': 'Personal comment',
@@ -107,6 +115,13 @@ calendarApp.config(['$translateProvider', function($translateProvider) {
         'label.snackbar.event.move.doing': 'Movendo o evento...',
         'label.snackbar.event.move.done': 'Evento movido com sucesso!',
         'label.snackbar.facebook.login': 'Primeiro entre no Facebook',
+
+        'label.snackbar.firebase.save': 'Informação salva com sucesso!',
+        'label.snackbar.firebase.delete': 'Informação deletada com sucesso!',
+        'label.snackbar.firebase.imgtoobig': 'Imagem muito grande!',
+        'label.snackbar.firebase.filetoobig': 'Arquivo muito grande!',
+        'label.snackbar.firebase.upload.wrong': 'O Upload deu errado.',
+        'label.snackbar.firebase.upload.right': 'O Upload deu certo.',
 
         'label.option.filter': 'Filtrar: ',
         'label.option.all': 'Tudo',
@@ -154,6 +169,7 @@ calendarApp.config(['$translateProvider', function($translateProvider) {
         'label.firebase.people.title': 'Pessoas: ',
         'label.firebase.people': 'Pessoas',
         'label.firebase.people.fill': 'Pessoas que vão',
+        'label.firebase.people.place': 'Quantas pessoas vão',
 
         'label.firebase.words.title': 'Anotação: ',
         'label.firebase.words': 'Anotação',

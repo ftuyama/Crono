@@ -578,6 +578,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
 
     $scope.displayKanbanEvents = function() {
         for (group = 0; group < $scope.groups.length; group++) {
+            var orig_events = $scope.events[group];
             var events = [].slice
                 .call($scope.events[group])
                 .filter(notOutdated)
@@ -590,7 +591,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                         $scope.filter == "month" && date.sameMonthYear($scope.monthYear) ||
                         $scope.filter == "week" && date.sameWeekYear($scope.monthYear, $scope.filterWeek)) {
                         var clazz = getTextSize(events[i].summary);
-                        var event_ref = group + '-' + i;
+                        var event_ref = group + '-' + orig_events.indexOf(events[i]);
                         var event_item =
                             '<div class="row rowitens">' +
                             '<a href="#" class="list-group-item' + clazz + '" id="task' +

@@ -2,18 +2,18 @@ Crono Features
 ===================
 
 
-* [Constructor](#constructor)
-* [Properties](#properties)
-* [Methods](#methods)
-* [Events](#events)
+* [Index](#index)
+* [Calendar](#calendar)
+* [Chat](#chat)
+* [About](#about)
 
 This object provides the interface through which you can communicate with connected peers.  It is used in both WebSocketServer and WebSocketClient situations.
 
-Constructor
+Index
 -----------
 This object is created internally by `WebSocketRequest`.
 
-Properties
+Calendar
 ----------
 
 ###closeDescription
@@ -48,7 +48,7 @@ A number indicating the version of the WebSocket protocol being spoken on this c
 
 A boolean value indicating whether or not the connection is still connected.  *Read-only*
 
-Methods
+Chat
 -------
 ###close([reasonCode], [description])
 
@@ -95,7 +95,7 @@ Sends a pong frame to the remote peer.  Pong frames may be sent unsolicited and 
 
 Serializes a `WebSocketFrame` object into binary data and immediately sends it to the remote peer.  This is an advanced function, requiring you to manually compose your own `WebSocketFrame`.  You should probably use `sendUTF` or `sendBytes` instead.
 
-Events
+About
 ------
 ###message
 `function(message)`

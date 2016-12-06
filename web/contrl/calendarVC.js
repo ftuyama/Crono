@@ -206,7 +206,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 startHour: "",
                 endDate: toDateBR(selected_date),
                 endHour: "",
-                group_id: $scope.event_group
+                group_id: $scope.default_group || $scope.event_group
             };
         } else {
             $scope.edit = true;
@@ -299,6 +299,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     */
 
     $scope.generatePost = function() {
+        $scope.default_group = $scope.event_form.group_id;
         return $scope.appendDatePost({
             group_id: $scope.groups[$scope.event_form.group_id].id,
             event: {

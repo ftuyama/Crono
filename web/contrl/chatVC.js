@@ -123,7 +123,7 @@ $(document).ready(function() {
                 googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
                 input: msg.value.message
             }).text(function(compiled) {
-                var hour = getZonedHour(msg.key);
+                var hour = getZonedHour(msg, msg.key);
                 $('#messages').append(
                     $('<p>').html(hour + "  " + user_credential(msg.value.user) +
                         '<span style="color:#6c6"> ' + kind + '</span> ' + compiled
@@ -136,7 +136,7 @@ $(document).ready(function() {
         });
     }
 
-    function getZonedHour(key) {
+    function getZonedHour(msg, key) {
         var time = msg.key.split(':');
         var diff = (new Date()).getTimezoneOffset() / 60;
         time[5] = (24 + parseInt(time[5]) - diff) % 24;

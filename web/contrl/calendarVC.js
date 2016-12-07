@@ -159,6 +159,23 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
         return events;
     }
 
+    $scope.getDefaultGroup = function() {
+        // Returns last used group
+        if ($scope.default_group != undefined)
+            return $scope.default_group;
+
+        // Returns user group
+        var userGroup, userMail = getUserMail($scope.user);
+        if (userMail != undefined)
+            $scope.groups.forEach(function(group) {
+                if (group.id == userMail)
+                    userGroup = $scope.groups.indexOf(group);
+            });
+
+        // Return first group
+        return userGroup || $scope.event_group;
+    }
+
     /*
         ===========================================================================
                                 Modal Display Management
@@ -206,7 +223,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
                 startHour: "",
                 endDate: toDateBR(selected_date),
                 endHour: "",
-                group_id: $scope.event_group
+                group_id: $scope.getDefaultGroup()
             };
         } else {
             $scope.edit = true;
@@ -299,6 +316,7 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
     */
 
     $scope.generatePost = function() {
+        $scope.default_group = $scope.event_form.group_id;
         return $scope.appendDatePost({
             group_id: $scope.groups[$scope.event_form.group_id].id,
             event: {
@@ -496,6 +514,12 @@ calendarApp.controller("calendarVC", function($scope, $http, $q, $cookies, $comp
             $scope.busy = false;
             $scope.display_calendar();
         });
+
+    /* Determina o usuário do calendário */
+    $.get("/calendarAuth/user", function(user) {
+        if (user != undefined && user != "undefined" && user != "null" && user != "")
+            $scope.user = user;
+    });
 
     $scope.$watch("busy", function() {
         // Mostra animação bodosa na primeira vez

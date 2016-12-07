@@ -190,6 +190,14 @@ function capitalizeFirstLetter(string) {
     ===========================================================================
 */
 
+function getUserMail(user) {
+    if (user == undefined || user == "undefined" || user == "null" || user == "" ||
+        (user._json == undefined || user._json.email == undefined) &&
+        (user.emails == undefined || user.emails.length == 0 || user.emails[0].value == undefined))
+        return undefined;
+    return user._json.email || user.emails[0].value;
+}
+
 function isNotSafari() {
     return !navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
 }

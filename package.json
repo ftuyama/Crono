@@ -4,7 +4,7 @@
   "description": "Node",
   "main": "server.js",
   "dependencies": {
-    "angular": "^1.5.8",
+    "angular": "^1.8.0",
     "async": "^2.0.1",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",

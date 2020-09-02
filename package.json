@@ -16,7 +16,7 @@
     "firebase": "^3.5.3",
     "google-auth-library": "^0.9.8",
     "google-calendar": "^1.3.2",
-    "googleapis": "^12.4.0",
+    "googleapis": "^39.1.0",
     "mustache": "^2.2.1",
     "nodemailer": "^2.6.4",
     "nodemon": "^1.10.2",
